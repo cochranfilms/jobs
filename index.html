@@ -723,7 +723,7 @@
     .footer-social a:hover { background: rgba(255,178,0,0.15); border-color: rgba(255,178,0,0.4); transform: translateY(-2px); }
     .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px dashed rgba(255,255,255,0.08); opacity: .9; }
     .footer-mini { display: flex; align-items: center; gap: .6rem; color: #9ca3af; font-size: .9rem; }
-    .footer-mini img { width: 28px; height: 28px; opacity: .85; }
+    .footer-mini img { height: 28px; width: auto; opacity: .85; object-fit: contain; }
     .footer-bottom-links { display: flex; gap: 1rem; }
     .footer-bottom-links a { color: #9ca3af; text-decoration: none; font-weight: 600; font-size: .9rem; }
     .footer-bottom-links a:hover { color: #fff; }
@@ -1099,13 +1099,14 @@
           <div class="footer-col-title">Join Our Roster</div>
           <p class="cta-note">Get gig alerts and insider opportunities. We respect your inbox.</p>
           <div class="form-grid">
-            <input type="text" class="footer-input" placeholder="Full Name">
-            <input type="tel" class="footer-input" placeholder="Phone Number">
-            <input type="email" class="footer-input full" placeholder="Email Address">
-            <input type="url" class="footer-input full" placeholder="Portfolio Link (URL)">
+            <input id="footer-name" name="firstname" type="text" class="footer-input" placeholder="Full Name">
+            <input id="footer-phone" name="phone" type="tel" class="footer-input" placeholder="Phone Number">
+            <input id="footer-email" name="email" type="email" class="footer-input full" placeholder="Email Address">
+            <input id="footer-portfolio" name="portfolio" type="url" class="footer-input full" placeholder="Portfolio Link (URL)">
           </div>
-          <div style="margin-top:.6rem; display:flex; justify-content:flex-end;">
-            <button class="btn-footer" onclick="location.hash='#jobs'">Join the Roster</button>
+          <div id="footer-form-status" class="cta-note" style="display:none; margin-top:.5rem;"></div>
+          <div style="margin-top:.6rem; display:flex; justify-content:flex-end; gap:.6rem; align-items:center;">
+            <button id="footer-submit-btn" class="btn-footer">Join the Roster</button>
           </div>
           <div class="footer-badges">
             <span class="badge">📍 Atlanta‑based</span>
@@ -1521,6 +1522,67 @@
       // Password gate removed
       const fy = document.getElementById('footer-year');
       if (fy) fy.textContent = `© ${new Date().getFullYear()}`;
+
+      // Footer form -> HubSpot simple integration (private app token)
+      const HUBSPOT_PRIVATE_APP_TOKEN = window.HUBSPOT_PRIVATE_APP_TOKEN || '';
+      const HUBSPOT_PORTAL_ID = window.HUBSPOT_PORTAL_ID || '';
+      const HUBSPOT_OBJECT = 'contacts';
+
+      async function sendToHubSpot(contact) {
+        if (!HUBSPOT_PRIVATE_APP_TOKEN) throw new Error('Missing HubSpot token');
+        const endpoint = `https://api.hubapi.com/crm/v3/objects/${HUBSPOT_OBJECT}`;
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${HUBSPOT_PRIVATE_APP_TOKEN}`
+          },
+          body: JSON.stringify({
+            properties: {
+              email: contact.email || '',
+              firstname: contact.firstname || '',
+              phone: contact.phone || '',
+              portfolio_url: contact.portfolio || ''
+            }
+          })
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return await res.json();
+      }
+
+      function setStatus(msg, ok = true) {
+        const el = document.getElementById('footer-form-status');
+        if (!el) return;
+        el.style.display = 'block';
+        el.style.color = ok ? '#c7f9cc' : '#fecaca';
+        el.textContent = msg;
+      }
+
+      const submitBtn = document.getElementById('footer-submit-btn');
+      submitBtn?.addEventListener('click', async () => {
+        const name = (document.getElementById('footer-name')?.value || '').trim();
+        const phone = (document.getElementById('footer-phone')?.value || '').trim();
+        const email = (document.getElementById('footer-email')?.value || '').trim();
+        const portfolio = (document.getElementById('footer-portfolio')?.value || '').trim();
+        if (!email || !name) {
+          setStatus('Please provide your name and email.', false);
+          return;
+        }
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        try {
+          const [firstname] = name.split(' ');
+          await sendToHubSpot({ firstname, phone, email, portfolio });
+          setStatus('Thanks! We received your info.');
+          submitBtn.textContent = 'Submitted';
+        } catch (err) {
+          console.error(err);
+          setStatus('Submission failed. Please try again or email info@cochranfilms.com', false);
+          submitBtn.textContent = 'Join the Roster';
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
     });
   </script>
 </body>
