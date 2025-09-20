@@ -1129,6 +1129,12 @@
       </div>
     </div>
   </footer>
+  <!-- Toast / Popup -->
+  <div id="global-toast" style="display:none; position: fixed; right: 20px; bottom: 20px; z-index: 100000; background: linear-gradient(135deg, rgba(0,0,0,.9), rgba(26,26,26,.95)); border: 1px solid rgba(255,178,0,.35); color: #fff; padding: 14px 16px; border-radius: 12px; box-shadow: 0 16px 40px rgba(0,0,0,.45); max-width: 360px; font-weight: 700; letter-spacing: .02em;
+  backdrop-filter: blur(12px);
+  ">
+    <span id="global-toast-text">Saved</span>
+  </div>
 
   <script>
     // ====== CONFIG: Google Form Prefill ======
@@ -1529,23 +1535,40 @@
       const HUBSPOT_OBJECT = 'contacts';
 
       async function sendToHubSpot(contact) {
-        if (!HUBSPOT_PRIVATE_APP_TOKEN) throw new Error('Missing HubSpot token');
-        const endpoint = `https://api.hubapi.com/crm/v3/objects/${HUBSPOT_OBJECT}`;
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${HUBSPOT_PRIVATE_APP_TOKEN}`
-          },
-          body: JSON.stringify({
-            properties: {
+        // Prefer secure serverless proxy if available
+        // Vercel/Netlify/Next function path example: /api/hubspot/contacts
+        const proxyEndpoint = '/api/hubspot/contacts';
+        const directEndpoint = `https://api.hubapi.com/crm/v3/objects/${HUBSPOT_OBJECT}`;
+        let res;
+        try {
+          res = await fetch(proxyEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ properties: {
               email: contact.email || '',
               firstname: contact.firstname || '',
               phone: contact.phone || '',
               portfolio_url: contact.portfolio || ''
-            }
-          })
-        });
+            } })
+          });
+        } catch (_) {}
+        // If proxy is not configured, fall back to direct (only for dev)
+        if (!res || res.status === 404) {
+          if (!HUBSPOT_PRIVATE_APP_TOKEN) throw new Error('Missing HubSpot token');
+          res = await fetch(directEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${HUBSPOT_PRIVATE_APP_TOKEN}`
+            },
+            body: JSON.stringify({ properties: {
+              email: contact.email || '',
+              firstname: contact.firstname || '',
+              phone: contact.phone || '',
+              portfolio_url: contact.portfolio || ''
+            } })
+          });
+        }
         if (!res.ok) throw new Error(await res.text());
         return await res.json();
       }
@@ -1556,6 +1579,15 @@
         el.style.display = 'block';
         el.style.color = ok ? '#c7f9cc' : '#fecaca';
         el.textContent = msg;
+        // Toast
+        const toast = document.getElementById('global-toast');
+        const toastText = document.getElementById('global-toast-text');
+        if (toast && toastText) {
+          toastText.textContent = msg;
+          toast.style.borderColor = ok ? 'rgba(34,197,94,.45)' : 'rgba(239,68,68,.45)';
+          toast.style.display = 'block';
+          setTimeout(()=> toast.style.display = 'none', 3000);
+        }
       }
 
       const submitBtn = document.getElementById('footer-submit-btn');
@@ -1569,16 +1601,17 @@
           return;
         }
         submitBtn.disabled = true;
+        const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Submitting...';
         try {
           const [firstname] = name.split(' ');
           await sendToHubSpot({ firstname, phone, email, portfolio });
-          setStatus('Thanks! We received your info.');
+          setStatus('Thanks! You have been added to our creator roster.');
           submitBtn.textContent = 'Submitted';
         } catch (err) {
           console.error(err);
           setStatus('Submission failed. Please try again or email info@cochranfilms.com', false);
-          submitBtn.textContent = 'Join the Roster';
+          submitBtn.textContent = originalText;
         } finally {
           submitBtn.disabled = false;
         }
