@@ -1099,10 +1099,10 @@
           <div class="footer-col-title">Join Our Roster</div>
           <p class="cta-note">Get gig alerts and insider opportunities. We respect your inbox.</p>
           <div class="form-grid">
-            <input id="footer-name" name="firstname" type="text" class="footer-input" placeholder="Full Name">
-            <input id="footer-phone" name="phone" type="tel" class="footer-input" placeholder="Phone Number">
-            <input id="footer-email" name="email" type="email" class="footer-input full" placeholder="Email Address">
-            <input id="footer-portfolio" name="portfolio" type="url" class="footer-input full" placeholder="Portfolio Link (URL)">
+            <input id="footer-name" name="firstname" type="text" class="footer-input" placeholder="Full Name" autocomplete="name">
+            <input id="footer-phone" name="phone" type="tel" class="footer-input" placeholder="Phone Number" autocomplete="tel">
+            <input id="footer-email" name="email" type="email" class="footer-input full" placeholder="Email Address" autocomplete="email">
+            <input id="footer-portfolio" name="portfolio" type="url" class="footer-input full" placeholder="Portfolio Link (URL)" autocomplete="url">
           </div>
           <div id="footer-form-status" class="cta-note" style="display:none; margin-top:.5rem;"></div>
           <div style="margin-top:.6rem; display:flex; justify-content:flex-end; gap:.6rem; align-items:center;">
@@ -1536,24 +1536,30 @@
 
       async function sendToHubSpot(contact) {
         // Prefer secure serverless proxy if available
-        // Vercel/Netlify/Next function path example: /api/hubspot/contacts
-        const proxyEndpoint = '/api/hubspot/contacts';
+        const proxyCandidates = [
+          '/api/hubspot/contacts',                 // Vercel/Next API route
+          '/.netlify/functions/hubspot-contacts'   // Netlify Functions default path
+        ];
         const directEndpoint = `https://api.hubapi.com/crm/v3/objects/${HUBSPOT_OBJECT}`;
         let res;
-        try {
-          res = await fetch(proxyEndpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ properties: {
-              email: contact.email || '',
-              firstname: contact.firstname || '',
-              phone: contact.phone || '',
-              portfolio_url: contact.portfolio || ''
-            } })
-          });
-        } catch (_) {}
-        // If proxy is not configured, fall back to direct (only for dev)
-        if (!res || res.status === 404) {
+        for (const endpoint of proxyCandidates) {
+          try {
+            res = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ properties: {
+                email: contact.email || '',
+                firstname: contact.firstname || '',
+                phone: contact.phone || '',
+                portfolio_url: contact.portfolio || ''
+              } })
+            });
+            if (res && res.ok) break;
+            if (res && (res.status === 404 || res.status === 405)) continue; // try next candidate
+          } catch (_) {}
+        }
+        // If no proxy worked, fall back to direct (only for dev/local)
+        if (!res || !res.ok) {
           if (!HUBSPOT_PRIVATE_APP_TOKEN) throw new Error('Missing HubSpot token');
           res = await fetch(directEndpoint, {
             method: 'POST',
