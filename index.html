@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Listings - Cochran Films</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Explore photography and videography job opportunities with Cochran Films in Atlanta. Now hiring creatives in media production, post-production, and event coverage.">
+  <meta name="keywords" content="Cochran Films jobs, Atlanta media jobs, photography jobs, videography jobs, film production careers, creative jobs Atlanta, media job listings, Cochran Films hiring">
+
+  <!-- Open Graph / Social Meta Tags -->
+  <meta property="og:title" content="Job Listings – Cochran Films">
+  <meta property="og:description" content="Join our creative team. Now hiring photographers, videographers, editors, and production crew in Atlanta.">
+  <meta property="og:image" content="https://static.wixstatic.com/media/aeef42_175fedd17e5545c996446189fd5a4928~mv2.jpg">
+  <meta property="og:url" content="https://collaborate.cochranfilms.com">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://static.wixstatic.com/media/aeef42_570164eee75f4394a4fc1cf9c62ceae0~mv2.png" type="image/png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" crossorigin>
+
+  <style>
+    :root {
+      --primary: #FFB200;
+      --primary-dark: #FF9000;
+      --gold: #FFD700;
+      --black: #000000;
+      --white: #ffffff;
+      --gray-light: #f8f9fa;
+      --gray-medium: #6c757d;
+      --gray-dark: #343a40;
+      --border-radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #FFB200, #22c55e);
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #FF8C00, #16a34a);
+    }
+
+    /* Fix browser autofill styling */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
+      -webkit-text-fill-color: #ffffff !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #e5e7eb;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(255,178,0,.08), transparent 60%),
+        radial-gradient(1000px 500px at 120% 0%, rgba(99,102,241,.07), transparent 60%),
+        #0b0b10;
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--black) 0%, #1a1a1a 100%);
+      color: var(--white);
+      padding: 2rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(255,178,0,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo {
+      width: 150px;
+      height: auto;
+      margin-top: clamp(16px, 4vh, 48px);
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 4px 12px rgba(255,178,0,0.3));
+    }
+    
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+    }
+    
+    .hero-subtitle {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .mission-text {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    
+    .header-links {
+      margin-top: 2rem;
+    }
+    
+    .header-link {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--black);
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255,178,0,0.3);
+    }
+    
+    .header-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255,178,0,0.4);
+    }
+    
+    /* Slideshow Styles */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+    }
+
+    .slide {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100dvh;
+      overflow: hidden;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(1px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: max(7vh, calc(env(safe-area-inset-top) + 56px)) 2rem max(12vh, calc(env(safe-area-inset-bottom) + 96px)) 2rem;
+      overflow: visible;
+      box-sizing: border-box;
+    }
+
+    .slide h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      animation: fadeInUp 1s ease-out;
+      text-align: center;
+      max-width: 100%;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .slide h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      animation: fadeInUp 1s ease-out 0.3s both;
+      text-align: center;
+      max-width: 100%;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .slide p {
+      font-size: 1.3rem;
+      max-width: 800px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      animation: fadeInUp 1s ease-out 0.6s both;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--white);
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 16px 42px;
+      background: #000000;
+      color: var(--primary);
+      text-decoration: none;
+      border-radius: 6px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInUp 1s ease-out 0.9s both;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border: 2px solid var(--primary);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 178, 0, 0.1);
+      text-align: center;
+      margin: 0 auto 2rem auto;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--primary);
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .cta-button:hover::before {
+      transform: scaleX(1);
+    }
+
+    .cta-button:hover {
+      color: var(--black);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 178, 0, 0.2);
+    }
+
+    .cta-button:active {
+      transform: translateY(0);
+      transition: transform 0.1s;
+    }
+
+    .cta-button-secondary {
+      background: transparent;
+      color: #FFFFFF;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      box-shadow: 
+        0 4px 15px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .cta-button-secondary::before {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .cta-button-secondary:hover {
+      color: var(--black);
+      background: rgba(255, 255, 255, 0.9);
+      border-color: #FFFFFF;
+      box-shadow: 
+        0 8px 25px rgba(255, 255, 255, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+    }
+
+    .cta-button-secondary:hover::before {
+      transform: scaleX(1);
+      background: #FFFFFF;
+    }
+
+    .navigation {
+      position: absolute;
+      bottom: calc(env(safe-area-inset-bottom) + 20px);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 1001;
+      background: rgba(28, 28, 30, 0.8);
+      padding: 8px 16px;
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      pointer-events: all;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 178, 0, 0.4);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-dot.active,
+    .nav-dot:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      transform: scale(1.2);
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 178, 0, 0.3);
+      color: var(--primary);
+      padding: 15px 18px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(15px);
+      z-index: 100;
+      border-radius: 4px;
+      font-weight: 300;
+    }
+
+    .prev { left: 30px; }
+    .next { right: 30px; }
+
+    .prev:hover, .next:hover {
+      background: rgba(0, 0, 0, 0.6);
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin: 2rem auto 3rem auto;
+      animation: fadeInUp 1s ease-out 0.9s both;
+      max-width: 800px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1.5rem 1.2rem;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 6px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 178, 0, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 140px;
+    }
+
+    .stat:hover {
+      background: rgba(0, 0, 0, 0.6);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--primary);
+      font-family: 'Cinzel', serif;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #FFFFFF;
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .jobs-section { padding: 4rem 0; }
+    
+    .section-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      background: linear-gradient(180deg, rgba(99,102,241,0.16), rgba(0,0,0,0));
+      border: 1px solid rgba(99,102,241,0.25);
+      padding: 0.85rem 1.25rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
+    
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+      text-shadow: 0 2px 8px rgba(0,0,0,.45);
+      letter-spacing: .02em;
+    }
+    
+    .refresh-btn {
+      background: linear-gradient(135deg, var(--primary), var(--gold));
+      color: var(--black);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(255,178,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255,178,0,0.4);
+      background: linear-gradient(135deg, var(--gold), var(--primary));
+    }
+    
+    .refresh-btn:active { transform: translateY(0); }
+    
+    .refresh-btn.loading { background: linear-gradient(135deg, var(--primary), var(--gold)); cursor: not-allowed; pointer-events: none; opacity: 0.8; }
+    .refresh-btn.loading .refresh-icon { animation: spin 1s linear infinite; }
+    .refresh-icon { font-size: 1rem; transition: transform 0.3s ease; }
+    .refresh-btn:not(.loading):hover .refresh-icon { transform: rotate(180deg); }
+    
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--gray-medium);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Loading State */
+    .loading { text-align: center; padding: 3rem 0; color: var(--gray-medium); }
+    .loading-speed { font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem; color: var(--primary); }
+    .loading-spinner {
+      width: 40px; height: 40px; border: 4px solid var(--gray-light); border-top: 4px solid var(--primary);
+      border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    
+    /* Job Cards */
+    .jobs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem; }
+    .job-card {
+      background: rgba(255,255,255,0.08); border-radius: 16px; padding: 2rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(99,102,241,0.10) inset;
+      transition: all 0.3s ease; border: 1px solid rgba(255,178,0,0.28); position: relative; overflow: hidden; backdrop-filter: blur(10px);
+    }
+    .job-card.inactive { opacity: 0.7; background: rgba(255,255,255,0.04); }
+    .job-card.inactive .job-title, .job-card.inactive .job-meta { opacity: 0.6; }
+    .job-status-overlay {
+      position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #dc3545, #c82333);
+      color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.8rem;
+      box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3); z-index: 10; display: flex; align-items: center; gap: 0.3rem;
+    }
+    .job-status-overlay.filled { background: linear-gradient(135deg, #fd7e14, #e55a0a); box-shadow: 0 2px 8px rgba(253, 126, 20, 0.3); }
+    .job-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FFB200, #FFD700); }
+    .job-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,178,0,0.25) inset; border-color: rgba(255,178,0,0.45); }
+    .job-header { margin-bottom: 1.5rem; background: linear-gradient(180deg, rgba(99,102,241,0.16), rgba(0,0,0,0)); border: 1px solid rgba(99,102,241,0.25); padding: 0.65rem 1rem; border-radius: 10px; }
+    .job-title { font-size: 1.4rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; font-family: 'Cinzel', serif; letter-spacing: .02em; text-shadow: 0 2px 8px rgba(0,0,0,.35); line-height: 1.25; min-height: 2.8em; word-break: break-word; }
+    .job-meta { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+    .job-meta-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.8); }
+    .job-meta-icon { font-size: 1rem; color: var(--primary); }
+    .job-pay { background: linear-gradient(135deg, #FFB200, #FFD700); color: #0b0b10; padding: 0.35rem 0.9rem; border-radius: 999px; font-weight: 800; font-size: 0.85rem; letter-spacing: .02em; }
+    .job-description { color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 1.5rem; display: none; }
+    .job-description.expanded { display: block; animation: slideDown 0.3s ease-out; }
+    @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 200px; } }
+    .job-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; align-items: center; text-align: center; }
+    .job-actions .btn { align-self: center; }
+    .btn { padding: 0.8rem 1.5rem; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; }
+    .btn-primary { background: linear-gradient(135deg, #FFB200, #FFD700); color: #0b0b10; border: 1px solid rgba(255,178,0,0.45); box-shadow: 0 8px 24px rgba(255,178,0,0.25); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,178,0,0.3); }
+    .btn-secondary { background: transparent; color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.25); }
+    .btn-secondary:hover { background: var(--gray-medium); color: var(--white); }
+
+    /* Global Strategic Action Buttons - Dark Theme */
+    .global-strategic-actions { max-width: 1200px; margin: 2rem auto 3rem auto; padding: 2rem; background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(26, 26, 26, 0.8)); border-radius: 20px; border: 1px solid rgba(255, 178, 0, 0.3); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+    .strategic-header { text-align: center; margin-bottom: 2rem; }
+    .strategic-header h3 { color: #FFB200; font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-shadow: 0 2px 10px rgba(255,178,0,0.3); }
+    .strategic-header p { color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0; }
+    .strategic-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+    .btn-strategic { display: flex; align-items: center; gap: 1rem; padding: 1.5rem; border-radius: 15px; text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid transparent; min-height: 80px; position: relative; overflow: hidden; }
+    .btn-strategic::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; }
+    .btn-strategic:hover::before { opacity: 1; }
+    .btn-strategic .btn-icon { font-size: 2rem; min-width: 50px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; }
+    .btn-strategic .btn-content { flex: 1; text-align: left; position: relative; z-index: 2; }
+    .btn-strategic .btn-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.25rem; font-family: 'Cinzel', serif; }
+    .btn-strategic .btn-desc { font-size: 0.9rem; opacity: 0.9; }
+    .btn-contract { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); }
+    .btn-contract:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4); border-color: rgba(34, 197, 94, 0.5); }
+    .btn-portal { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+    .btn-portal:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); border-color: rgba(59, 130, 246, 0.5); }
+    .btn-help { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; cursor: pointer; font-family: inherit; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+    .btn-help:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); border-color: rgba(245, 158, 11, 0.5); }
+
+    /* Help Modal */
+    .help-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .help-modal.show { opacity: 1; visibility: visible; }
+    .help-modal.hide { opacity: 0; visibility: hidden; }
+    .help-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); }
+    .help-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(26, 26, 26, 0.95)); border-radius: 20px; border: 1px solid rgba(255, 178, 0, 0.3); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); max-width: 800px; width: 90vw; max-height: 80vh; overflow-y: auto; backdrop-filter: blur(20px); }
+    .help-header { padding: 2rem 2rem 1rem 2rem; border-bottom: 1px solid rgba(255, 178, 0, 0.2); display: flex; justify-content: space-between; align-items: center; }
+    .help-header h2 { color: #FFB200; font-family: 'Cinzel', serif; margin: 0; font-size: 1.8rem; }
+    .help-close { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+    .help-close:hover { background: rgba(255, 178, 0, 0.2); border-color: #FFB200; }
+    .help-body { padding: 2rem; }
+    .help-section { margin-bottom: 2rem; }
+    .help-section h3 { color: #FFB200; font-family: 'Cinzel', serif; margin-bottom: 1rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+    .help-section p { color: rgba(255, 255, 255, 0.9); line-height: 1.6; margin-bottom: 1rem; }
+    .help-list { list-style: none; padding: 0; margin: 0; }
+    .help-list li { color: rgba(255, 255, 255, 0.8); margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; line-height: 1.5; }
+    .help-list li::before { content: '•'; color: #FFB200; position: absolute; left: 0; font-weight: bold; }
+    .help-tip { background: rgba(255, 178, 0, 0.1); border: 1px solid rgba(255, 178, 0, 0.3); border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+    .help-tip h4 { color: #FFB200; margin-bottom: 0.5rem; font-size: 1rem; }
+    .help-tip p { color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 0.9rem; }
+
+    /* Responsive Design for Strategic Buttons */
+    @media (max-width: 768px) {
+      .global-strategic-actions { margin: 1.5rem 1rem 2rem 1rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 26, 0.9)); }
+      .strategic-header h3 { font-size: 1.5rem; }
+      .strategic-buttons { grid-template-columns: 1fr; gap: 1rem; max-width: 100%; }
+      .btn-strategic { padding: 1.25rem; min-height: 70px; }
+      .btn-strategic .btn-icon { font-size: 1.75rem; min-width: 45px; }
+      .btn-strategic .btn-title { font-size: 1.1rem; }
+      .btn-strategic .btn-desc { font-size: 0.85rem; }
+      .help-content { width: 95vw; max-height: 90vh; }
+      .help-header { padding: 1.5rem 1.5rem 1rem 1.5rem; }
+      .help-header h2 { font-size: 1.5rem; }
+      .help-body { padding: 1.5rem; }
+      .help-section h3 { font-size: 1.1rem; }
+    }
+    
+    /* Floating Admin Button */
+    .floating-admin { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+    .admin-link { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: rgba(255, 178, 0, 0.1); border: 2px solid rgba(255, 178, 0, 0.3); border-radius: 50%; color: var(--primary); text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; backdrop-filter: blur(10px); }
+    .admin-link:hover { background: rgba(255, 178, 0, 0.2); border-color: var(--primary); transform: scale(1.1); box-shadow: 0 4px 15px rgba(255, 178, 0, 0.3); }
+    @media (max-width: 480px) { .floating-admin { bottom: 15px; right: 15px; } .admin-link { width: 45px; height: 45px; font-size: 1rem; } }
+    
+    /* Footer */
+    .footer {
+      position: relative;
+      background: radial-gradient(1200px 600px at 15% 20%, rgba(255,178,0,.07), transparent 60%),
+                  radial-gradient(800px 400px at 85% 0%, rgba(99,102,241,.10), transparent 60%),
+                  #07080b;
+      color: #e5e7eb;
+      padding: 4rem 0 2.25rem 0;
+      margin-top: 4rem;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(255,178,0,0) 0%, rgba(255,178,0,0.9) 25%, rgba(99,102,241,0.9) 75%, rgba(99,102,241,0) 100%);
+      opacity: 0.9;
+    }
+    .footer .container { max-width: 1200px; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+      gap: 2rem;
+      margin-bottom: 2.25rem;
+    }
+    .footer-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.25rem 1.25rem 1rem 1.25rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(99,102,241,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-card::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(400px 200px at 10% -10%, rgba(255,178,0,.08), transparent 60%),
+                  radial-gradient(300px 160px at 110% 0%, rgba(99,102,241,.08), transparent 60%);
+      opacity: .9;
+    }
+    .footer-brand {
+      display: grid; gap: .75rem;
+    }
+    .footer-logo { width: 140px; height: auto; opacity: .95; }
+    .footer-headline {
+      font-family: 'Cinzel', serif; font-weight: 800; letter-spacing: .02em;
+      background: linear-gradient(135deg, #ffffff, #FFB200 85%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      font-size: 1.25rem;
+    }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .25rem; }
+    .chip { padding: .35rem .6rem; border-radius: 999px; font-size: .8rem; font-weight: 700; letter-spacing: .03em; background: rgba(255,178,0,0.12); border: 1px solid rgba(255,178,0,0.35); color: #ffd58a; }
+    .chip.blue { background: rgba(99,102,241,0.12); border-color: rgba(99,102,241,0.35); color: #c7d2fe; }
+    .chip.green { background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.3); color: #bbf7d0; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .footer-col-title { color: #fff; font-family: 'Cinzel', serif; font-weight: 700; margin-bottom: .6rem; }
+    .footer-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: .55rem 1rem; border-radius: 999px; text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03);
+      color: #cbd5e1; font-weight: 800; letter-spacing: .02em; font-size: 1rem; opacity: .95;
+      box-shadow: inset 0 0 0 1px rgba(99,102,241,0.04), 0 6px 18px rgba(0,0,0,.25);
+      transition: all .18s ease; min-height: 42px; white-space: nowrap;
+    }
+    .footer-link:hover { color: #fff; border-color: rgba(255,178,0,.5); background: rgba(255,178,0,.12); transform: translateY(-1px); }
+    .footer-link.gold { border-color: rgba(255,178,0,.45); background: rgba(255,178,0,.12); color: #ffd58a; }
+    .footer-link.blue { border-color: rgba(99,102,241,.45); background: rgba(99,102,241,.12); color: #c7d2fe; }
+    .footer-link.green { border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.12); color: #bbf7d0; }
+    .footer-chip { display: inline-flex; align-items: center; justify-content: center; padding: .5rem .9rem; border-radius: 999px; border: 2px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); color: #e5e7eb; font-weight: 800; font-size: .9rem; letter-spacing: .02em; box-shadow: inset 0 0 0 1px rgba(99,102,241,0.04), 0 6px 18px rgba(0,0,0,.25); cursor: default; user-select: none; min-height: 42px; white-space: normal; word-break: break-word; max-width: 100%; text-align: center; }
+    .footer-chip.gold { border-color: rgba(255,178,0,.5); background: rgba(255,178,0,.1); color: #ffe6a3; }
+    .footer-chip.blue { border-color: rgba(99,102,241,.45); background: rgba(99,102,241,.12); color: #dbe4ff; }
+    .footer-chip.green { border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.12); color: #d1fae5; }
+    .footer-cta {
+      display: grid; gap: .8rem;
+    }
+    .cta-note { font-size: .95rem; opacity: .85; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .form-grid .full { grid-column: 1 / -1; }
+    .footer-input { width: 100%; padding: .9rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.35); color: #fff; outline: none; font-weight: 700; letter-spacing: .02em; }
+    .footer-input:focus { border-color: #FFB200; box-shadow: 0 0 0 2px rgba(255,178,0,0.18); }
+    .btn-footer { padding: .95rem 1rem; border-radius: 12px; border: 2px solid #FFB200; background: linear-gradient(135deg, #FFB200, #FFD700); color: #0a0a0a; font-weight: 900; letter-spacing: .03em; cursor: pointer; }
+    .btn-footer:hover { filter: brightness(1.05); transform: translateY(-1px); }
+    .footer-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .25rem; }
+    .badge { display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .6rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); font-size: .8rem; font-weight: 700; opacity: .95; }
+    .badge svg { opacity: .9; }
+    .footer-social { display: flex; gap: .8rem; margin-top: .6rem; }
+    .footer-social a { display: inline-flex; width: 38px; height: 38px; border-radius: 10px; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #FFB200; transition: all .2s; }
+    .footer-social a:hover { background: rgba(255,178,0,0.15); border-color: rgba(255,178,0,0.4); transform: translateY(-2px); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px dashed rgba(255,255,255,0.08); opacity: .9; }
+    .footer-mini { display: flex; align-items: center; gap: .6rem; color: #9ca3af; font-size: .9rem; }
+    .footer-mini img { width: 28px; height: 28px; opacity: .85; }
+    .footer-bottom-links { display: flex; gap: 1rem; }
+    .footer-bottom-links a { color: #9ca3af; text-decoration: none; font-weight: 600; font-size: .9rem; }
+    .footer-bottom-links a:hover { color: #fff; }
+    @media (max-width: 980px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: .6rem; }
+    }
+    /* Ensure SOP chips match size and alignment */
+    .footer-sop .footer-links { justify-content: center; }
+    .footer-sop .footer-chip { width: 100%; max-width: 520px; margin: 0 auto; }
+    
+    /* Error State */
+    .error-message { text-align: center; padding: 3rem 1rem; color: var(--gray-medium); }
+    .error-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+    
+    /* Promo banner above listings */
+    .promo-wrap { position: relative; margin: 24px auto 2rem auto; border-radius: 14px; overflow: hidden; }
+    .promo-banner { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(99,102,241,0.10) inset; }
+    .promo-gradient { position: absolute; left: 0; right: 0; bottom: 0; height: 42%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 55%, rgba(0,0,0,0.85) 100%); pointer-events: none; }
+    .promo-cta { position: absolute; right: 16px; bottom: 16px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; width: auto; transform: none; }
+    .promo-cta .cta-button { min-width: 150px; padding: 12px 22px; font-size: .95rem; }
+    @media (max-width: 640px) { .promo-cta { left: 50%; right: auto; transform: translateX(-50%); bottom: 12px; gap: 8px; } .promo-cta .cta-button { width: 100%; max-width: 320px; } }
+    
+    /* Success/Error notification */
+    .refresh-success { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: rgba(34, 197, 94, 0.9); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; animation: slideIn 0.3s ease-out; }
+    .refresh-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: rgba(239, 68, 68, 0.9); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; animation: slideIn 0.3s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem; }
+      .hero-subtitle { font-size: 1.1rem; }
+      .slide { background-attachment: scroll; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); height: 100dvh; min-height: 100dvh; }
+      .slide-overlay { padding: calc(env(safe-area-inset-top) + 80px) 20px calc(env(safe-area-inset-bottom) + 60px); min-height: 100dvh; justify-content: flex-start; box-sizing: border-box; overflow: visible; }
+      .slide h1 { font-size: 28px; line-height: 34px; font-weight: 700; margin-bottom: 24px; text-align: center; letter-spacing: -0.5px; max-width: 100%; }
+      .slide h2 { font-size: 22px; line-height: 28px; font-weight: 600; margin-bottom: 16px; text-align: center; letter-spacing: -0.3px; max-width: 100%; }
+      .slide p { font-size: 17px; line-height: 25px; font-weight: 400; margin-bottom: 32px; text-align: center; max-width: 100%; opacity: 0.9; }
+      .stats { display: flex; flex-direction: column; gap: 12px; margin: 32px auto; max-width: 335px; width: 100%; }
+      .stat { padding: 20px 16px; min-width: auto; width: 100%; border-radius: 12px; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 178, 0, 0.2); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+      .stat-number { font-size: 24px; line-height: 29px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+      .stat-label { font-size: 13px; line-height: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+      .prev, .next { display: none; }
+      .cta-button { font-size: 16px; line-height: 20px; font-weight: 700; padding: 18px 28px; min-height: 56px; letter-spacing: 1px; border-radius: 8px; text-transform: uppercase; text-align: center; display: flex; align-items: center; justify-content: center; width: 100%; max-width: 280px; margin: 0 auto; }
+      .navigation { position: absolute; bottom: calc(env(safe-area-inset-bottom) + 20px); left: 50%; transform: translateX(-50%); background: rgba(28, 28, 30, 0.8); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); z-index: 1001; pointer-events: all; }
+      .nav-dot { width: 6px; height: 6px; margin: 0 4px; padding: 12px; background-clip: content-box; transition: all 0.2s ease; }
+      .nav-dot.active { background: var(--primary); box-shadow: 0 0 6px rgba(255, 178, 0, 0.3); transform: scale(1.2); }
+      .section-header { flex-direction: column; gap: 1rem; }
+      .section-title { font-size: 2rem; text-align: center; }
+      .refresh-btn { font-size: 0.8rem; padding: 0.7rem 1.2rem; }
+      .jobs-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .job-card { padding: 1.5rem; }
+      .job-actions { flex-direction: column; }
+      .btn { text-align: center; justify-content: center; }
+      .footer-links { flex-direction: column; gap: 1rem; }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2rem; }
+      .slide { height: 100dvh; min-height: 100dvh; }
+      .slide h1 { font-size: 24px; }
+      .slide h2 { font-size: 20px; }
+      .slide p { font-size: 16px; }
+      .stats { max-width: 250px; }
+      .stat-number { font-size: 20px; }
+      .cta-button { font-size: 14px; padding: 16px 20px; margin: 0.25rem; min-width: 180px; }
+      .section-title { font-size: 2rem; text-align: center; }
+      .jobs-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .job-meta { flex-direction: column; gap: 0.5rem; }
+      .job-status-overlay { top: 15px; right: 15px; font-size: 0.7rem; padding: 0.4rem 0.8rem; }
+    }
+    
+    /* Low viewport height optimizations (e.g., 13" laptops at 100% zoom) */
+    @media (max-height: 820px) and (min-width: 768px) {
+      .logo { width: 120px; margin-top: 12px; }
+      .slide h1 { font-size: clamp(2.4rem, 5.2vh, 3.2rem); }
+      .slide h2 { font-size: clamp(1.6rem, 3.8vh, 2.1rem); }
+      .slide p { font-size: clamp(1rem, 2.2vh, 1.2rem); margin-bottom: 1.25rem; }
+      .stats { margin: 1.25rem auto 1.5rem auto; gap: 1.25rem; }
+      .stat-number { font-size: 1.6rem; }
+      .cta-button { padding: 14px 32px; font-size: 1rem; }
+      .slide-overlay { padding: max(7vh, calc(env(safe-area-inset-top) + 48px)) 20px max(16vh, calc(env(safe-area-inset-bottom) + 120px)) 20px; }
+      .navigation { bottom: calc(env(safe-area-inset-bottom) + 14px); }
+    }
+
+    @media (max-height: 700px) and (min-width: 768px) {
+      .logo { width: 110px; }
+      .slide h1 { font-size: clamp(2.2rem, 4.8vh, 2.8rem); }
+      .slide h2 { font-size: clamp(1.4rem, 3.2vh, 1.8rem); }
+      .slide p { font-size: clamp(0.95rem, 2vh, 1.1rem); }
+      .cta-button { padding: 12px 28px; font-size: 0.95rem; }
+      .slide-overlay { padding: max(8vh, calc(env(safe-area-inset-top) + 56px)) 20px max(18vh, calc(env(safe-area-inset-bottom) + 140px)) 20px; }
+      .navigation { bottom: calc(env(safe-area-inset-bottom) + 12px); }
+    }
+    
+    /* (Removed AI Gate styles) */
+  </style>
+</head>
+<body>
+  <!-- Pitch Slideshow -->
+  <div class="slideshow-container">
+    <!-- Slide 1: Creator-Focused Hero (Header merged) -->
+    <div class="slide active" style="background-image: url('https://static.wixstatic.com/media/aeef42_a698893739664da1a4aead3eaf78055d~mv2.gif');">
+      <div class="slide-overlay">
+        <img src="https://static.wixstatic.com/media/aeef42_d31420a75a164d2cb4508bdd7d99ca88~mv2.png" alt="Cochran Films" class="logo" width="200" height="200" decoding="async" fetchpriority="high">
+        <h1>Work with Cochran Films</h1>
+        <h2>Join Atlanta's Premier Creative Team</h2>
+        <p>We're building the future of media production through bold visuals and strategic storytelling. Join our dynamic crew of photographers, videographers, editors, designers, and producers—where every project pushes boundaries and every collaboration creates something unforgettable.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">Paid</div>
+            <div class="stat-label">Gigs Weekly</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Collaborative</div>
+            <div class="stat-label">Creative Community</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">24–48hr</div>
+            <div class="stat-label">Fast Payouts</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="#jobs" class="cta-button">JOIN THE ROSTER</a>
+          <a href="https://cochranfilms.studio/careers" target="_blank" rel="noopener" class="cta-button cta-button-secondary">Platform Showcase</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Videography (Join the Crew) -->
+    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_2a9593aa004b41e2a74fe9997109ed1c~mv2.gif');">
+      <div class="slide-overlay">
+        <h2>Shoot Cinematic Stories With Us</h2>
+        <p>From branded docs to music videos and live events—work alongside experienced DPs, ACs, and producers. Grow your craft, expand your reel, and be part of a crew that executes at a high level.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">On-Set</div>
+            <div class="stat-label">Roles & Mentorship</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">4K+</div>
+            <div class="stat-label">Pro Workflow</div>
+          </div>
+        </div>
+        <a href="#jobs" class="cta-button">SEE OPEN ROLES</a>
+      </div>
+    </div>
+
+    <!-- Slide 3: Photography (Join the Crew) -->
+    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_044340eb55d04cef8365fe61283a7190~mv2.gif');">
+      <div class="slide-overlay">
+        <h2>Photograph Moments That Matter</h2>
+        <p>Join our photo team for events, portraits, products, and campaigns. You'll collaborate with producers and editors to deliver consistent, high-impact images—fast.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">Portfolio</div>
+            <div class="stat-label">Growth & Credits</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Live</div>
+            <div class="stat-label">Event Coverage</div>
+          </div>
+        </div>
+        <a href="#jobs" class="cta-button">APPLY FOR PHOTO CREW</a>
+      </div>
+    </div>
+
+    <!-- Slide 4: Brand + Design (Join the Team) -->
+    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_2901ed7f2a5f47ccb35dfaa7596c356e~mv2.gif');">
+      <div class="slide-overlay">
+        <h2>Build Brands With a Full-Stack Team</h2>
+        <p>Designers, editors, and strategists—plug into a system that ships. Contribute to identity, motion, and content systems that power real campaigns.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">360°</div>
+            <div class="stat-label">Creative Pipeline</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Ship</div>
+            <div class="stat-label">Fast, Iterate Often</div>
+          </div>
+        </div>
+        <a href="#jobs" class="cta-button">BRAND + DESIGN ROLES</a>
+      </div>
+    </div>
+
+    <!-- Slide 5: Live Event Printing (Join the Crew) -->
+    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_eaac011492e74638a95678d16007288c~mv2.gif');">
+      <div class="slide-overlay">
+        <h2>Be On the Front Line at Live Events</h2>
+        <p>Help run our instant print system for proms, conferences, and brand activations. Fast-paced, people-first, and creatively rewarding.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">Instant</div>
+            <div class="stat-label">On-Site Output</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Team</div>
+            <div class="stat-label">Ops & Client-Facing</div>
+          </div>
+        </div>
+        <a href="#jobs" class="cta-button">EVENT CREW SIGNUP</a>
+      </div>
+    </div>
+
+    <!-- Slide 6: Content + Web (Join the Team) -->
+    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_65eade98029d4248b661727919ba6df6~mv2.gif');">
+      <div class="slide-overlay">
+        <h2>Ship Content That Moves Culture</h2>
+        <p>Editors, motion designers, and web builders—collaborate in a production system that values creative clarity, speed, and measurable outcomes.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">2 Days</div>
+            <div class="stat-label">Site Launches</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Supportive Team</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Mobile First</div>
+          </div>
+        </div>
+        <a href="#jobs" class="cta-button">CONTENT + WEB ROLES</a>
+      </div>
+    </div>
+
+    <!-- Slide 7: Join CTA -->
+    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_0463c027038e4b488d3311f7342fa7c7~mv2.gif');">
+      <div class="slide-overlay">
+        <h1>Ready to Create With Us?</h1>
+        <p>Join a roster of driven creatives—photographers, videographers, editors, designers, and on-site event crew—building work that travels.</p>
+        
+        <div class="stats" style="margin-bottom: 3rem;">
+          <div class="stat">
+            <div class="stat-number">Fast</div>
+            <div class="stat-label">Communication</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Global</div>
+            <div class="stat-label">Project Reach</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Atlanta</div>
+            <div class="stat-label">Based</div>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+          <a href="#jobs" class="cta-button">APPLY NOW</a>
+        </div>
+        
+        <p style="font-size: 1rem; opacity: 0.8; text-align: center; margin: 0;">Creators welcome worldwide • Atlanta based • Remote friendly</p>
+      </div>
+    </div>
+    <!-- Navigation -->
+    <button class="prev" onclick="changeSlide(-1)">❮</button>
+    <button class="next" onclick="changeSlide(1)">❯</button>
+
+    <div class="navigation">
+      <span class="nav-dot active" onclick="currentSlide(1)"></span>
+      <span class="nav-dot" onclick="currentSlide(2)"></span>
+      <span class="nav-dot" onclick="currentSlide(3)"></span>
+      <span class="nav-dot" onclick="currentSlide(4)"></span>
+      <span class="nav-dot" onclick="currentSlide(5)"></span>
+      <span class="nav-dot" onclick="currentSlide(6)"></span>
+      <span class="nav-dot" onclick="currentSlide(7)"></span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="promo-wrap">
+      <img src="1_Unlock-Your-SALES-Career-at.png" alt="Unlock your SALES career at Cochran Films" class="promo-banner" loading="lazy" decoding="async">
+      <div class="promo-gradient"></div>
+      <div class="promo-cta">
+        <a class="cta-button cta-button-secondary" href="https://cochranfilms.studio/careers" target="_blank" rel="noopener">LEARN MORE</a>
+        <a class="cta-button" href="#jobs">APPLY</a>
+      </div>
+    </div>
+    <section id="jobs" class="jobs-section">
+      <div class="section-header">
+        <h2 class="section-title">Current Opportunities</h2>
+        <button id="refresh-jobs-btn" class="refresh-btn" onclick="refreshJobs()">
+          <span class="refresh-icon">🔄</span>
+          <span class="refresh-text">Refresh Jobs</span>
+        </button>
+      </div>
+      <p class="section-subtitle">
+        Explore our latest openings in photography, videography, and creative production. 
+        Each role offers competitive pay and the chance to work on exciting projects.
+      </p>
+      
+      
+      
+      <!-- Loading State -->
+      <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p id="loading-text">Loading current job listings...</p>
+        <p id="loading-speed" class="loading-speed" style="display: none;"></p>
+      </div>
+      
+      <!-- Jobs Grid -->
+      <div id="jobs-grid" class="jobs-grid" style="display: none;"></div>
+      
+      <!-- Error State -->
+      <div id="error-message" class="error-message" style="display: none;">
+        <div class="error-icon">⚠️</div>
+        <h3>Unable to Load Job Listings</h3>
+        <p>Please check back later or contact us directly at <a href="mailto:info@cochranfilms.com" style="color: var(--primary);">info@cochranfilms.com</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Admin Button -->
+  <div class="floating-admin">
+    <a href="admin-dashboard.html" class="admin-link" title="Admin Dashboard">⚙️</a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-card footer-brand">
+          <img src="https://static.wixstatic.com/media/aeef42_d31420a75a164d2cb4508bdd7d99ca88~mv2.png" alt="Cochran Films" class="footer-logo" width="200" height="200" loading="lazy" decoding="async">
+          <div class="footer-headline">Atlanta's Full‑Stack Media Powerhouse</div>
+          <p class="cta-note">Photo • Video • Live Events • Brand • Content + Web</p>
+          <div class="footer-chips">
+            <span class="chip">Photography</span>
+            <span class="chip blue">Videography</span>
+            <span class="chip green">Brand Systems</span>
+            <span class="chip">Live Event Printing</span>
+            <span class="chip blue">Content + Web</span>
+          </div>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/cochranfilmsllc/" target="_blank" title="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="https://www.youtube.com/@cochranfilmsllc" target="_blank" title="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+            <a href="https://www.instagram.com/cochran.films" target="_blank" title="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="https://www.linkedin.com/company/cochranfilms" target="_blank" title="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
+          </div>
+          <div class="footer-badges">
+            <span class="badge">⚡ 24–48hr payouts</span>
+            <span class="badge">🎥 On‑set + Post</span>
+            <span class="badge">🖥️ Remote Friendly</span>
+          </div>
+        </div>
+
+        <div class="footer-card">
+          <div class="footer-col-title">Explore</div>
+          <div class="footer-links">
+            <a href="https://www.cochranfilms.com" class="footer-link blue">Website</a>
+            <a href="https://www.cochranfilms.com/services" class="footer-link blue">Services</a>
+            <a href="https://www.cochranfilms.com/pricing" class="footer-link gold">Pricing</a>
+            <a href="https://www.cochranfilms.com/brand-building" class="footer-link green">Build Your Brand</a>
+            <a href="https://www.cochranfilms.com/contact" class="footer-link blue">Contact</a>
+          </div>
+        </div>
+
+        <div class="footer-card footer-sop">
+          <div class="footer-col-title">Operating Principles</div>
+          <div class="footer-links">
+            <span class="footer-chip gold">NET 30 NOT ACCEPTED</span>
+            <span class="footer-chip green">Atlanta Based</span>
+            <span class="footer-chip blue">6 YEARS EXPERIENCE</span>
+            <span class="footer-chip gold">BACHELOR DEGREE IN FILM</span>
+          </div>
+        </div>
+
+        <div class="footer-card footer-cta">
+          <div class="footer-col-title">Join Our Roster</div>
+          <p class="cta-note">Get gig alerts and insider opportunities. We respect your inbox.</p>
+          <div class="form-grid">
+            <input type="text" class="footer-input" placeholder="Full Name">
+            <input type="tel" class="footer-input" placeholder="Phone Number">
+            <input type="email" class="footer-input full" placeholder="Email Address">
+            <input type="url" class="footer-input full" placeholder="Portfolio Link (URL)">
+          </div>
+          <div style="margin-top:.6rem; display:flex; justify-content:flex-end;">
+            <button class="btn-footer" onclick="location.hash='#jobs'">Join the Roster</button>
+          </div>
+          <div class="footer-badges">
+            <span class="badge">📍 Atlanta‑based</span>
+            <span class="badge">🌎 Creators Welcome</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-mini">
+          <img src="https://static.wixstatic.com/media/aeef42_d31420a75a164d2cb4508bdd7d99ca88~mv2.png" alt="CF">
+          <span id="footer-year">© 2025</span>
+          <span>Cochran Films — Atlanta, GA</span>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="mailto:info@cochranfilms.com">info@cochranfilms.com</a>
+          <a href="tel:4704202169">(470) 420-2169</a>
+          <a href="https://www.cochranfilms.com/pricing" target="_blank">Pricing</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ====== CONFIG: Google Form Prefill ======
+    // Replace entry IDs with your field entry IDs from your form (right-click input -> inspect -> name="entry.xxxxxx").
+    const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdA6Gw-w1wbs1RiLtu2cVz6e0hrrIFdv3A62NNIrQWTC6yegA/viewform';
+    const GOOGLE_FIELDS = {
+      jobTitle: 'entry.111111',
+      eventDate: 'entry.222222',
+      location: 'entry.333333',
+      pay: 'entry.444444',
+      description: 'entry.555555'
+    };
+
+    // ====== Helpers ======
+    function formatDateForForm(dateString) {
+      if (!dateString) return '';
+      if (typeof dateString === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return dateString; // keep ISO yyyy-mm-dd
+      }
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return dateString;
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatDateDisplay(dateString) {
+      if (!dateString) return 'Date TBD';
+      if (typeof dateString === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        const [year, month, day] = dateString.split('-').map(Number);
+        const d = new Date(year, month - 1, day);
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+      const d = new Date(dateString);
+      if (isNaN(d.getTime())) return dateString;
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function formatPay(payString) {
+      if (!payString || payString === '' || payString === 'undefined' || payString === 'null') return 'Competitive Pay';
+      const cleanPay = String(payString).trim();
+      if (cleanPay.startsWith('$')) return cleanPay;
+      if (/^\d+$/.test(cleanPay)) return `$${cleanPay}`;
+      return cleanPay.replace(/\$?(\d+)/g, '$$$1');
+    }
+
+    function generateApplyLink(jobTitle, eventDate, location, pay, description) {
+      if (!GOOGLE_FORM_URL || GOOGLE_FORM_URL.includes('REPLACE_WITH_YOUR_FORM_ID')) return '#';
+      const params = new URLSearchParams();
+      if (GOOGLE_FIELDS.jobTitle && jobTitle) params.set(GOOGLE_FIELDS.jobTitle, jobTitle);
+      if (GOOGLE_FIELDS.eventDate && eventDate) params.set(GOOGLE_FIELDS.eventDate, formatDateForForm(eventDate));
+      if (GOOGLE_FIELDS.location && location) params.set(GOOGLE_FIELDS.location, location);
+      if (GOOGLE_FIELDS.pay && pay) params.set(GOOGLE_FIELDS.pay, String(pay));
+      if (GOOGLE_FIELDS.description && description) params.set(GOOGLE_FIELDS.description, description);
+      // Use pp_url to enable prefill
+      params.set('usp', 'pp_url');
+      return `${GOOGLE_FORM_URL}?${params.toString()}`;
+    }
+
+    // ====== Jobs Data Loading (JSON only) ======
+    // Optionally pull jobs from a Google Sheet (Publish to web or use Apps Script Web App)
+    // Example (Publish to web + gviz):
+    // const JOBS_SHEET_GVIZ_URL = 'https://docs.google.com/spreadsheets/d/<SHEET_ID>/gviz/tq?tqx=out:json&sheet=<SHEET_NAME>';
+    const JOBS_SHEET_GVIZ_URL = '';
+
+    // Try sources in order (single JSON + optional Google Sheet)
+    const JOB_SOURCES = [
+      'job-data.json',
+      JOBS_SHEET_GVIZ_URL
+    ];
+
+    let jobsCache = { data: null, timestamp: 0, ttl: 15 * 1000 };
+    function getCachedJobs() { const now = Date.now(); return jobsCache.data && (now - jobsCache.timestamp) < jobsCache.ttl ? jobsCache.data : null; }
+    function setCachedJobs(jobs) { jobsCache.data = jobs; jobsCache.timestamp = Date.now(); }
+
+    async function loadJobs(forceRefresh = false) {
+      const loadingElement = document.getElementById('loading');
+      const jobsGrid = document.getElementById('jobs-grid');
+      const errorElement = document.getElementById('error-message');
+      try {
+        if (!forceRefresh) {
+          const cached = getCachedJobs();
+          if (cached) { renderJobs(cached); return; }
+        }
+        loadingElement.style.display = 'block';
+        jobsGrid.style.display = 'none';
+        errorElement.style.display = 'none';
+
+        let loadedJobs = [];
+        for (const src of JOB_SOURCES) {
+          if (!src) continue;
+          try {
+            if (src.includes('/gviz/')) {
+              const text = await (await fetch(src, { cache: 'no-store' })).text();
+              // gviz returns JS like: google.visualization.Query.setResponse({...})
+              const match = text.match(/setResponse\((.*)\);?\s*$/s);
+              const payload = match ? JSON.parse(match[1]) : null;
+              const table = payload && payload.table;
+              if (table && table.cols && table.rows) {
+                const headers = table.cols.map(c => (c && c.label) || '').map(h => h.trim());
+                loadedJobs = table.rows.map(r => {
+                  const obj = {};
+                  headers.forEach((h, i) => {
+                    const v = r.c[i] && (r.c[i].f ?? r.c[i].v);
+                    obj[h] = v;
+                  });
+                  return obj;
+                });
+              }
+            } else {
+              const res = await fetch(src, { cache: 'no-store' });
+              if (!res.ok) continue;
+              const json = await res.json().catch(() => null);
+              const arr = (json && (json.jobs || json)) || [];
+              if (Array.isArray(arr)) loadedJobs = arr;
+            }
+          } catch (_) {
+            continue;
+          }
+          if (Array.isArray(loadedJobs) && loadedJobs.length) break;
+        }
+
+        if (!Array.isArray(loadedJobs) || loadedJobs.length === 0) throw new Error('NO_JOBS_AVAILABLE');
+
+        // Filter out rows that look like applicant submissions (defensive if JSON mixes data)
+        const filtered = loadedJobs.filter(job => {
+          const title = (job.title || job.Title || job.jobTitle || job['Applying For Which Job'] || '').toString().trim();
+          if (!title) return false;
+          const hasApplicantInfo = job.email || job.Email || job['Email Address'] || job.phone || job.Phone || job['Phone Number'];
+          return !hasApplicantInfo;
+        });
+
+        if (filtered.length === 0) throw new Error('NO_JOBS_AVAILABLE');
+        setCachedJobs(filtered);
+        renderJobs(filtered);
+      } catch (error) {
+        loadingElement.style.display = 'none';
+        jobsGrid.style.display = 'none';
+        errorElement.style.display = 'block';
+        const errorDiv = document.querySelector('.error-message h3');
+        const errorText = document.querySelector('.error-message p');
+        if (error.message === 'NO_JOBS_AVAILABLE') {
+          if (errorDiv) errorDiv.textContent = "💡 We're not hiring at the moment — but we're always growing.";
+          if (errorText) errorText.innerHTML = "No job listings are available right now. Please check back soon or reach out to us at <a href='mailto:info@cochranfilms.com' style='color: var(--primary);'>info@cochranfilms.com</a> if you'd like to stay in the loop.";
+        } else {
+          if (errorDiv) errorDiv.textContent = 'Unable to Load Job Listings';
+          if (errorText) errorText.innerHTML = "Please check back later or contact us directly at <a href='mailto:info@cochranfilms.com' style='color: var(--primary);'>info@cochranfilms.com</a>";
+        }
+      }
+    }
+
+    // ====== Rendering ======
+    let lastJobCount = 0;
+    function createJobCard(job) {
+      const jobTitle = job.title || job.Title || 'Position';
+      const eventDate = job.date || job.Date || job['Date of Event'];
+      const jobLocation = job.location || job.Location || 'Atlanta Area';
+      const jobPay = job.pay || job.Pay || job.salary || job['Pay Rate'] || job['Salary'] || job['Compensation'];
+      const jobDescription = job.description || job.Description || job.details || 'Full details will be provided upon application.';
+      const detailsUrl = job.detailsUrl || job.details_url || job.moreDetailsUrl || '';
+      const rawStatus = (job.status || job.Status || '').toString().toLowerCase().trim().replace(/['"]/g, '').replace(/\s+/g, ' ');
+      const isActive = rawStatus === 'active' || rawStatus === '';
+      const applyLink = generateApplyLink(jobTitle, eventDate, jobLocation, jobPay, jobDescription);
+      const cardId = jobTitle.replace(/\s+/g, '-').toLowerCase();
+      let statusOverlay = '';
+      if (!isActive) {
+        const overlayText = rawStatus === 'filled' ? 'Position Filled' : 'Not Open';
+        const overlayIcon = rawStatus === 'filled' ? '✓' : '✕';
+        const overlayClass = rawStatus === 'filled' ? 'filled' : '';
+        statusOverlay = `<div class="job-status-overlay ${overlayClass}">${overlayIcon} ${overlayText}</div>`;
+      }
+      const applyButton = isActive
+        ? `<a href="${applyLink}" target="_blank" class="btn btn-primary apply-btn"><span>📝</span> Apply Now</a>`
+        : `<button class="btn btn-primary apply-btn" disabled style="opacity: 0.5; cursor: not-allowed;"><span>📝</span> Position ${rawStatus === 'filled' ? 'Filled' : 'Closed'}</button>`;
+      return `
+        <div class="job-card ${!isActive ? 'inactive' : ''}" data-job-title="${jobTitle}" data-event-date="${eventDate}" data-location="${jobLocation}" data-pay="${jobPay}">
+          ${statusOverlay}
+          <div class="job-header">
+            <h3 class="job-title">${jobTitle}</h3>
+            <div class="job-meta">
+              <div class="job-meta-item"><span class="job-meta-icon">📅</span><span>${formatDateDisplay(eventDate)}</span></div>
+              <div class="job-meta-item"><span class="job-meta-icon">📍</span><span>${jobLocation}</span></div>
+              <div class="job-pay">${formatPay(jobPay)}</div>
+            </div>
+          </div>
+          <div class="job-description" id="desc-${cardId}"><p>${jobDescription}</p></div>
+          <div class="job-actions">
+            ${detailsUrl ? `<a class=\"btn btn-secondary\" href=\"${detailsUrl}\" target=\"_blank\" rel=\"noopener\"><span>📋</span> More Details</a>` : `<button class=\"btn btn-secondary details-btn\" onclick=\"toggleDescription('desc-${cardId}', this)\"><span>📋</span> More Details</button>`}
+            ${applyButton}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderJobs(jobs) {
+      const loadingElement = document.getElementById('loading');
+      const jobsGrid = document.getElementById('jobs-grid');
+      const fragment = document.createDocumentFragment();
+      const tempDiv = document.createElement('div');
+      jobs.forEach(job => {
+        const html = createJobCard(job);
+        tempDiv.innerHTML = html;
+        fragment.appendChild(tempDiv.firstElementChild);
+      });
+      jobsGrid.innerHTML = '';
+      jobsGrid.appendChild(fragment);
+      loadingElement.style.display = 'none';
+      jobsGrid.style.display = 'grid';
+      if (lastJobCount > 0 && jobs.length !== lastJobCount) {
+        const change = jobs.length - lastJobCount;
+        if (change > 0) showRefreshNotification(`🎉 ${change} new job${change === 1 ? '' : 's'} added!`);
+        else showRefreshNotification(`📝 ${Math.abs(change)} job${Math.abs(change) === 1 ? '' : 's'} updated or removed.`);
+      }
+      lastJobCount = jobs.length;
+    }
+
+    // ====== UI Interactions ======
+    function toggleDescription(id, button) {
+      const description = document.getElementById(id);
+      const isExpanded = description.classList.contains('expanded');
+      if (isExpanded) {
+        description.classList.remove('expanded');
+        button.innerHTML = '<span>📋</span> More Details';
+      } else {
+        description.classList.add('expanded');
+        button.innerHTML = '<span>📋</span> Hide Details';
+      }
+    }
+
+    async function refreshJobs() {
+      const refreshBtn = document.getElementById('refresh-jobs-btn');
+      const refreshText = refreshBtn.querySelector('.refresh-text');
+      refreshBtn.classList.add('loading');
+      refreshText.textContent = 'Refreshing...';
+      try {
+        await loadJobs(true);
+        refreshBtn.classList.remove('loading');
+        refreshText.textContent = 'Updated!';
+        showRefreshNotification('✅ Job listings updated successfully!');
+        setTimeout(() => { refreshText.textContent = 'Refresh Jobs'; }, 2000);
+      } catch (_) {
+        refreshBtn.classList.remove('loading');
+        refreshText.textContent = 'Failed';
+        showRefreshNotification('❌ Failed to update listings. Please try again.', 'error');
+        setTimeout(() => { refreshText.textContent = 'Refresh Jobs'; }, 3000);
+      }
+    }
+
+    function showRefreshNotification(message, type = 'success') {
+      document.querySelectorAll('.refresh-success, .refresh-error').forEach(n => n.remove());
+      const notification = document.createElement('div');
+      notification.className = type === 'error' ? 'refresh-error' : 'refresh-success';
+      notification.textContent = message;
+      const jobsGrid = document.getElementById('jobs-grid');
+      jobsGrid.parentNode.insertBefore(notification, jobsGrid);
+      setTimeout(() => { notification.parentNode && notification.remove(); }, 4000);
+    }
+
+    // ====== Slideshow ======
+    let slideIndex = 1; let slideInterval;
+    function showSlide(n) {
+      const slides = document.getElementsByClassName('slide');
+      const dots = document.getElementsByClassName('nav-dot');
+      if (n > slides.length) slideIndex = 1;
+      if (n < 1) slideIndex = slides.length;
+      for (let i = 0; i < slides.length; i++) slides[i].classList.remove('active');
+      for (let i = 0; i < dots.length; i++) dots[i].classList.remove('active');
+      slides[slideIndex - 1].classList.add('active');
+      dots[slideIndex - 1].classList.add('active');
+    }
+    function changeSlide(n) { slideIndex += n; showSlide(slideIndex); resetAutoSlide(); }
+    function currentSlide(n) { slideIndex = n; showSlide(slideIndex); resetAutoSlide(); }
+    function autoSlide() { const slides = document.getElementsByClassName('slide'); if (slideIndex >= slides.length) { clearInterval(slideInterval); return; } slideIndex++; showSlide(slideIndex); if (slideIndex >= slides.length) clearInterval(slideInterval); }
+    function resetAutoSlide() { clearInterval(slideInterval); const slides = document.getElementsByClassName('slide'); if (slideIndex < slides.length) slideInterval = setInterval(autoSlide, 14000); }
+    let touchStartX = 0, touchEndX = 0;
+    document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+    document.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+    function handleSwipe() { if (touchEndX < touchStartX - 50) changeSlide(1); if (touchEndX > touchStartX + 50) changeSlide(-1); }
+    document.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') changeSlide(-1); if (e.key === 'ArrowRight') changeSlide(1); });
+
+    // ====== Help Modal ======
+    function showHelpModal() {
+      const modal = document.createElement('div');
+      modal.className = 'help-modal';
+      modal.innerHTML = `
+        <div class="help-overlay" onclick="closeHelpModal()"></div>
+        <div class="help-content">
+          <div class="help-header">
+            <h2><i class=\"fas fa-question-circle\"></i> Help & Resources</h2>
+            <button class="help-close" onclick="closeHelpModal()"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="help-body">
+            <div class="help-section">
+              <h3><i class=\"fas fa-file-contract\"></i> Contract Process</h3>
+              <p>Our contract signing process is simple and secure:</p>
+              <ul class="help-list">
+                <li>Click "Sign Contract" to access our digital contract system</li>
+                <li>Fill in your personal information and project details</li>
+                <li>Create a secure password for your freelancer portal</li>
+                <li>Digitally sign the contract using your mouse or touch screen</li>
+                <li>Submit the contract - you'll receive a confirmation email</li>
+                <li>Admin will process your contract within 24 hours</li>
+              </ul>
+              <div class="help-tip"><h4>💡 Pro Tip</h4><p>Make sure to save your portal password! You'll need it to access your job details and contract status.</p></div>
+            </div>
+            <div class="help-section">
+              <h3><i class=\"fas fa-user-circle\"></i> User Portal Access</h3>
+              <p>Your personal freelancer portal provides:</p>
+              <ul class="help-list">
+                <li>View your current job assignments and project timeline</li>
+                <li>Check contract status and download signed contracts</li>
+                <li>Access project requirements and preparation checklists</li>
+                <li>Track payment status and project progress</li>
+                <li>Contact admin team for questions or support</li>
+              </ul>
+              <div class="help-tip"><h4>🔐 Login Info</h4><p>Use the email you provided during contract signing and the password you created.</p></div>
+            </div>
+            <div class="help-section">
+              <h3><i class=\"fas fa-briefcase\"></i> Working with Cochran Films</h3>
+              <p>Our requirements and expectations:</p>
+              <ul class="help-list">
+                <li>Arrive 15 minutes before your scheduled start time</li>
+                <li>Bring valid ID and your signed contract (digital copy is fine)</li>
+                <li>Wear all black professional attire (required)</li>
+                <li>Use provided Cochran Films branded gear (free)</li>
+                <li>Maintain professional demeanor throughout the project</li>
+                <li>Complete assigned tasks to high professional standards</li>
+                <li>Payment is processed within 24 hours of project completion</li>
+              </ul>
+            </div>
+            <div class="help-section">
+              <h3><i class=\"fas fa-phone\"></i> Need More Help?</h3>
+              <p>If you have questions or need assistance:</p>
+              <ul class="help-list">
+                <li>Email: <a href=\"mailto:info@cochranfilms.com\" style=\"color: #FFB200;\">info@cochranfilms.com</a></li>
+                <li>Phone: Available through email contact</li>
+                <li>Response time: Within 24 hours during business days</li>
+                <li>Emergency: For urgent project-related issues, include \"URGENT\" in subject line</li>
+              </ul>
+              <div class="help-tip"><h4>📧 Contact Best Practices</h4><p>Include your name, project details, and specific question when contacting us for faster assistance.</p></div>
+            </div>
+            <div class="help-section">
+              <h3><i class=\"fas fa-lightbulb\"></i> FAQ</h3>
+              <ul class="help-list">
+                <li><strong>Q: Can I change my password?</strong><br>A: Contact admin to reset your portal password.</li>
+                <li><strong>Q: What if I can't access the portal?</strong><br>A: Check your email and password, or contact admin for assistance.</li>
+                <li><strong>Q: How do I know my contract was received?</strong><br>A: You'll receive a confirmation email, and your portal status will update.</li>
+                <li><strong>Q: What equipment should I bring?</strong><br>A: Bring your own equipment unless specifically arranged otherwise.</li>
+                <li><strong>Q: What if I need to reschedule?</strong><br>A: Contact admin immediately with as much notice as possible.</li>
+              </ul>
+            </div>
+          </div>
+        </div>`;
+      document.body.appendChild(modal);
+      setTimeout(() => { modal.classList.add('show'); }, 10);
+    }
+    function closeHelpModal() {
+      const modal = document.querySelector('.help-modal');
+      if (modal) { modal.classList.add('hide'); setTimeout(() => { modal.remove(); }, 300); }
+    }
+
+    // ====== AI Gate (optional visual parity) ======
+    document.addEventListener('DOMContentLoaded', async function () {
+      // Load jobs from JSON
+      try { await loadJobs(); } catch (_) {}
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Slideshow init
+      showSlide(slideIndex);
+      slideInterval = setInterval(autoSlide, 14000);
+
+      // Hover polish
+      document.addEventListener('mouseover', function(e) {
+        const card = e.target.closest && e.target.closest('.job-card');
+        if (card) card.style.transform = 'translateY(-5px)';
+      });
+      document.addEventListener('mouseout', function(e) {
+        const card = e.target.closest && e.target.closest('.job-card');
+        if (card) card.style.transform = 'translateY(0)';
+      });
+
+      // Password gate removed
+      const fy = document.getElementById('footer-year');
+      if (fy) fy.textContent = `© ${new Date().getFullYear()}`;
+    });
+  </script>
+</body>
+</html>
+
+
