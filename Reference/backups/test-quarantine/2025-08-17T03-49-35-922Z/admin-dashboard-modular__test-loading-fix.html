@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Loading Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .console-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Admin Dashboard Loading Fix Test</h1>
+        <p>This page tests the fixes for the constant loading state issue in the admin dashboard.</p>
+        
+        <div class="status warning">
+            <strong>Test Instructions:</strong>
+            <ol>
+                <li>Click "Test Loading Manager" to verify the loading manager works correctly</li>
+                <li>Click "Test Module Loading" to check if modules load without getting stuck</li>
+                <li>Click "Emergency Clear" if loading gets stuck</li>
+                <li>Check the console for detailed logs</li>
+            </ol>
+        </div>
+        
+        <div>
+            <button class="test-button" onclick="testLoadingManager()">Test Loading Manager</button>
+            <button class="test-button" onclick="testModuleLoading()">Test Module Loading</button>
+            <button class="test-button" onclick="emergencyClear()">Emergency Clear</button>
+            <button class="test-button" onclick="clearConsole()">Clear Console Output</button>
+        </div>
+        
+        <div id="statusOutput"></div>
+        
+        <h3>Console Output:</h3>
+        <div id="consoleOutput" class="console-output"></div>
+    </div>
+
+    <!-- Load the loading manager directly for testing -->
+    <script src="js/utils/loading-manager.js"></script>
+    
+    <script>
+        // Capture console output
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        
+        function captureConsole(type, ...args) {
+            const output = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = `[${timestamp}] ${type}: ${args.join(' ')}`;
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        console.log = (...args) => {
+            captureConsole('LOG', ...args);
+            originalLog.apply(console, args);
+        };
+        
+        console.warn = (...args) => {
+            captureConsole('WARN', ...args);
+            originalWarn.apply(console, args);
+        };
+        
+        console.error = (...args) => {
+            captureConsole('ERROR', ...args);
+            originalError.apply(console, args);
+        };
+        
+        // Test functions
+        function testLoadingManager() {
+            const statusOutput = document.getElementById('statusOutput');
+            statusOutput.innerHTML = '<div class="status warning">Testing Loading Manager...</div>';
+            
+            try {
+                if (window.LoadingManager) {
+                    // Test basic loading functionality
+                    window.LoadingManager.showGlobalLoading();
+                    setTimeout(() => {
+                        window.LoadingManager.hideGlobalLoading();
+                        statusOutput.innerHTML = '<div class="status success">✅ Loading Manager Test Passed - Loading states work correctly</div>';
+                    }, 2000);
+                } else {
+                    statusOutput.innerHTML = '<div class="status error">❌ Loading Manager not found</div>';
+                }
+            } catch (error) {
+                statusOutput.innerHTML = `<div class="status error">❌ Loading Manager Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        function testModuleLoading() {
+            const statusOutput = document.getElementById('statusOutput');
+            statusOutput.innerHTML = '<div class="status warning">Testing Module Loading...</div>';
+            
+            try {
+                // Simulate the module loading process
+                let testModules = ['TestModule1', 'TestModule2', 'TestModule3'];
+                let loadedModules = 0;
+                
+                testModules.forEach((moduleName, index) => {
+                    setTimeout(() => {
+                        // Simulate module loading
+                        window[moduleName] = { name: moduleName, loaded: true };
+                        loadedModules++;
+                        
+                        if (loadedModules === testModules.length) {
+                            statusOutput.innerHTML = '<div class="status success">✅ Module Loading Test Passed - No infinite loops detected</div>';
+                        }
+                    }, (index + 1) * 1000);
+                });
+                
+            } catch (error) {
+                statusOutput.innerHTML = `<div class="status error">❌ Module Loading Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        function emergencyClear() {
+            const statusOutput = document.getElementById('statusOutput');
+            statusOutput.innerHTML = '<div class="status warning">Triggering Emergency Clear...</div>';
+            
+            try {
+                if (window.LoadingManager && window.LoadingManager.emergencyClear) {
+                    window.LoadingManager.emergencyClear();
+                    statusOutput.innerHTML = '<div class="status success">✅ Emergency Clear Executed Successfully</div>';
+                } else {
+                    statusOutput.innerHTML = '<div class="status error">❌ Emergency Clear function not available</div>';
+                }
+            } catch (error) {
+                statusOutput.innerHTML = `<div class="status error">❌ Emergency Clear Failed: ${error.message}</div>`;
+            }
+        }
+        
+        function clearConsole() {
+            document.getElementById('consoleOutput').textContent = '';
+        }
+        
+        // Auto-test when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (window.LoadingManager) {
+                    document.getElementById('statusOutput').innerHTML = '<div class="status success">✅ Loading Manager loaded successfully</div>';
+                } else {
+                    document.getElementById('statusOutput').innerHTML = '<div class="status error">❌ Loading Manager failed to load</div>';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

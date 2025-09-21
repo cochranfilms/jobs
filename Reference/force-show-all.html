@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Show All - Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .version-section { margin: 30px 0; padding: 20px; border: 3px solid #333; }
+        .mobile-section { background: #f0f8ff; border-color: #0066cc; }
+        .desktop-section { background: #fff8f0; border-color: #cc6600; }
+        .section-title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        img { max-width: 300px; height: auto; border: 2px solid #ddd; margin: 10px; }
+        .image-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Force Show All - Debug Mode</h1>
+    <p>This page forces both mobile and desktop versions to show simultaneously for debugging.</p>
+    
+    <div class="version-section mobile-section">
+        <div class="section-title">📱 Mobile Version Images</div>
+        <div class="image-grid">
+            <div>
+                <h3>Professional Photography</h3>
+                <img src="professional-photography.jpg" alt="Professional Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Brand Photography</h3>
+                <img src="brand-photography.jpg" alt="Brand Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Corporate Events</h3>
+                <img src="corporate-events.jpg" alt="Corporate Events" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>On-Site Printing</h3>
+                <img src="on-site-printing.jpg" alt="On-Site Printing" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Professional Headshots</h3>
+                <img src="professional-headshots.jpg" alt="Professional Headshots" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Product Photography</h3>
+                <img src="product-photography.jpg" alt="Product Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Wedding Photography</h3>
+                <img src="wedding-photography.jpg" alt="Wedding Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Instant Prints</h3>
+                <img src="instant-prints.jpg" alt="Instant Prints" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Fashion Photography</h3>
+                <img src="fashion-photography.jpg" alt="Fashion Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="version-section desktop-section">
+        <div class="section-title">🖥️ Desktop Version Images</div>
+        <div class="image-grid">
+            <div>
+                <h3>Fashion Photography (Desktop)</h3>
+                <img src="fashion-photography.jpg" alt="Fashion Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Professional Photography (Desktop)</h3>
+                <img src="professional-photography.jpg" alt="Professional Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+            
+            <div>
+                <h3>Brand Photography (Desktop)</h3>
+                <img src="brand-photography.jpg" alt="Brand Photography" onload="this.nextElementSibling.innerHTML='✅ Loaded'" onerror="this.nextElementSibling.innerHTML='❌ Failed'">
+                <div class="status">Loading...</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="version-section">
+        <div class="section-title">🔍 Debug Information</div>
+        <p><strong>Screen Width:</strong> <span id="screenWidth"></span>px</p>
+        <p><strong>Window Inner Width:</strong> <span id="innerWidth"></span>px</p>
+        <p><strong>Device Type:</strong> <span id="deviceType"></span></p>
+        <p><strong>Images Loaded:</strong> <span id="loadedCount">0</span> / <span id="totalCount">0</span></p>
+        <p><strong>Failed Images:</strong> <span id="failedCount">0</span></p>
+    </div>
+    
+    <script>
+        // Display screen info
+        document.getElementById('screenWidth').textContent = screen.width;
+        document.getElementById('innerWidth').textContent = window.innerWidth;
+        document.getElementById('deviceType').textContent = window.innerWidth <= 768 ? 'Mobile' : 'Desktop';
+        
+        // Track image loading
+        let loadedCount = 0;
+        let failedCount = 0;
+        const totalImages = document.querySelectorAll('img').length;
+        
+        document.getElementById('totalCount').textContent = totalImages;
+        
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', () => {
+                loadedCount++;
+                document.getElementById('loadedCount').textContent = loadedCount;
+                console.log(`✅ Image loaded: ${img.src}`);
+                
+                if (loadedCount + failedCount === totalImages) {
+                    console.log(`🎉 All images processed! Loaded: ${loadedCount}, Failed: ${failedCount}`);
+                }
+            });
+            
+            img.addEventListener('error', () => {
+                failedCount++;
+                document.getElementById('failedCount').textContent = failedCount;
+                console.log(`❌ Image failed to load: ${img.src}`);
+                
+                if (loadedCount + failedCount === totalImages) {
+                    console.log(`🎉 All images processed! Loaded: ${loadedCount}, Failed: ${failedCount}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

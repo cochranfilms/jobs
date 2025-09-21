@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Template - DEPRECATED | Cochran Films</title>
+    <!-- 
+    ===============================================================================
+    🚨 IMPORTANT NOTICE: This template is now DEPRECATED! 
+    ===============================================================================
+    
+    The new digital signing system uses contract.html as a universal portal where:
+    ✅ Freelancers verify their identity
+    ✅ View their contract details dynamically
+    ✅ Sign contracts digitally with email notifications
+    ✅ Download signed PDFs instantly
+    
+    Benefits of the new system:
+    - No more individual HTML files needed for each freelancer
+    - Automatic email notifications when contracts are signed
+    - Digital signature validation and verification
+    - Single portal handles everything (contract.html)
+    - Real-time contract generation based on freelancer data
+    
+    To use the new system:
+    1. Add freelancers to admin-dashboard.html
+    2. Export freelancers.json to your server
+    3. Configure EmailJS in contract.html for notifications
+    4. Share contract.html link with freelancers
+    
+    This file is kept for reference only and should not be used for new contracts.
+    ===============================================================================
+    -->
+    <style>
+        :root {
+            --primary: #FFB200;
+            --primary-dark: #FF9000;
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --gray-dark: #343a40;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--white);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--black);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: linear-gradient(135deg, var(--black) 0%, #1a1a1a 100%);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            padding: 40px;
+            line-height: 1.6;
+            border: 1px solid rgba(255, 178, 0, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #FFB200;
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+        }
+        
+        .logo img {
+            width: 200px;
+            height: auto;
+        }
+        
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--white);
+            margin: 25px 0 15px 0;
+            border-left: 4px solid var(--primary);
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-family: Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--white);
+            margin: 20px 0 10px 0;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: var(--white);
+        }
+        
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: var(--white);
+        }
+        
+        .project-info {
+            background: rgba(255, 178, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary);
+            border: 1px solid rgba(255, 178, 0, 0.3);
+        }
+        
+        .project-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .project-info li {
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .project-info li:last-child {
+            border-bottom: none;
+        }
+        
+        .signature-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(255, 178, 0, 0.3);
+        }
+        
+        .signature-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 30px;
+        }
+        
+        .signature-party {
+            flex: 1;
+            padding: 20px;
+            background: rgba(255, 178, 0, 0.1);
+            border-radius: 8px;
+            border: 2px solid rgba(255, 178, 0, 0.3);
+            color: var(--white);
+        }
+        
+        .signature-line {
+            border-bottom: 2px solid var(--primary);
+            height: 30px;
+            margin-top: 10px;
+        }
+        
+        .action-buttons {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 178, 0, 0.3);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
+            color: var(--black);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 178, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 178, 0, 0.2);
+            color: var(--white);
+            border: 1px solid rgba(255, 178, 0, 0.5);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 178, 0, 0.3);
+            border-color: var(--primary);
+        }
+        
+        .signature-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid rgba(255, 178, 0, 0.5);
+            border-radius: 4px;
+            margin-top: 5px;
+            font-family: cursive;
+            background: rgba(255, 178, 0, 0.1);
+            color: var(--white);
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid rgba(255, 178, 0, 0.5);
+            border-radius: 4px;
+            margin-top: 5px;
+            background: rgba(255, 178, 0, 0.1);
+            color: var(--white);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .signature-box {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://static.wixstatic.com/media/aeef42_d31420a75a164d2cb4508bdd7d99ca88~mv2.png" alt="Cochran Films Logo">
+            </div>
+            <h1>📄 Freelance Agreement</h1>
+            <p><strong>Issued By:</strong> Cochran Films<br>
+            <strong>Effective Date:</strong> [EFFECTIVE_DATE]</p>
+        </div>
+
+        <h2>📌 Project Overview</h2>
+        <p>
+            This agreement is entered into between <strong>Cochran Films</strong>, a media production company based in Georgia, and <strong>[FREELANCER_NAME]</strong>, hereinafter referred to as the "Contractor."
+        </p>
+        
+        <div class="project-info">
+            <ul>
+                <li><strong>Role:</strong> [ROLE]</li>
+                <li><strong>Location:</strong> [LOCATION]</li>
+                <li><strong>Project Start:</strong> [PROJECT_START]</li>
+                <li><strong>Rate:</strong> [RATE]</li>
+            </ul>
+        </div>
+
+        <h2>✅ Contractor Responsibilities</h2>
+        <ul>
+            <li>Arrive at the project location on time.</li>
+            <li>Professionally manage their assigned role and responsibilities.</li>
+            <li>Complete the job to professional standards.</li>
+            <li>Use personal equipment unless otherwise arranged.</li>
+            <li>Maintain a respectful demeanor with staff and clients.</li>
+        </ul>
+
+        <h2>📸 BTS Content & Ownership</h2>
+        <p>
+            The Contractor may freely take and share BTS content. Cochran Films may repost with credit. Content ownership remains with the Contractor.
+        </p>
+
+        <h2>💵 Payment Terms</h2>
+        <p>
+            Payment of [RATE] will be made no later than 24 hours after the event by the agreed method (Zelle, PayPal, etc.).
+        </p>
+
+        <h2>🛡️ Independent Contractor</h2>
+        <p>
+            The Contractor is not an employee. No taxes or benefits will be withheld. Contractor handles all personal tax obligations and transportation.
+        </p>
+
+        <h2>📝 Agreement</h2>
+        <p>By continuing, the Contractor agrees to the above terms. A physical or digital signature may be collected separately.</p>
+
+        <div class="signature-section">
+            <h3>Contractor Signature</h3>
+            
+            <div class="signature-box">
+                <div class="signature-party">
+                    <strong>Contractor:</strong><br>
+                    Name: [FREELANCER_NAME]<br>
+                    <input type="text" class="signature-input" id="contractorSignature" placeholder="Type your full name to sign" required>
+                    <input type="date" class="date-input" id="contractorDate" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" id="signButton" onclick="signContract()">✍️ Sign Contract</button>
+            <button class="btn btn-secondary" id="downloadButton" onclick="downloadPDF()" style="display: none;">📄 Download PDF</button>
+        </div>
+    </div>
+
+    <!-- Using browser's built-in print-to-PDF instead of html2pdf.js -->
+    <script>
+        // Contract data - REPLACE THESE VALUES FOR EACH FREELANCER
+        const contractData = {
+            freelancerName: "[FREELANCER_NAME]",
+            role: "[ROLE]",
+            location: "[LOCATION]",
+            projectStart: "[PROJECT_START]",
+            rate: "[RATE]",
+            effectiveDate: "[EFFECTIVE_DATE]"
+        };
+        
+        function signContract() {
+            const contractorSignature = document.getElementById('contractorSignature').value.trim();
+            const contractorDate = document.getElementById('contractorDate').value;
+            
+            if (!contractorSignature || !contractorDate) {
+                alert('Please fill in your signature and date to sign the contract.');
+                return;
+            }
+            
+            // Validate signature (should be full name)
+            if (contractorSignature.length < 3) {
+                alert('Please enter your full name as your signature.');
+                return;
+            }
+            
+            // Mark contract as signed
+            document.body.classList.add('signed');
+            
+            // Update sign button
+            const signButton = document.getElementById('signButton');
+            signButton.textContent = '✅ Contract Signed';
+            signButton.style.background = '#28a745';
+            signButton.disabled = true;
+            
+            // Show download button
+            const downloadButton = document.getElementById('downloadButton');
+            downloadButton.style.display = 'inline-block';
+            
+            // Add signature to the contract display
+            const signatureInput = document.getElementById('contractorSignature');
+            signatureInput.style.fontFamily = 'cursive';
+            signatureInput.style.color = '#000';
+            signatureInput.readOnly = true;
+            
+            alert('Contract signed successfully! You can now download the signed PDF or print the contract.');
+        }
+        
+        function downloadPDF() {
+            const contractorSignature = document.getElementById('contractorSignature').value.trim();
+            const contractorDate = document.getElementById('contractorDate').value;
+            
+            if (!contractorSignature || !contractorDate) {
+                alert('Please sign the contract first before downloading.');
+                return;
+            }
+            
+            console.log('Opening print dialog for signed PDF generation - Template Contract');
+
+            // Show loading state
+            const downloadBtn = document.getElementById('downloadButton');
+            const originalText = downloadBtn.textContent;
+            downloadBtn.textContent = '📄 Opening Print Dialog...';
+            downloadBtn.disabled = true;
+            downloadBtn.style.opacity = '0.7';
+
+            try {
+                // Create the signed contract HTML content
+                const contractHTML = createSignedContractHTML(contractorSignature, contractorDate);
+                
+                // Open new window with contract content
+                const printWindow = window.open('', '_blank', 'width=800,height=1000');
+                
+                if (!printWindow) {
+                    throw new Error('Pop-up blocked. Please allow pop-ups for this site and try again.');
+                }
+
+                // Write contract content to new window
+                printWindow.document.write(contractHTML);
+                printWindow.document.close();
+
+                // Wait for content to load, then trigger print
+                printWindow.onload = function() {
+                    // Small delay to ensure everything is rendered
+                    setTimeout(() => {
+                        printWindow.focus();
+                        printWindow.print();
+                        
+                        // Reset button after print dialog opens
+                        downloadBtn.textContent = originalText;
+                        downloadBtn.disabled = false;
+                        downloadBtn.style.opacity = '1';
+                        
+                        // Close the window after a delay (user might still be in print dialog)
+                        setTimeout(() => {
+                            try {
+                                printWindow.close();
+                            } catch (e) {
+                                // Window might already be closed by user
+                            }
+                        }, 2000);
+                    }, 500);
+                };
+
+                // Handle case where onload doesn't fire
+                setTimeout(() => {
+                    if (downloadBtn.disabled) {
+                        downloadBtn.textContent = originalText;
+                        downloadBtn.disabled = false;
+                        downloadBtn.style.opacity = '1';
+                    }
+                }, 3000);
+
+            } catch (error) {
+                console.error('Error in signed PDF generation:', error);
+                downloadBtn.textContent = originalText;
+                downloadBtn.disabled = false;
+                downloadBtn.style.opacity = '1';
+                alert('❌ Signed PDF generation failed: ' + error.message);
+            }
+        }
+        
+        // Create complete HTML document for signed contract print/PDF  
+        function createSignedContractHTML(contractorSignature, contractorDate) {
+            // Get admin signature date (today's date)
+            const adminDate = new Date().toISOString().split('T')[0];
+            
+            return `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>SIGNED Freelance Agreement - ${contractData.freelancerName}</title>
+                <style>
+                    @page {
+                        margin: 0.5in;
+                        size: letter;
+                    }
+                    
+                    @media print {
+                        body {
+                            margin: 0;
+                            padding: 0;
+                            -webkit-print-color-adjust: exact;
+                            color-adjust: exact;
+                        }
+                    }
+                    
+                    body {
+                        font-family: Arial, sans-serif;
+                        line-height: 1.6;
+                        color: #ffffff;
+                        background-color: #000000;
+                        margin: 0;
+                        padding: 20px;
+                        -webkit-print-color-adjust: exact;
+                        color-adjust: exact;
+                    }
+                    
+                    .container {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+                        padding: 40px;
+                        border-radius: 12px;
+                        border: 1px solid #FFB200;
+                    }
+                    
+                    .header {
+                        text-align: center;
+                        margin-bottom: 30px;
+                        padding-bottom: 20px;
+                        border-bottom: 2px solid #FFB200;
+                    }
+                    
+                    .logo {
+                        width: 200px;
+                        height: auto;
+                        margin-bottom: 20px;
+                    }
+                    
+                    h1 {
+                        font-size: 28px;
+                        color: #FFB200;
+                        margin-bottom: 10px;
+                        font-weight: 700;
+                    }
+                    
+                    h2 {
+                        font-size: 24px;
+                        color: #ffffff;
+                        margin: 25px 0 15px 0;
+                        border-left: 4px solid #FFB200;
+                        padding-left: 15px;
+                        font-weight: 600;
+                    }
+                    
+                    h3 {
+                        font-size: 20px;
+                        color: #ffffff;
+                        margin: 20px 0 10px 0;
+                        font-weight: 600;
+                    }
+                    
+                    p {
+                        margin-bottom: 15px;
+                        color: #ffffff;
+                    }
+                    
+                    ul {
+                        margin: 15px 0;
+                        padding-left: 20px;
+                    }
+                    
+                    li {
+                        margin-bottom: 8px;
+                        color: #ffffff;
+                    }
+                    
+                    .project-info {
+                        background: rgba(255, 178, 0, 0.1);
+                        padding: 20px;
+                        border-radius: 8px;
+                        margin: 20px 0;
+                        border-left: 4px solid #FFB200;
+                        border: 1px solid rgba(255, 178, 0, 0.3);
+                    }
+                    
+                    .project-info ul {
+                        list-style: none;
+                        padding-left: 0;
+                    }
+                    
+                    .project-info li {
+                        margin-bottom: 10px;
+                        padding: 8px 0;
+                        border-bottom: 1px solid rgba(255, 178, 0, 0.2);
+                    }
+                    
+                    .project-info li:last-child {
+                        border-bottom: none;
+                    }
+                    
+                    .signatures {
+                        margin-top: 40px;
+                        padding-top: 30px;
+                        border-top: 2px solid rgba(255, 178, 0, 0.3);
+                        page-break-inside: avoid;
+                    }
+                    
+                    .signature-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 20px;
+                        gap: 30px;
+                    }
+                    
+                    .signature-box {
+                        flex: 1;
+                        padding: 20px;
+                        background: rgba(255, 178, 0, 0.1);
+                        border-radius: 8px;
+                        border: 2px solid rgba(255, 178, 0, 0.3);
+                    }
+                    
+                    .signature-text {
+                        font-family: 'Brush Script MT', cursive, 'Lucida Handwriting', serif;
+                        font-size: 18px;
+                        color: #FFB200;
+                        margin-top: 15px;
+                        padding: 10px 0;
+                        border-bottom: 2px solid #FFB200;
+                    }
+                    
+                    .signature-date {
+                        font-family: 'Brush Script MT', cursive, 'Lucida Handwriting', serif;
+                        font-size: 18px;
+                        color: #FFB200;
+                        margin-top: 5px;
+                    }
+                    
+                    .signed-status {
+                        background: rgba(0, 255, 0, 0.2);
+                        border: 2px solid #00ff00;
+                        padding: 15px;
+                        text-align: center;
+                        margin: 20px 0;
+                        border-radius: 8px;
+                    }
+                    
+                    .signed-status h2 {
+                        color: #00ff00;
+                        margin: 0;
+                        border: none;
+                        padding: 0;
+                    }
+                    
+                    @media (max-width: 600px) {
+                        .signature-row {
+                            flex-direction: column;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <img src="https://static.wixstatic.com/media/aeef42_d31420a75a164d2cb4508bdd7d99ca88~mv2.png" alt="Cochran Films Logo" class="logo">
+                        <h1>📄 Freelance Agreement</h1>
+                        <p><strong>Issued By:</strong> Cochran Films<br>
+                        <strong>Effective Date:</strong> ${contractData.effectiveDate}</p>
+                    </div>
+
+                    <div class="signed-status">
+                        <h2>✅ DIGITALLY SIGNED CONTRACT</h2>
+                        <p>This contract has been digitally signed by both parties</p>
+                    </div>
+
+                    <h2>📌 Project Overview</h2>
+                    <p>
+                        This agreement is entered into between <strong>Cochran Films</strong>, a media production company based in Georgia, and <strong>${contractData.freelancerName}</strong>, hereinafter referred to as the "Contractor."
+                    </p>
+                    
+                    <div class="project-info">
+                        <ul>
+                            <li><strong>Role:</strong> ${contractData.role}</li>
+                            <li><strong>Location:</strong> ${contractData.location}</li>
+                            <li><strong>Project Start:</strong> ${contractData.projectStart}</li>
+                            <li><strong>Rate:</strong> ${contractData.rate}</li>
+                        </ul>
+                    </div>
+
+                    <h2>✅ Contractor Responsibilities</h2>
+                    <ul>
+                        <li>Arrive at the project location on time.</li>
+                        <li>Professionally manage their assigned role and responsibilities.</li>
+                        <li>Complete the job to professional standards.</li>
+                        <li>Use personal equipment unless otherwise arranged.</li>
+                        <li>Maintain a respectful demeanor with staff and clients.</li>
+                        <li>Wear our company-branded shirt, hat, OR whatever piece of branded gear is asked of you for the duration of the project. (This will be provided to you at no charge)</li>
+                        <li>Wear all black regardless of what branded gear is given to you on the day of the shoot.</li>
+                    </ul>
+
+                    <h2>📸 BTS Content & Ownership</h2>
+                    <p>
+                        The Contractor may freely take and share BTS content. Cochran Films may repost with credit. Content ownership remains with the Contractor.
+                    </p>
+
+                    <h2>💵 Payment Terms</h2>
+                    <p>
+                        Payment of ${contractData.rate} will be made no later than 24 hours after the event by the agreed method (Zelle, PayPal, etc.).
+                    </p>
+
+                    <h2>🛡️ Independent Contractor</h2>
+                    <p>
+                        The Contractor is not an employee. No taxes or benefits will be withheld. Contractor handles all personal tax obligations and transportation.
+                    </p>
+
+                    <h2>📝 Agreement</h2>
+                    <p>By continuing, the Contractor agrees to the above terms. A physical or digital signature may be collected separately.</p>
+
+                    <div class="signatures">
+                        <h3>✍️ Digital Signatures</h3>
+                        
+                        <div class="signature-row">
+                            <div class="signature-box">
+                                <strong>Cochran Films Representative:</strong><br>
+                                Name: Cody Cochran<br>
+                                Title: Founder, Cochran Films<br>
+                                <div class="signature-text">Signature: Cody Cochran</div>
+                                <div class="signature-date">Date: ${adminDate}</div>
+                            </div>
+                            
+                            <div class="signature-box">
+                                <strong>Contractor:</strong><br>
+                                Name: ${contractData.freelancerName}<br>
+                                <div class="signature-text">Signature: ${contractorSignature}</div>
+                                <div class="signature-date">Date: ${contractorDate}</div>
+                            </div>
+                        </div>
+                        
+                        <p style="text-align: center; margin-top: 30px; color: rgba(255,255,255,0.8); font-size: 14px;">
+                            ✅ This is a <strong>SIGNED</strong> copy with digital signatures from both parties.<br>
+                            Generated on: ${new Date().toLocaleDateString()}
+                        </p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            `;
+        }
+        
+        // Set today's date as default
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('contractorDate').value = today;
+        });
+        
+        // Add real-time validation
+        document.getElementById('contractorSignature').addEventListener('input', function() {
+            const signature = this.value.trim();
+            const signButton = document.getElementById('signButton');
+            
+            if (signature.length >= 3) {
+                signButton.disabled = false;
+            } else {
+                signButton.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modular System Fixes Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .test-result.success { background: #d4edda; color: #155724; }
+        .test-result.error { background: #f8d7da; color: #721c24; }
+        .test-result.warning { background: #fff3cd; color: #856404; }
+        .test-result.info { background: #d1ecf1; color: #0c5460; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .console-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-indicator.success { background: #28a745; }
+        .status-indicator.error { background: #dc3545; }
+        .status-indicator.warning { background: #ffc107; }
+        .status-indicator.info { background: #17a2b8; }
+        .loading {
+            color: #6c757d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Modular System Fixes Test</h1>
+    <p>This page tests the fixes for critical modular system issues including safetyTimeout, EmailJS, and Firebase authentication conflicts.</p>
+
+    <div class="test-section">
+        <h2>📋 Test Controls</h2>
+        <button onclick="loadModularSystem()">🚀 Load Modular System</button>
+        <button onclick="runAllTests()">🧪 Run All Tests</button>
+        <button onclick="clearResults()">🗑️ Clear Results</button>
+        <button onclick="testSafetyTimeout()">⏰ Test Safety Timeout</button>
+        <button onclick="testEmailJS()">📧 Test EmailJS</button>
+        <button onclick="testFirebaseConfig()">🔥 Test Firebase Config</button>
+        <button onclick="testAuthManager()">🔐 Test Auth Manager</button>
+        <button onclick="checkDuplicateListeners()">👂 Check Duplicate Listeners</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Test Results</h2>
+        <div id="testResults"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Console Output</h2>
+        <div id="consoleOutput" class="console-output"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 System Status</h2>
+        <div id="systemStatus">
+            <p class="loading">Modular system not loaded yet. Click "Load Modular System" to begin.</p>
+        </div>
+    </div>
+
+    <!-- Load Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+    <!-- Load EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script>
+        // Capture console output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        const originalInfo = console.info;
+
+        function captureConsole(type, ...args) {
+            const output = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = `[${timestamp}] ${type.toUpperCase()}: ${args.join(' ')}\n`;
+            output.textContent += message;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        console.log = (...args) => {
+            captureConsole('log', ...args);
+            originalLog.apply(console, args);
+        };
+
+        console.error = (...args) => {
+            captureConsole('error', ...args);
+            originalError.apply(console, args);
+        };
+
+        console.warn = (...args) => {
+            captureConsole('warn', ...args);
+            originalWarn.apply(console, args);
+        };
+
+        console.info = (...args) => {
+            captureConsole('info', ...args);
+            originalInfo.apply(console, args);
+        };
+
+        // Test functions
+        function addTestResult(testName, status, message) {
+            const results = document.getElementById('testResults');
+            const statusClass = status === 'success' ? 'success' : 
+                              status === 'error' ? 'error' : 
+                              status === 'warning' ? 'warning' : 'info';
+            
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${statusClass}`;
+            resultDiv.innerHTML = `
+                <span class="status-indicator ${statusClass}"></span>
+                <strong>${testName}:</strong> ${message}
+            `;
+            results.appendChild(resultDiv);
+        }
+
+        function updateSystemStatus(message, type = 'info') {
+            const status = document.getElementById('systemStatus');
+            const statusClass = type === 'success' ? 'success' : 
+                              type === 'error' ? 'error' : 
+                              type === 'warning' ? 'warning' : 'info';
+            
+            status.innerHTML = `<p class="test-result ${statusClass}">
+                <span class="status-indicator ${statusClass}"></span>
+                <strong>System Status:</strong> ${message}
+            </p>`;
+        }
+
+        async function loadModularSystem() {
+            console.log('🚀 Loading Modular System...');
+            updateSystemStatus('Loading modular system components...', 'info');
+            
+            try {
+                // Load Firebase config first
+                console.log('📁 Loading Firebase configuration...');
+                const firebaseConfigResponse = await fetch('firebase-config.js');
+                if (firebaseConfigResponse.ok) {
+                    const firebaseConfigScript = document.createElement('script');
+                    firebaseConfigScript.src = 'firebase-config.js';
+                    document.head.appendChild(firebaseConfigScript);
+                    
+                    // Wait for Firebase config to load
+                    await new Promise((resolve) => {
+                        firebaseConfigScript.onload = resolve;
+                    });
+                    console.log('✅ Firebase configuration loaded');
+                }
+
+                // Load modular system components
+                const components = [
+                    'admin-dashboard-modular/js/utils/error-handler.js',
+                    'admin-dashboard-modular/js/utils/loading-manager.js',
+                    'admin-dashboard-modular/js/utils/notification-manager.js',
+                    'admin-dashboard-modular/js/config/firebase-config.js',
+                    'admin-dashboard-modular/js/auth/auth-manager.js',
+                    'admin-dashboard-modular/js/app.js'
+                ];
+
+                for (const component of components) {
+                    console.log(`📁 Loading component: ${component}`);
+                    const response = await fetch(component);
+                    if (response.ok) {
+                        const script = document.createElement('script');
+                        script.src = component;
+                        document.head.appendChild(script);
+                        
+                        // Wait for script to load
+                        await new Promise((resolve) => {
+                            script.onload = resolve;
+                        });
+                        console.log(`✅ ${component} loaded`);
+                    } else {
+                        console.warn(`⚠️ Failed to load ${component}: ${response.status}`);
+                    }
+                }
+
+                // Wait a bit for everything to initialize
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                console.log('✅ Modular system loading complete');
+                updateSystemStatus('Modular system loaded successfully!', 'success');
+                
+                // Auto-run tests after loading
+                setTimeout(runAllTests, 500);
+                
+            } catch (error) {
+                console.error('❌ Failed to load modular system:', error);
+                updateSystemStatus(`Failed to load modular system: ${error.message}`, 'error');
+            }
+        }
+
+        function testSafetyTimeout() {
+            console.log('🧪 Testing Safety Timeout Fix...');
+            
+            try {
+                if (typeof AdminDashboardApp !== 'undefined') {
+                    console.log('✅ AdminDashboardApp found');
+                    if (AdminDashboardApp.safetyTimeout !== undefined) {
+                        console.log('✅ safetyTimeout property exists');
+                        addTestResult('Safety Timeout', 'success', 'AdminDashboardApp.safetyTimeout property exists and is properly defined');
+                    } else {
+                        console.log('❌ safetyTimeout property missing');
+                        addTestResult('Safety Timeout', 'error', 'safetyTimeout property missing from AdminDashboardApp');
+                    }
+                } else {
+                    console.log('⚠️ AdminDashboardApp not loaded yet');
+                    addTestResult('Safety Timeout', 'warning', 'AdminDashboardApp not loaded yet - load modular system first');
+                }
+            } catch (error) {
+                console.error('❌ Safety timeout test failed:', error);
+                addTestResult('Safety Timeout', 'error', `Test failed with error: ${error.message}`);
+            }
+        }
+
+        function testEmailJS() {
+            console.log('🧪 Testing EmailJS Test Function...');
+            
+            try {
+                if (typeof testEmailJS === 'function') {
+                    console.log('✅ testEmailJS function exists');
+                    
+                    // Check if testParams is properly defined in the function
+                    const functionStr = testEmailJS.toString();
+                    if (functionStr.includes('const testParams = {')) {
+                        console.log('✅ testParams properly defined in function');
+                        addTestResult('EmailJS Test Function', 'success', 'testEmailJS function exists with properly defined testParams');
+                    } else {
+                        console.log('❌ testParams not properly defined');
+                        addTestResult('EmailJS Test Function', 'error', 'testParams not properly defined in testEmailJS function');
+                    }
+                } else {
+                    console.log('⚠️ testEmailJS function not found (may not be loaded yet)');
+                    addTestResult('EmailJS Test Function', 'warning', 'testEmailJS function not found - may need to wait for page load');
+                }
+            } catch (error) {
+                console.error('❌ EmailJS test function check failed:', error);
+                addTestResult('EmailJS Test Function', 'error', `Test failed with error: ${error.message}`);
+            }
+        }
+
+        function testFirebaseConfig() {
+            console.log('🧪 Testing Firebase Configuration...');
+            
+            try {
+                if (window.FirebaseConfig) {
+                    console.log('✅ FirebaseConfig found');
+                    
+                    if (typeof window.FirebaseConfig.waitForInit === 'function') {
+                        console.log('✅ waitForInit method exists');
+                        addTestResult('Firebase Configuration', 'success', 'FirebaseConfig found with waitForInit method');
+                    } else {
+                        console.log('❌ waitForInit method missing');
+                        addTestResult('Firebase Configuration', 'error', 'waitForInit method missing from FirebaseConfig');
+                    }
+                    
+                    if (window.FirebaseConfig.isInitialized) {
+                        console.log('✅ Firebase is initialized');
+                        addTestResult('Firebase Status', 'success', 'Firebase is properly initialized');
+                    } else {
+                        console.log('⚠️ Firebase not yet initialized');
+                        addTestResult('Firebase Status', 'warning', 'Firebase not yet initialized - may need to wait');
+                    }
+                } else {
+                    console.log('⚠️ FirebaseConfig not loaded yet');
+                    addTestResult('Firebase Configuration', 'warning', 'FirebaseConfig not loaded yet - load modular system first');
+                }
+            } catch (error) {
+                console.error('❌ Firebase configuration check failed:', error);
+                addTestResult('Firebase Configuration', 'error', `Test failed with error: ${error.message}`);
+            }
+        }
+
+        function testAuthManager() {
+            console.log('🧪 Testing Auth Manager Configuration...');
+            
+            try {
+                if (window.AuthManager) {
+                    console.log('✅ AuthManager found');
+                    
+                    if (window.AuthManager.isHandlingAuth !== undefined) {
+                        console.log('✅ isHandlingAuth property exists');
+                        addTestResult('Auth Manager', 'success', 'AuthManager found with isHandlingAuth property');
+                    } else {
+                        console.log('❌ isHandlingAuth property missing');
+                        addTestResult('Auth Manager', 'error', 'isHandlingAuth property missing from AuthManager');
+                    }
+                } else {
+                    console.log('⚠️ AuthManager not loaded yet');
+                    addTestResult('Auth Manager', 'warning', 'AuthManager not loaded yet - load modular system first');
+                }
+            } catch (error) {
+                console.error('❌ AuthManager check failed:', error);
+                addTestResult('Auth Manager', 'error', `Test failed with error: ${error.message}`);
+            }
+        }
+
+        function checkDuplicateListeners() {
+            console.log('🔍 Checking for Duplicate Auth Listeners...');
+            
+            // This is a manual check - look for multiple onAuthStateChanged calls in console
+            console.log('🔍 Check console for multiple "Firebase auth state observer setup complete" messages');
+            console.log('🔍 Should see only one auth setup message per component');
+            
+            addTestResult('Duplicate Listeners', 'info', 'Manual check required - monitor console for multiple auth setup messages');
+        }
+
+        function runAllTests() {
+            console.log('🚀 Running All Tests...');
+            clearResults();
+            
+            // Run tests with slight delays to ensure proper loading
+            setTimeout(testSafetyTimeout, 100);
+            setTimeout(testEmailJS, 200);
+            setTimeout(testFirebaseConfig, 300);
+            setTimeout(testAuthManager, 400);
+            setTimeout(checkDuplicateListeners, 500);
+        }
+
+        function clearResults() {
+            document.getElementById('testResults').innerHTML = '';
+            document.getElementById('consoleOutput').textContent = '';
+        }
+
+        // Auto-load modular system when page loads
+        window.addEventListener('load', () => {
+            console.log('🧪 Page loaded, ready to test modular system fixes...');
+            console.log('💡 Click "Load Modular System" to begin testing');
+        });
+    </script>
+</body>
+</html>

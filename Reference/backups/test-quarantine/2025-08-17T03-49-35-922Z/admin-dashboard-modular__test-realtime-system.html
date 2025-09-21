@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time System Test | Cochran Films</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://static.wixstatic.com/media/aeef42_570164eee75f4394a4fc1cf9c62ceae0~mv2.png" type="image/png">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-section h2 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 1rem;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .status-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 178, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .status-card .status {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-card .label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .status-success { color: #22c55e; }
+        .status-warning { color: #f59e0b; }
+        .status-error { color: #ef4444; }
+        .status-info { color: #3b82f6; }
+        
+        .test-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FFB200, #FF9000);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .log-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .log-entry.info { color: #3b82f6; }
+        .log-entry.success { color: #22c55e; }
+        .log-entry.warning { color: #f59e0b; }
+        .log-entry.error { color: #ef4444; }
+        
+        .data-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 178, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .data-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-section">
+            <h1 style="text-align: center; color: #FFB200; font-family: 'Cinzel', serif; margin-bottom: 2rem;">
+                🚀 Real-Time System Test
+            </h1>
+            <p style="text-align: center; margin-bottom: 2rem; opacity: 0.8;">
+                Testing the real-time data synchronization between JSON and Firebase Firestore
+            </p>
+        </div>
+
+        <!-- System Status -->
+        <div class="test-section">
+            <h2>📊 System Status</h2>
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status" id="firebaseStatus">⏳</div>
+                    <div class="label">Firebase Auth</div>
+                </div>
+                <div class="status-card">
+                    <div class="status" id="firestoreStatus">⏳</div>
+                    <div class="label">Firestore</div>
+                </div>
+                <div class="status-card">
+                    <div class="status" id="realtimeStatus">⏳</div>
+                    <div class="label">Real-Time Manager</div>
+                </div>
+                <div class="status-card">
+                    <div class="status" id="migrationStatus">⏳</div>
+                    <div class="label">Migration Utility</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Controls -->
+        <div class="test-section">
+            <h2>🎮 Test Controls</h2>
+            <div class="test-controls">
+                <button class="btn btn-primary" onclick="testFirebaseConnection()">
+                    🔥 Test Firebase
+                </button>
+                <button class="btn btn-secondary" onclick="testFirestoreConnection()">
+                    📊 Test Firestore
+                </button>
+                <button class="btn btn-success" onclick="testRealtimeManager()">
+                    🔄 Test Real-Time
+                </button>
+                <button class="btn btn-primary" onclick="startDataMigration()">
+                    🚀 Start Migration
+                </button>
+                <button class="btn btn-danger" onclick="clearLogs()">
+                    🗑️ Clear Logs
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Display -->
+        <div class="test-section">
+            <h2>📋 Data Display</h2>
+            <div class="data-display" id="dataDisplay">
+                <div style="text-align: center; opacity: 0.6; padding: 2rem;">
+                    No data loaded yet. Use the test controls to load data.
+                </div>
+            </div>
+        </div>
+
+        <!-- System Logs -->
+        <div class="test-section">
+            <h2>📝 System Logs</h2>
+            <div class="log-container" id="logContainer">
+                <div class="log-entry info">🚀 Real-Time System Test initialized...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config/firebase-config.js"></script>
+    <script src="js/config/firestore-config.js"></script>
+    <script src="js/utils/error-handler.js"></script>
+    <script src="js/utils/loading-manager.js"></script>
+    <script src="js/utils/notification-manager.js"></script>
+    <script src="js/utils/realtime-data-manager.js"></script>
+    <script src="js/utils/data-migration.js"></script>
+    
+    <script>
+        // Test application
+        const RealtimeTestApp = {
+            init() {
+                this.log('🚀 Real-Time System Test initialized...', 'info');
+                this.updateStatus();
+                this.startStatusMonitoring();
+            },
+
+            log(message, type = 'info') {
+                const logContainer = document.getElementById('logContainer');
+                const logEntry = document.createElement('div');
+                logEntry.className = `log-entry ${type}`;
+                logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                logContainer.appendChild(logEntry);
+                logContainer.scrollTop = logContainer.scrollHeight;
+            },
+
+            updateStatus() {
+                // Firebase Auth Status
+                const firebaseStatus = document.getElementById('firebaseStatus');
+                if (window.FirebaseConfig && window.FirebaseConfig.auth) {
+                    firebaseStatus.textContent = '✅';
+                    firebaseStatus.className = 'status status-success';
+                } else {
+                    firebaseStatus.textContent = '❌';
+                    firebaseStatus.className = 'status status-error';
+                }
+
+                // Firestore Status
+                const firestoreStatus = document.getElementById('firestoreStatus');
+                if (window.FirestoreConfig && window.FirestoreConfig.isAvailable()) {
+                    firestoreStatus.textContent = '✅';
+                    firestoreStatus.className = 'status status-success';
+                } else {
+                    firestoreStatus.textContent = '❌';
+                    firestoreStatus.className = 'status status-error';
+                }
+
+                // Real-Time Manager Status
+                const realtimeStatus = document.getElementById('realtimeStatus');
+                if (window.RealtimeDataManager && window.RealtimeDataManager.state.isInitialized) {
+                    realtimeStatus.textContent = '✅';
+                    realtimeStatus.className = 'status status-success';
+                } else {
+                    realtimeStatus.textContent = '⏳';
+                    realtimeStatus.className = 'status status-warning';
+                }
+
+                // Migration Utility Status
+                const migrationStatus = document.getElementById('migrationStatus');
+                if (window.DataMigration && window.DataMigration.state.isInitialized) {
+                    migrationStatus.textContent = '✅';
+                    migrationStatus.className = 'status status-success';
+                } else {
+                    migrationStatus.textContent = '⏳';
+                    migrationStatus.className = 'status status-warning';
+                }
+            },
+
+            startStatusMonitoring() {
+                setInterval(() => {
+                    this.updateStatus();
+                }, 2000);
+            },
+
+            async testFirebaseConnection() {
+                this.log('🔥 Testing Firebase connection...', 'info');
+                
+                try {
+                    if (window.FirebaseConfig) {
+                        await window.FirebaseConfig.init();
+                        this.log('✅ Firebase connection successful', 'success');
+                    } else {
+                        throw new Error('FirebaseConfig not available');
+                    }
+                } catch (error) {
+                    this.log(`❌ Firebase connection failed: ${error.message}`, 'error');
+                }
+            },
+
+            async testFirestoreConnection() {
+                this.log('📊 Testing Firestore connection...', 'info');
+                
+                try {
+                    if (window.FirestoreConfig && window.FirestoreConfig.isAvailable()) {
+                        this.log('✅ Firestore connection successful', 'success');
+                        
+                        // Test a simple operation
+                        const testCollection = window.FirestoreConfig.getCollection('test');
+                        if (testCollection) {
+                            this.log('✅ Firestore collection access successful', 'success');
+                        }
+                    } else {
+                        throw new Error('Firestore not available');
+                    }
+                } catch (error) {
+                    this.log(`❌ Firestore connection failed: ${error.message}`, 'error');
+                }
+            },
+
+            async testRealtimeManager() {
+                this.log('🔄 Testing Real-Time Manager...', 'info');
+                
+                try {
+                    if (window.RealtimeDataManager) {
+                        window.RealtimeDataManager.init();
+                        this.log('✅ Real-Time Manager initialized', 'success');
+                        
+                        // Test data fetching
+                        const testData = await window.RealtimeDataManager.getData('users');
+                        if (testData) {
+                            this.log(`✅ Data fetching successful: ${Object.keys(testData).length} users`, 'success');
+                            this.displayData(testData);
+                        }
+                    } else {
+                        throw new Error('RealtimeDataManager not available');
+                    }
+                } catch (error) {
+                    this.log(`❌ Real-Time Manager test failed: ${error.message}`, 'error');
+                }
+            },
+
+            async startDataMigration() {
+                this.log('🚀 Starting data migration...', 'info');
+                
+                try {
+                    if (window.DataMigration) {
+                        window.DataMigration.init();
+                        this.log('✅ Data Migration Utility initialized', 'success');
+                        
+                        // Start migration
+                        await window.DataMigration.startMigration();
+                    } else {
+                        throw new Error('DataMigration not available');
+                    }
+                } catch (error) {
+                    this.log(`❌ Data migration failed: ${error.message}`, 'error');
+                }
+            },
+
+            displayData(data) {
+                const dataDisplay = document.getElementById('dataDisplay');
+                
+                if (!data || Object.keys(data).length === 0) {
+                    dataDisplay.innerHTML = '<div style="text-align: center; opacity: 0.6; padding: 2rem;">No data available</div>';
+                    return;
+                }
+
+                let html = '';
+                Object.entries(data).forEach(([key, value]) => {
+                    if (key !== '_metadata' && key !== 'lastUpdated' && key !== 'totalUsers') {
+                        html += `
+                            <div class="data-item">
+                                <span><strong>${key}</strong></span>
+                                <span style="opacity: 0.7;">${typeof value === 'object' ? 'Object' : value}</span>
+                            </div>
+                        `;
+                    }
+                });
+
+                dataDisplay.innerHTML = html;
+            },
+
+            clearLogs() {
+                const logContainer = document.getElementById('logContainer');
+                logContainer.innerHTML = '<div class="log-entry info">🚀 Logs cleared...</div>';
+            }
+        };
+
+        // Global test functions for onclick handlers
+        async function testFirebaseConnection() {
+            await RealtimeTestApp.testFirebaseConnection();
+        }
+
+        async function testFirestoreConnection() {
+            await RealtimeTestApp.testFirestoreConnection();
+        }
+
+        async function testRealtimeManager() {
+            await RealtimeTestApp.testRealtimeManager();
+        }
+
+        async function startDataMigration() {
+            await RealtimeTestApp.startDataMigration();
+        }
+
+        function clearLogs() {
+            RealtimeTestApp.clearLogs();
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            RealtimeTestApp.init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{
+  "users": {
+    "Cody Cochran": {
+      "profile": {
+        "email": "codylcochran89@gmail.com",
+        "password": "test1234",
+        "role": "Assistant",
+        "location": "Miami, FL",
+        "projectStart": "2025-08-08T06:30",
+        "rate": "$150/hour",
+        "approvedDate": "2025-08-05"
+      },
+      "contract": {
+        "contractUrl": "contract.html",
+        "contractStatus": "signed",
+        "contractSignedDate": "8/5/2025, 8:15:17 PM",
+        "contractUploadedDate": null,
+        "contractId": "CF-1754439317321-J8HF4"
+      },
+      "jobs": {
+        "job-assistant-default": {
+          "id": "job-assistant-default",
+          "title": "Assistant Position",
+          "date": "2025-08-06",
+          "location": "Miami, FL",
+          "pay": "$150/hour",
+          "description": "Professional Assistant position in Miami, FL. Details to be provided.",
+          "status": "upcoming",
+          "projectStatus": "completed",
+          "paymentStatus": "paid",
+          "assignedDate": "2025-08-06",
+          "projectStart": "2025-08-08T06:30"
+        }
+      },
+      "primaryJob": "job-assistant-default",
+      "paymentMethod": "zelle",
+      "paymentStatus": "configured"
+    },
+    "Dede Jackson": {
+      "profile": {
+        "email": "dedejackson727@gmail.com",
+        "password": "test1234",
+        "role": "Photographer",
+        "location": "Atlanta, GA",
+        "projectStart": "2025-08-10T09:00",
+        "rate": "$200/hour",
+        "approvedDate": "2025-08-05"
+      },
+      "contract": {
+        "contractUrl": "contract.html",
+        "contractStatus": "signed",
+        "contractSignedDate": "8/5/2025, 8:20:00 PM",
+        "contractUploadedDate": null,
+        "contractId": "CF-1754439320000-J9HF5"
+      },
+      "jobs": {
+        "job-photographer-default": {
+          "id": "job-photographer-default",
+          "title": "Photographer Position",
+          "date": "2025-08-10",
+          "location": "Atlanta, GA",
+          "pay": "$200/hour",
+          "description": "Professional Photography position in Atlanta, GA. Details to be provided.",
+          "status": "upcoming",
+          "projectStatus": "in-progress",
+          "paymentStatus": "pending",
+          "assignedDate": "2025-08-06",
+          "projectStart": "2025-08-10T09:00"
+        }
+      },
+      "primaryJob": "job-photographer-default",
+      "paymentMethod": "paypal",
+      "paymentStatus": "configured"
+    }
+  },
+  "statusOptions": {
+    "projectStatus": [
+      "upcoming",
+      "in-progress",
+      "completed",
+      "cancelled"
+    ],
+    "paymentStatus": [
+      "pending",
+      "processing",
+      "paid",
+      "overdue"
+    ]
+  },
+  "lastUpdated": "2025-08-06",
+  "totalUsers": 2,
+  "system": {
+    "totalReviews": 0,
+    "lastUpdated": "2025-08-06"
+  }
+}

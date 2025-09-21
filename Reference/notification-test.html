@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notification Test</title>
+</head>
+<body>
+    <h1>Notification Removal Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        // Simulate the showNotification function from user-portal.html
+        function showNotification(message, type = 'info', duration = 5000) {
+            // Silent notification - only log to console
+            console.log(`🔇 Suppressed notification: ${message} (${type})`);
+            // No popup display - notifications are handled by sophisticated system
+        }
+        
+        // Test the function
+        function testNotifications() {
+            const results = [];
+            
+            // Test 1: Success notification
+            try {
+                showNotification('Test success message', 'success');
+                results.push('✅ Success notification suppressed');
+            } catch (error) {
+                results.push('❌ Success notification failed: ' + error.message);
+            }
+            
+            // Test 2: Error notification
+            try {
+                showNotification('Test error message', 'error');
+                results.push('✅ Error notification suppressed');
+            } catch (error) {
+                results.push('❌ Error notification failed: ' + error.message);
+            }
+            
+            // Test 3: Info notification
+            try {
+                showNotification('Test info message', 'info');
+                results.push('✅ Info notification suppressed');
+            } catch (error) {
+                results.push('❌ Info notification failed: ' + error.message);
+            }
+            
+            // Display results
+            document.getElementById('results').innerHTML = results.map(r => '<p>' + r + '</p>').join('');
+            console.log('🧪 Test results:', results);
+        }
+        
+        // Run test when page loads
+        window.onload = testNotifications;
+    </script>
+</body>
+</html>

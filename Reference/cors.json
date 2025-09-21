@@ -1,0 +1,18 @@
+[
+  {
+    "origin": [
+      "https://cochranfilms.com",
+      "https://www.cochranfilms.com",
+      "https://collaborate.cochranfilms.com",
+      "https://portfolio.cochranfilms.com",
+      "https://jobs.cochranfilms.com",
+      "https://pitch.cochranfilms.com",
+      "https://landing.cochranfilms.com",
+      "https://vision.cochranfilms.com",
+      "https://cochran-films.github.io"
+    ],
+    "method": ["GET","HEAD","POST","PUT","DELETE","OPTIONS"],
+    "responseHeader": ["Content-Type","Authorization","x-goog-meta-*","x-goog-resumable"],
+    "maxAgeSeconds": 3600
+  }
+]

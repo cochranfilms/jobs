@@ -1,0 +1,3342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Planner Portal | Premier Events</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="Favicon.png" type="image/png">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        let currentUser = null;
+        let eventPlanners = [];
+        let uploadedContracts = [];
+        let projectStatus = [];
+        let jobsData = [];
+
+        // Load event planner data from JSON file
+        async function loadEventPlannerData() {
+            try {
+                // First, try to load directly from freelancers.json file (prevent caching)
+                try {
+                    const timestamp = new Date().getTime();
+                    const response = await fetch('/api/freelancers');
+                    if (response.ok) {
+                        const jsonData = await response.json();
+                        if (jsonData.approvedFreelancers) {
+                            // Convert the JSON structure to array format with job support
+                            freelancers = Object.entries(jsonData.approvedFreelancers).map(([name, freelancer]) => ({
+                                name: name,
+                                email: freelancer.email,
+                                password: freelancer.password,
+                                approvedDate: freelancer.approvedDate,
+                                contractUrl: freelancer.contractUrl || 'contract.html',
+                                // CONTRACT STATUS FIELDS - CRITICAL!
+                                contractStatus: freelancer.contractStatus || 'pending',
+                                contractSignedDate: freelancer.contractSignedDate,
+                                contractUploadedDate: freelancer.contractUploadedDate,
+                                contractId: freelancer.contractId,
+                                // Handle both old single job format and new multiple jobs format
+                                jobs: freelancer.jobs || [{
+                                    id: 'legacy-job',
+                                    role: freelancer.role,
+                                    location: freelancer.location,
+                                    projectStart: freelancer.projectStart,
+                                    rate: freelancer.rate,
+                                    status: 'upcoming',
+                                    projectType: 'Legacy Job',
+                                    description: `${freelancer.role} position`
+                                }],
+                                primaryJob: freelancer.primaryJob || 'legacy-job'
+                            }));
+                            
+                            console.log('✅ Event planner data loaded from JSON file:', eventPlanners.length, 'planners');
+                            console.log('🔍 Available event planners with jobs and contract status:', eventPlanners.map(f => ({ 
+                                name: f.name, 
+                                email: f.email, 
+                                jobCount: f.jobs.length,
+                                contractStatus: f.contractStatus,
+                                contractId: f.contractId
+                            })));
+                            return;
+                        }
+                    }
+                } catch (fetchError) {
+                    console.warn('⚠️ Could not fetch freelancers.json, trying localStorage...', fetchError);
+                }
+                
+                // Fallback: Try to load from localStorage (admin dashboard format)
+                let data = JSON.parse(localStorage.getItem('freelancers') || '[]');
+                
+                // If localStorage is empty or not an array, try to load from JSON file structure in localStorage
+                if (!Array.isArray(data) || data.length === 0) {
+                    const jsonData = localStorage.getItem('approvedFreelancers');
+                    if (jsonData) {
+                        const parsedJsonData = JSON.parse(jsonData);
+                        if (parsedJsonData.approvedFreelancers) {
+                            // Convert the JSON structure to array format
+                            data = Object.entries(parsedJsonData.approvedFreelancers).map(([name, freelancer]) => ({
+                                name: name,
+                                email: freelancer.email,
+                                password: freelancer.password,
+                                approvedDate: freelancer.approvedDate,
+                                contractUrl: freelancer.contractUrl || 'contract.html',
+                                // CONTRACT STATUS FIELDS - CRITICAL!
+                                contractStatus: freelancer.contractStatus || 'pending',
+                                contractSignedDate: freelancer.contractSignedDate,
+                                contractUploadedDate: freelancer.contractUploadedDate,
+                                contractId: freelancer.contractId,
+                                jobs: freelancer.jobs || [{
+                                    id: 'legacy-job',
+                                    role: freelancer.role,
+                                    location: freelancer.location,
+                                    projectStart: freelancer.projectStart,
+                                    rate: freelancer.rate,
+                                    status: 'upcoming',
+                                    projectType: 'Legacy Job',
+                                    description: `${freelancer.role} position`
+                                }],
+                                primaryJob: freelancer.primaryJob || 'legacy-job'
+                            }));
+                        }
+                    } else {
+                        // Final fallback: hardcoded data with job structure
+                        data = [
+                            {
+                                name: "Sophie Anderson",
+                                email: "sophie.anderson@premierevents.com",
+                                password: "Events2025",
+                                approvedDate: "2024-01-25",
+                                contractUrl: "contract.html",
+                                contractStatus: "pending",
+                                contractSignedDate: null,
+                                contractUploadedDate: null,
+                                contractId: null,
+                                jobs: [{
+                                    id: 'event-sophie-001',
+                                    role: "Wedding Coordinator",
+                                    location: "Atlanta Botanical Garden, 1345 Piedmont Ave, Atlanta, GA",
+                                    projectStart: "December 21, 2025 at 4:00 PM",
+                                    rate: "$2,500.00 USD (Flat)",
+                                    status: 'upcoming',
+                                    projectType: 'Wedding',
+                                    description: 'Full wedding coordination and day-of management'
+                                }],
+                                primaryJob: 'event-sophie-001'
+                            },
+                            {
+                                name: "Marcus Johnson",
+                                email: "marcus.johnson@premierevents.com",
+                                password: "Corporate2025",
+                                approvedDate: "2024-02-20",
+                                contractUrl: "contract.html",
+                                contractStatus: "signed",
+                                contractSignedDate: "2024-02-25",
+                                contractUploadedDate: "2024-02-27",
+                                contractId: "CF-EVENT-001",
+                                jobs: [{
+                                    id: 'event-marcus-001',
+                                    role: "Corporate Event Manager",
+                                    location: "Georgia World Congress Center, 285 Andrew Young Intl Blvd, Atlanta, GA",
+                                    projectStart: "December 16, 2025 at 8:00 AM",
+                                    rate: "$3,500.00 USD (Flat)",
+                                    status: 'upcoming',
+                                    projectType: 'Corporate',
+                                    description: 'Annual corporate conference with 500+ attendees'
+                                }, {
+                                    id: 'event-marcus-002',
+                                    role: "Trade Show Coordinator",
+                                    location: "Cobb Galleria Centre, 2 Galleria Pkwy SE, Atlanta, GA",
+                                    projectStart: "December 23, 2025 at 9:00 AM",
+                                    rate: "$2,800.00 USD (Flat)",
+                                    status: 'upcoming',
+                                    projectType: 'Trade Show',
+                                    description: 'Technology trade show with vendor coordination'
+                                }],
+                                primaryJob: 'event-marcus-001'
+                            },
+                            {
+                                name: "Elena Rodriguez",
+                                email: "elena.rodriguez@premierevents.com",
+                                password: "Elena2025",
+                                approvedDate: "2024-03-15",
+                                contractUrl: "contract.html",
+                                contractStatus: "uploaded",
+                                contractSignedDate: "2024-03-20",
+                                contractUploadedDate: "2024-03-22",
+                                contractId: "CF-EVENT-002",
+                                jobs: [{
+                                    id: 'event-elena-001',
+                                    role: "Luxury Event Designer",
+                                    location: "The St. Regis Atlanta, 88 West Paces Ferry Rd, Atlanta, GA",
+                                    projectStart: "December 19, 2025 at 6:00 PM",
+                                    rate: "$4,200.00 USD (Flat)",
+                                    status: 'upcoming',
+                                    projectType: 'Luxury',
+                                    description: 'High-end gala dinner with custom design elements'
+                                }],
+                                primaryJob: 'event-elena-001'
+                            }
+                        ];
+                    }
+                }
+                
+                eventPlanners = data;
+                console.log('✅ Event planner data loaded from localStorage/fallback:', eventPlanners.length, 'planners');
+                console.log('🔍 Available event planners:', eventPlanners.map(f => ({ name: f.name, email: f.email, jobCount: f.jobs?.length || 0 })));
+            } catch (error) {
+                console.error('❌ Error loading event planner data:', error);
+                eventPlanners = [];
+            }
+        }
+
+        // Load uploaded contracts from JSON file
+        async function loadUploadedContracts() {
+            try {
+                // Try to load from uploaded-contracts.json file
+                const response = await fetch('uploaded-contracts.json');
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    // The JSON file has contracts in 'contracts' array, not 'uploadedContracts'
+                    uploadedContracts = jsonData.contracts || [];
+                    console.log('✅ Uploaded contracts loaded from JSON file:', uploadedContracts.length, 'contracts');
+                } else {
+                    console.warn('⚠️ Could not load uploaded-contracts.json, falling back to localStorage');
+                    const data = JSON.parse(localStorage.getItem('uploadedContracts') || '[]');
+                    uploadedContracts = data;
+                    console.log('✅ Uploaded contracts loaded from localStorage:', uploadedContracts.length, 'contracts');
+                }
+            } catch (error) {
+                console.warn('⚠️ Error loading uploaded-contracts.json:', error);
+                try {
+                    const data = JSON.parse(localStorage.getItem('uploadedContracts') || '[]');
+                    uploadedContracts = data;
+                    console.log('✅ Uploaded contracts loaded from localStorage fallback:', uploadedContracts.length, 'contracts');
+                } catch (localStorageError) {
+                    console.error('❌ Error loading uploaded contracts:', localStorageError);
+                    uploadedContracts = [];
+                }
+            }
+        }
+
+        // Load project status from JSON file
+        async function loadProjectStatus() {
+            try {
+                const response = await fetch('project-status.json');
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    projectStatus = jsonData.projectStatus || {};
+                    console.log('✅ Project status loaded from JSON file:', Object.keys(projectStatus).length, 'freelancers');
+                } else {
+                    console.warn('⚠️ Could not load project-status.json, using empty object');
+                    projectStatus = {};
+                }
+            } catch (error) {
+                console.error('❌ Error loading project status:', error);
+                projectStatus = {};
+            }
+        }
+
+        // Load jobs data from JSON file
+        async function loadJobsData() {
+            try {
+                                        const response = await fetch('/api/jobs-data');
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    jobsData = jsonData.jobs || [];
+                    console.log('✅ Jobs data loaded from JSON file:', jobsData.length, 'jobs');
+                } else {
+                    console.warn('⚠️ Could not load jobs-data.json, using empty array');
+                    jobsData = [];
+                }
+            } catch (error) {
+                console.error('❌ Error loading jobs data:', error);
+                jobsData = [];
+            }
+        }
+
+        // Fix timezone issues with dates
+        function fixTimezone(dateString) {
+            if (!dateString) return null;
+            
+            try {
+                // Handle different date formats
+                let date;
+                if (dateString.includes('T')) {
+                    // ISO format
+                    date = new Date(dateString);
+                } else if (dateString.includes('/')) {
+                    // MM/DD/YYYY format
+                    const parts = dateString.split('/');
+                    date = new Date(parts[2], parts[0] - 1, parts[1]);
+                } else {
+                    // YYYY-MM-DD format
+                    date = new Date(dateString + 'T00:00:00');
+                }
+                
+                // Adjust for timezone (assuming EST/EDT)
+                const timezoneOffset = date.getTimezoneOffset();
+                date.setMinutes(date.getMinutes() + timezoneOffset);
+                
+                return date.toISOString().split('T')[0];
+            } catch (error) {
+                console.warn('⚠️ Could not parse date:', dateString, error);
+                return dateString;
+            }
+        }
+
+        // Get user's contract status from uploaded contracts
+        function getUserContractStatus(userEmail) {
+            const userContract = uploadedContracts.find(contract => 
+                contract.freelancerEmail.toLowerCase() === userEmail.toLowerCase()
+            );
+            
+            if (userContract) {
+                return {
+                    status: userContract.status,
+                    contractId: userContract.contractId,
+                    signedDate: userContract.uploadDate,
+                    fileName: userContract.fileName,
+                    notes: userContract.notes
+                };
+            }
+            
+            return null;
+        }
+
+        // Get user's project status
+        function getUserProjectStatus(userName) {
+            const userProjects = projectStatus[userName];
+            if (userProjects) {
+                return Object.values(userProjects.jobs || {});
+            }
+            return [];
+        }
+
+        // Handle login
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // Find user in event planners data
+            const user = eventPlanners.find(f => f.email.toLowerCase() === email.toLowerCase() && f.password === password);
+            
+            if (user) {
+                currentUser = user;
+                sessionStorage.setItem('userPortalAuthenticated', JSON.stringify(user));
+                showUserPortal();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        // Show user portal
+        function showUserPortal() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('userPortal').style.display = 'block';
+            loadUserData();
+        }
+
+        // Show login screen
+        function showLoginScreen() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('userPortal').style.display = 'none';
+            currentUser = null;
+        }
+
+        // Load user-specific data
+        function loadUserData() {
+            if (!currentUser) return;
+
+            // Update welcome message
+            document.getElementById('userName').textContent = currentUser.name;
+            
+            // Display user info
+            displayUserInfo();
+            displayUserContracts();
+            displayUserJobs();
+        }
+
+        // Display user information
+        function displayUserInfo() {
+            const container = document.getElementById('userInfo');
+            
+            // Get all jobs for this user from the jobs array
+            const userJobs = currentUser.jobs || [];
+            const primaryJobId = currentUser.primaryJob;
+            
+            // Fix timezone issues with approved date
+            const fixedApprovedDate = fixTimezone(currentUser.approvedDate);
+            const displayApprovedDate = fixedApprovedDate ? new Date(fixedApprovedDate).toLocaleDateString() : 'Pending';
+            
+            // Get user's project status
+            const userProjectStatus = getUserProjectStatus(currentUser.name);
+            
+            container.innerHTML = `
+                <div class="profile-grid">
+                    <!-- Contact Information Card -->
+                    <div class="contact-info-card">
+                        <h3><i class="fas fa-user-circle"></i> Contact Information</h3>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-user"></i>
+                                <div>
+                                    <strong>Full Name</strong>
+                                    <span>${currentUser.name}</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <strong>Email Address</strong>
+                                    <span>${currentUser.email}</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <div>
+                                    <strong>Approved Date</strong>
+                                    <span>${displayApprovedDate}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Current Jobs Card -->
+                    <div class="current-job-card">
+                        <div class="job-header-section">
+                            <h3><i class="fas fa-briefcase"></i> Your Assignments</h3>
+                            <span class="job-count">${userJobs.length} Active Job${userJobs.length !== 1 ? 's' : ''}</span>
+                        </div>
+                        
+                        <div class="job-selector">
+                            ${userJobs.map((job, index) => {
+                                // Get project status from project-status.json
+                                const projectData = userProjectStatus.find(p => p.id === job.id);
+                                const projectStatus = projectData ? projectData.projectStatus : 'upcoming';
+                                const paymentStatus = projectData ? projectData.paymentStatus : 'pending';
+                                
+                                return `
+                                <div class="job-option ${job.id === primaryJobId ? 'active' : ''}" onclick="selectJob(${index}, '${job.id}')">
+                                    <div class="job-info">
+                                        <div class="job-title">
+                                            <i class="fas fa-${getJobIcon(job.projectType)}"></i>
+                                            <strong>${job.role}</strong>
+                                            ${job.id === primaryJobId ? '<span class="primary-badge">Primary</span>' : ''}
+                                        </div>
+                                        <div class="job-type">
+                                            <i class="fas fa-tag"></i>
+                                            <span>${job.projectType}</span>
+                                        </div>
+                                        <div class="job-description">
+                                            <p>${job.description}</p>
+                                        </div>
+                                        <div class="job-details-grid">
+                                            <div class="job-detail">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <span>${job.location}</span>
+                                            </div>
+                                            <div class="job-detail">
+                                                <i class="fas fa-dollar-sign"></i>
+                                                <span>${job.rate}</span>
+                                            </div>
+                                            <div class="job-detail">
+                                                <i class="fas fa-clock"></i>
+                                                <span>${job.projectStart}</span>
+                                            </div>
+                                            <div class="job-detail">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>Project: ${projectStatus.charAt(0).toUpperCase() + projectStatus.slice(1)}</span>
+                                            </div>
+                                            <div class="job-detail">
+                                                <i class="fas fa-credit-card"></i>
+                                                <span>Payment: ${paymentStatus.charAt(0).toUpperCase() + paymentStatus.slice(1)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="job-status-indicator ${projectStatus}">
+                                        ${projectStatus.charAt(0).toUpperCase() + projectStatus.slice(1)}
+                                    </div>
+                                </div>
+                            `}).join('')}
+                        </div>
+                        
+                        <div class="job-actions-section">
+                            <button class="btn btn-primary" onclick="switchPortalTab('jobs')">
+                                <i class="fas fa-tasks"></i> View Project Timeline
+                            </button>
+                            <button class="btn btn-secondary" onclick="viewJobDetails()">
+                                <i class="fas fa-info-circle"></i> Job Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Get appropriate icon for job type
+        function getJobIcon(projectType) {
+            const iconMap = {
+                'Corporate Video': 'video',
+                'Real Estate': 'home',
+                'Photography': 'camera',
+                'Legacy Job': 'briefcase',
+                'Drone': 'helicopter'
+            };
+            return iconMap[projectType] || 'briefcase';
+        }
+        
+        // Track selected job
+        let selectedJobIndex = 0;
+        
+        // Select a job and update context
+        function selectJob(jobIndex, jobId) {
+            selectedJobIndex = jobIndex;
+            
+            const jobOptions = document.querySelectorAll('.job-option');
+            jobOptions.forEach((option, index) => {
+                if (index === jobIndex) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+            
+            console.log('Selected job:', jobIndex, jobId);
+            
+            // Update the jobs tab to show the selected job's timeline
+            displayUserJobs();
+            
+            // Refresh timeline data from JSON files
+            refreshTimelineData();
+        }
+        
+        // Refresh timeline data from all JSON sources
+        function refreshTimelineData() {
+            console.log('🔄 Refreshing timeline data from JSON files...');
+            
+            // Reload data from all JSON files
+            Promise.all([
+                loadFreelancerData(),
+                loadUploadedContracts(),
+                loadProjectStatus(),
+                loadJobsData()
+            ]).then(() => {
+                console.log('✅ Timeline data refreshed from all JSON sources');
+                
+                // Update current user data if needed
+                if (currentUser) {
+                    const updatedUser = freelancers.find(f => f.email.toLowerCase() === currentUser.email.toLowerCase());
+                    if (updatedUser) {
+                        currentUser = updatedUser;
+                        console.log('✅ User data updated:', currentUser);
+                    }
+                }
+                
+                // Refresh displays
+                displayUserInfo();
+                displayUserJobs();
+                displayUserContracts();
+            }).catch(error => {
+                console.error('❌ Error refreshing timeline data:', error);
+            });
+        }
+        
+        // Get the currently selected job
+        function getSelectedJob() {
+            if (!currentUser || !currentUser.jobs) {
+                return null;
+            }
+            return currentUser.jobs[selectedJobIndex] || currentUser.jobs[0];
+        }
+
+        // Display user contracts (integrated with uploaded-contracts.json)
+        function displayUserContracts() {
+            const container = document.getElementById('userContracts');
+            
+            if (!currentUser) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>❌ User Data Missing</h3>
+                        <p>Unable to load contract information.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get contract status from uploaded-contracts.json
+            const userContract = getUserContractStatus(currentUser.email);
+            const contractStatus = userContract ? 'uploaded' : currentUser.contractStatus || 'pending';
+            
+            // Contract status based UI
+            if (contractStatus === 'pending') {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="status-icon" style="font-size: 3rem; color: #FFB200; margin-bottom: 1rem;">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <h3>📋 Contract Ready for Signature</h3>
+                        <p>Your contract is ready for digital signature. Please sign to proceed with your project.</p>
+                        <a href="https://collaboration.cochranfilms.com/contract" class="btn" style="margin-top: 1rem;">
+                            <i class="fas fa-signature"></i> Sign Contract Now
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            if (contractStatus === 'signed') {
+                const signedDate = userContract ? new Date(userContract.signedDate).toLocaleDateString() : currentUser.contractSignedDate || 'Processing...';
+                const contractId = userContract ? userContract.contractId : currentUser.contractId || 'Generating...';
+                
+                container.innerHTML = `
+                    <div class="pending-state">
+                        <div class="status-icon" style="font-size: 3rem; color: #FFB200; margin-bottom: 1rem;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>⏳ Contract Processing</h3>
+                        <p>Thank you! Your contract has been digitally signed and is being processed by our admin team.</p>
+                        <div style="background: rgba(255,178,0,0.1); padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; border: 1px solid rgba(255,178,0,0.3);">
+                            <h4 style="color: #FFB200; margin-bottom: 1rem;"><i class="fas fa-info-circle"></i> Status Details</h4>
+                            <div style="color: rgba(255,255,255,0.9);">
+                                <div><strong>Signed Date:</strong> ${signedDate}</div>
+                                <div><strong>Contract ID:</strong> ${contractId}</div>
+                                <div><strong>Status:</strong> Awaiting admin processing</div>
+                            </div>
+                        </div>
+                        <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                            <i class="fas fa-clock"></i> You'll be able to download your contract once it's been uploaded by our admin team.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            if (contractStatus === 'uploaded') {
+                const signedDate = userContract ? new Date(userContract.signedDate).toLocaleDateString() : currentUser.contractSignedDate || 'Processing...';
+                const contractId = userContract ? userContract.contractId : currentUser.contractId || 'Generating...';
+                
+                container.innerHTML = `
+                    <div class="contract-card">
+                        <div class="contract-header">
+                            <h4><i class="fas fa-file-contract"></i> ${currentUser.jobs ? currentUser.jobs[0]?.role : currentUser.role}</h4>
+                            <span class="status-badge signed">✅ CONTRACT COMPLETE</span>
+                        </div>
+                        <div class="contract-details">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                                <div><strong>Contract ID:</strong> ${contractId}</div>
+                                <div><strong>Signed Date:</strong> ${signedDate}</div>
+                                <div><strong>Uploaded Date:</strong> ${userContract ? new Date(userContract.signedDate).toLocaleDateString() : 'N/A'}</div>
+                                <div><strong>Rate:</strong> ${currentUser.jobs ? currentUser.jobs[0]?.rate : currentUser.rate}</div>
+                            </div>
+                            <div style="background: rgba(34, 197, 94, 0.1); padding: 1rem; border-radius: 8px; border: 1px solid rgba(34, 197, 94, 0.3);">
+                                <p style="color: #22c55e; margin: 0; font-weight: 600;">
+                                    <i class="fas fa-check-circle"></i> Your contract is fully executed and available for download.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="contract-actions" style="margin-top: 1rem;">
+                            <button class="btn btn-small btn-success" onclick="downloadUserContract()" style="cursor: pointer; z-index: 10; position: relative;">
+                                <i class="fas fa-download"></i> Download Contract PDF
+                            </button>
+                            <button class="btn btn-small" onclick="viewContractDetails()" style="cursor: pointer; z-index: 10; position: relative;">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+
+        }
+
+        // Display user jobs
+        function displayUserJobs() {
+            const container = document.getElementById('userJobs');
+            
+            if (!currentUser) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>❌ User Data Missing</h3>
+                        <p>Unable to load job information.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get the selected job or fall back to primary job
+            const selectedJob = getSelectedJob();
+            if (!selectedJob) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>📋 No Jobs Available</h3>
+                        <p>No job assignments found for your account.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Display the selected job's information
+            const jobInfo = {
+                role: selectedJob.role,
+                location: selectedJob.location,
+                projectStart: selectedJob.projectStart,
+                rate: selectedJob.rate,
+                status: getJobStatus(selectedJob.projectStart),
+                projectType: selectedJob.projectType,
+                description: selectedJob.description
+            };
+
+            // Add job selector if user has multiple jobs
+            const jobSelectorHTML = currentUser.jobs && currentUser.jobs.length > 1 ? `
+                <div class="job-selector-header">
+                    <h3>Select Job to View Timeline:</h3>
+                    <div class="job-tabs">
+                        ${currentUser.jobs.map((job, index) => `
+                            <button class="job-tab ${index === selectedJobIndex ? 'active' : ''}" 
+                                    onclick="selectJob(${index}, '${job.id}')">
+                                <i class="fas fa-${getJobIcon(job.projectType)}"></i>
+                                ${job.role}
+                                ${job.id === currentUser.primaryJob ? '<span class="primary-dot"></span>' : ''}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : '';
+
+            container.innerHTML = `
+                ${jobSelectorHTML}
+                <div class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3>${jobInfo.role}</h3>
+                            <p class="job-location"><i class="fas fa-map-marker-alt"></i> ${jobInfo.location}</p>
+                            <p class="job-type-info"><i class="fas fa-tag"></i> ${jobInfo.projectType}</p>
+                        </div>
+                        <span class="job-status ${jobInfo.status.toLowerCase()}">${jobInfo.status}</span>
+                    </div>
+                    
+                    <div class="job-details">
+                        <div class="job-detail-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Project Start</strong>
+                                <span>${jobInfo.projectStart}</span>
+                            </div>
+                        </div>
+                        <div class="job-detail-item">
+                            <i class="fas fa-dollar-sign"></i>
+                            <div>
+                                <strong>Rate</strong>
+                                <span>${jobInfo.rate}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="job-actions">
+                        <button class="btn job-action-btn secondary" onclick="viewJobDetails()">
+                            <i class="fas fa-info-circle"></i> Job Details
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="job-timeline">
+                    <div class="timeline-header">
+                        <h4><i class="fas fa-history"></i> Project Timeline</h4>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="progress-indicator">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${getProjectProgress()}%"></div>
+                                </div>
+                                <span class="progress-text">${getProjectProgress()}% Complete</span>
+                            </div>
+                            <button onclick="refreshTimelineData()" style="
+                                background: rgba(34, 197, 94, 0.1);
+                                color: #22c55e;
+                                border: 1px solid rgba(34, 197, 94, 0.3);
+                                padding: 0.5rem;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-size: 0.9rem;
+                                transition: all 0.3s ease;
+                                width: 40px;
+                                height: 40px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            " title="Refresh timeline data">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="current-status">
+                        <div class="status-card">
+                            <div class="status-icon">
+                                <i class="${getCurrentTimelineStep().icon}"></i>
+                            </div>
+                            <div class="status-content">
+                                <h5>Current Step: ${getCurrentTimelineStep().title}</h5>
+                                <p>${getCurrentTimelineStep().description}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline">
+                        ${getProjectTimeline().map(step => `
+                            <div class="timeline-item ${step.status}" data-step="${step.id}">
+                                <div class="timeline-icon">
+                                    <i class="${step.icon}"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-main">
+                                        <strong>${step.title}</strong>
+                                        <span>${step.description}</span>
+                                        ${step.date ? `<small class="timeline-date">${step.date.toLocaleDateString()}</small>` : ''}
+                                    </div>
+                                    
+                                    ${step.status === 'current' ? `
+                                        <div class="timeline-details">
+                                            <p>${step.details}</p>
+                                            ${step.action ? `
+                                                ${step.action.url ? 
+                                                    `<a href="${step.action.url}" class="timeline-action">
+                                                        <i class="${step.action.icon}"></i> ${step.action.text}
+                                                    </a>` :
+                                                    `<button onclick="${step.action.onclick}" class="timeline-action" style="border: none; background: linear-gradient(135deg, #FFB200, #FFD700); color: #000; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                                                        <i class="${step.action.icon}"></i> ${step.action.text}
+                                                    </button>`
+                                                }
+                                            ` : ''}
+                                            ${step.checklist ? `
+                                                <div class="timeline-checklist">
+                                                    <h6>📋 Preparation Checklist:</h6>
+                                                    <ul>
+                                                        ${step.checklist.map(item => `<li>${item}</li>`).join('')}
+                                                    </ul>
+                                                </div>
+                                            ` : ''}
+                                            ${step.requirements ? `
+                                                <div class="timeline-requirements">
+                                                    <h6>📝 Requirements:</h6>
+                                                    <ul>
+                                                        ${step.requirements.map(item => `<li>${item}</li>`).join('')}
+                                                    </ul>
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    ` : ''}
+                                    
+                                    <button class="timeline-expand" onclick="toggleTimelineDetails('${step.id}')">
+                                        <i class="fas fa-chevron-down"></i> ${step.status === 'current' ? 'Hide' : 'Show'} Details
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper function to determine job status (connected to project-status.json)
+        function getJobStatus(projectStart) {
+            if (!currentUser) return 'PENDING';
+            
+            // Get project status from project-status.json for selected job
+            const selectedJob = getSelectedJob();
+            if (!selectedJob) return 'PENDING';
+            
+            const userProjectStatus = getUserProjectStatus(currentUser.name);
+            const projectData = userProjectStatus.find(p => p.id === selectedJob.id);
+            
+            if (projectData) {
+                // Use project status from JSON
+                switch (projectData.projectStatus) {
+                    case 'upcoming': return 'UPCOMING';
+                    case 'in-progress': return 'ACTIVE';
+                    case 'completed': return 'COMPLETED';
+                    case 'cancelled': return 'CANCELLED';
+                    default: return 'PENDING';
+                }
+            }
+            
+            // Fallback to date-based logic
+            if (!projectStart || projectStart === 'TBD') return 'PENDING';
+            
+            const startDate = new Date(projectStart);
+            const now = new Date();
+            
+            if (startDate > now) return 'UPCOMING';
+            if (startDate <= now) return 'ACTIVE';
+            return 'COMPLETED';
+        }
+
+        // Helper function to check if contract is signed (connected to uploaded-contracts.json)
+        function getContractSignedStatus() {
+            if (!currentUser) {
+                console.log('📋 No current user for contract status check');
+                return 'current';
+            }
+            
+            // Check uploaded-contracts.json first (primary source)
+            const userContract = getUserContractStatus(currentUser.email);
+            if (userContract) {
+                console.log('📋 Contract found in uploaded-contracts.json:', userContract);
+                return 'completed';
+            }
+            
+            // Fallback to freelancers.json contract status
+            const contractStatus = currentUser.contractStatus || 'pending';
+            
+            console.log('📋 Contract status check for', currentUser.name, ':', {
+                userContract: userContract,
+                contractStatus: contractStatus,
+                contractId: currentUser.contractId,
+                signedDate: currentUser.contractSignedDate,
+                uploadedDate: currentUser.contractUploadedDate
+            });
+            
+            // Return 'completed' if contract is uploaded or signed
+            const hasSignedContract = contractStatus === 'uploaded' || contractStatus === 'signed';
+            
+            console.log('📋 Final contract status result:', {
+                hasSignedContract: hasSignedContract,
+                returning: hasSignedContract ? 'completed' : 'current'
+            });
+            
+            return hasSignedContract ? 'completed' : 'current';
+        }
+
+        // Get detailed project timeline with current status - FULLY CONNECTED TO JSON FILES
+        function getProjectTimeline() {
+            if (!currentUser) return [];
+            
+            // Get contract status from uploaded-contracts.json
+            const userContract = getUserContractStatus(currentUser.email);
+            const contractSigned = userContract ? true : (currentUser.contractStatus === 'uploaded');
+            
+            // Get project status from project-status.json
+            const userProjectStatus = getUserProjectStatus(currentUser.name);
+            const selectedJob = getSelectedJob();
+            const projectData = selectedJob ? userProjectStatus.find(p => p.id === selectedJob.id) : null;
+            const projectStatus = projectData ? projectData.projectStatus : 'upcoming';
+            const paymentStatus = projectData ? projectData.paymentStatus : 'pending';
+            
+            // Get job data from jobs-data.json
+            const jobData = jobsData.find(job => job.id === selectedJob?.id);
+            
+            // Parse project start date from selected job
+            let projectStartDate = null;
+            try {
+                if (selectedJob?.projectStart && selectedJob.projectStart !== 'TBD') {
+                    const dateStr = selectedJob.projectStart.replace(/(\d+)(st|nd|rd|th)/, '$1');
+                    projectStartDate = new Date(dateStr);
+                }
+            } catch (e) {
+                console.warn('Could not parse project start date:', selectedJob?.projectStart);
+            }
+            
+            // Get approved date from freelancers.json
+            const approvedDate = currentUser.approvedDate ? new Date(currentUser.approvedDate) : null;
+            
+            console.log('📊 Timeline Data Sources:', {
+                userContract: userContract,
+                contractSigned: contractSigned,
+                projectData: projectData,
+                projectStatus: projectStatus,
+                paymentStatus: paymentStatus,
+                jobData: jobData,
+                selectedJob: selectedJob,
+                approvedDate: approvedDate
+            });
+            
+            const timeline = [
+                {
+                    id: 'application',
+                    title: 'Application Approved',
+                    description: 'You\'ve been accepted for this role',
+                    icon: 'fas fa-check',
+                    status: 'completed',
+                    date: approvedDate,
+                    details: `Congratulations! You were selected for the ${selectedJob?.role || currentUser.role} position.`
+                },
+                {
+                    id: 'contract',
+                    title: 'Contract Signing',
+                    description: contractSigned ? 'Contract successfully signed ✅' : 'Sign your freelance agreement',
+                    icon: 'fas fa-signature',
+                    status: contractSigned ? 'completed' : 'current',
+                    date: userContract ? new Date(userContract.signedDate) : (currentUser.contractSignedDate ? new Date(currentUser.contractSignedDate) : null),
+                    details: contractSigned ? 
+                        '✅ Your contract has been digitally signed and processed. All terms are now in effect. Thank you for completing this step!' : 
+                        'Please review and sign your freelance contract to proceed with the project. This is a required step before project preparation can begin.',
+                    action: contractSigned ? null : {
+                        text: 'View Contract Status',
+                        onclick: 'switchPortalTab("jobs")',
+                        icon: 'fas fa-file-contract'
+                    }
+                },
+                {
+                    id: 'preparation',
+                    title: 'Project Preparation',
+                    description: contractSigned ? 'Prepare for your project' : 'Awaiting contract signature',
+                    icon: 'fas fa-clipboard-list',
+                    status: contractSigned ? (projectStatus === 'upcoming' ? 'current' : projectStatus === 'completed' ? 'completed' : 'pending') : 'pending',
+                    date: null,
+                    details: contractSigned ? 
+                        'Review project requirements, prepare equipment, and confirm your availability.' : 
+                        'This phase will begin once your contract is signed.',
+                    checklist: contractSigned ? [
+                        'Review project requirements and location details',
+                        'Prepare and check all necessary equipment',
+                        'Confirm transportation and arrival plans',
+                        'Review Cochran Films brand guidelines',
+                        'Prepare professional attire (all black required)'
+                    ] : null
+                },
+                {
+                    id: 'project',
+                    title: 'Project Execution',
+                    description: projectStartDate ? `Starts ${selectedJob?.projectStart}` : 'Project start date TBD',
+                    icon: 'fas fa-play-circle',
+                    status: projectStatus === 'in-progress' ? 'current' : (projectStatus === 'completed' ? 'completed' : 'pending'),
+                    date: projectStartDate,
+                    details: projectStatus === 'in-progress' ? 
+                        'Your project is currently in progress. Follow all guidelines and maintain professional standards.' :
+                        projectStatus === 'completed' ? 
+                        'Project completed successfully! Thank you for your excellent work.' :
+                        `Your project is scheduled to begin on ${selectedJob?.projectStart}.`,
+                    requirements: projectStatus !== 'completed' ? [
+                        'Arrive 15 minutes before start time',
+                        'Bring valid ID and signed contract',
+                        'Wear all black professional attire',
+                        'Use provided Cochran Films branded gear',
+                        'Maintain professional demeanor at all times'
+                    ] : null
+                },
+                {
+                    id: 'completion',
+                    title: 'Project Completion & Payment',
+                    description: projectStatus === 'completed' ? `Project completed - ${paymentStatus} payment` : 'Payment within 24 hours of completion',
+                    icon: 'fas fa-money-bill-wave',
+                    status: projectStatus === 'completed' ? 'completed' : 'pending',
+                    date: projectStatus === 'completed' ? (projectData?.completionDate ? new Date(projectData.completionDate) : new Date()) : null,
+                    details: projectStatus === 'completed' ? 
+                        `✅ Project completed successfully! Payment status: ${paymentStatus}. Payment of ${selectedJob?.rate || currentUser.rate} has been processed.` :
+                        `You will receive payment of ${selectedJob?.rate || currentUser.rate} within 24 hours of project completion.`
+                }
+            ];
+            
+            return timeline;
+        }
+
+        // Get current step in timeline
+        function getCurrentTimelineStep() {
+            const timeline = getProjectTimeline();
+            const currentStep = timeline.find(step => step.status === 'current');
+            return currentStep || timeline[timeline.length - 1];
+        }
+
+        // Calculate overall progress percentage (0%, 20%, 40%, 60%, 80%, 100%)
+        function getProjectProgress() {
+            const timeline = getProjectTimeline();
+            const completedSteps = timeline.filter(step => step.status === 'completed').length;
+            const currentSteps = timeline.filter(step => step.status === 'current').length;
+            
+            // Each step is worth 20% (5 total steps)
+            const baseProgress = completedSteps * 20;
+            
+            // If there's a current step, add 50% of its value (10% for partial progress)
+            const partialProgress = currentSteps > 0 ? 10 : 0;
+            
+            return Math.min(100, baseProgress + partialProgress);
+        }
+
+        // Toggle timeline details
+        function toggleTimelineDetails(stepId) {
+            const timelineItem = document.querySelector(`[data-step="${stepId}"]`);
+            const detailsSection = timelineItem.querySelector('.timeline-details');
+            const expandButton = timelineItem.querySelector('.timeline-expand');
+            const icon = expandButton.querySelector('i');
+            
+            if (detailsSection) {
+                // Toggle existing details
+                if (detailsSection.style.display === 'none' || !detailsSection.style.display) {
+                    detailsSection.style.display = 'block';
+                    expandButton.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
+                } else {
+                    detailsSection.style.display = 'none';
+                    expandButton.innerHTML = '<i class="fas fa-chevron-down"></i> Show Details';
+                }
+            } else {
+                // Create and show details for non-current steps
+                const timeline = getProjectTimeline();
+                const step = timeline.find(s => s.id === stepId);
+                
+                if (step) {
+                    const timelineContent = timelineItem.querySelector('.timeline-content');
+                    const newDetails = document.createElement('div');
+                    newDetails.className = 'timeline-details';
+                    newDetails.innerHTML = `
+                        <p>${step.details}</p>
+                        ${step.checklist ? `
+                            <div class="timeline-checklist">
+                                <h6>📋 Preparation Checklist:</h6>
+                                <ul>
+                                    ${step.checklist.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        ${step.requirements ? `
+                            <div class="timeline-requirements">
+                                <h6>📝 Requirements:</h6>
+                                <ul>
+                                    ${step.requirements.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                    `;
+                    
+                    timelineContent.insertBefore(newDetails, expandButton);
+                    expandButton.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
+                }
+            }
+        }
+
+        // View job details function with beautiful modal
+        function viewJobDetails() {
+            if (!currentUser) return;
+            
+            const selectedJob = getSelectedJob();
+            if (!selectedJob) return;
+            
+            const currentStep = getCurrentTimelineStep();
+            const progress = getProjectProgress();
+            
+            showJobDetailsModal({
+                progress: progress,
+                currentStep: currentStep,
+                user: currentUser,
+                job: selectedJob
+            });
+        }
+
+        // Show job details modal
+        function showJobDetailsModal(data) {
+            const modal = document.createElement('div');
+            modal.className = 'job-details-modal';
+            modal.innerHTML = `
+                <div class="modal-overlay" onclick="closeJobDetailsModal()"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><i class="fas fa-briefcase"></i> Job Details</h2>
+                        <button class="modal-close" onclick="closeJobDetailsModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div class="job-progress-section">
+                            <div class="progress-header">
+                                <h3><i class="fas fa-chart-line"></i> Project Progress</h3>
+                                <span class="progress-percentage">${data.progress}% Complete</span>
+                            </div>
+                            <div class="modal-progress-bar">
+                                <div class="modal-progress-fill" style="width: ${data.progress}%"></div>
+                            </div>
+                            <p class="current-phase">Current Phase: <strong>${data.currentStep.title}</strong></p>
+                        </div>
+                        
+                        <div class="job-info-grid">
+                            <div class="job-info-card">
+                                <h4><i class="fas fa-user"></i> Role Information</h4>
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="label">Position:</span>
+                                        <span class="value">${data.job.role}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="label">Project Type:</span>
+                                        <span class="value">${data.job.projectType}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="label">Location:</span>
+                                        <span class="value">${data.job.location}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="label">Start Date:</span>
+                                        <span class="value">${data.job.projectStart}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="label">Rate:</span>
+                                        <span class="value highlight">${data.job.rate}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="label">Description:</span>
+                                        <span class="value">${data.job.description}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="job-info-card">
+                                <h4><i class="fas fa-clipboard-list"></i> Requirements</h4>
+                                <ul class="requirements-list">
+                                    <li><i class="fas fa-clock"></i> Arrive on time and professionally dressed</li>
+                                    <li><i class="fas fa-tools"></i> Bring your own equipment (unless arranged)</li>
+                                    <li><i class="fas fa-handshake"></i> Maintain professional demeanor</li>
+                                    <li><i class="fas fa-star"></i> Complete assigned tasks to high standards</li>
+                                    <li><i class="fas fa-tshirt"></i> Wear company-branded gear (provided free)</li>
+                                    <li><i class="fas fa-palette"></i> All black attire required</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="current-step-section">
+                            <h4><i class="fas fa-bullseye"></i> Current Step Details</h4>
+                            <div class="step-details">
+                                <p>${data.currentStep.details}</p>
+                                ${data.currentStep.action ? `
+                                    <div class="action-required">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <strong>Action Required:</strong> ${data.currentStep.action.text}
+                                        <a href="${data.currentStep.action.url}" class="modal-action-btn">
+                                            <i class="${data.currentStep.action.icon}"></i> Take Action
+                                        </a>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        <div class="contact-section">
+                            <h4><i class="fas fa-phone"></i> Need Help?</h4>
+                            <p>For questions about this job, contact:</p>
+                            <a href="mailto:info@cochranfilms.com" class="contact-link">
+                                <i class="fas fa-envelope"></i> info@cochranfilms.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Animate in
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+
+        // Close job details modal
+        function closeJobDetailsModal() {
+            const modal = document.querySelector('.job-details-modal');
+            if (modal) {
+                modal.classList.add('hide');
+                setTimeout(() => {
+                    modal.remove();
+                }, 300);
+            }
+        }
+
+        // Download contract for user
+        async function downloadUserContract() {
+            console.log('🔍 Download button clicked');
+            console.log('👤 Current user:', currentUser);
+            console.log('📋 Uploaded contracts:', uploadedContracts);
+            
+            // Check if user has uploaded contract
+            const userContract = uploadedContracts.find(contract => 
+                contract.freelancerEmail.toLowerCase() === currentUser.email.toLowerCase()
+            );
+            
+            console.log('📄 Found user contract:', userContract);
+            console.log('📄 Contract properties:', Object.keys(userContract));
+            console.log('📄 Contract fileName:', userContract.fileName);
+            console.log('📄 Contract githubUrl:', userContract.githubUrl);
+            console.log('📄 Contract fileData:', userContract.fileData ? 'Present' : 'Not present');
+            
+            if (!userContract) {
+                // If no uploaded contract, check if contract is signed but not uploaded
+                if (currentUser.contractStatus === 'signed') {
+                    alert('✅ Your contract has been signed and is being processed by admin. You will be able to download it once it\'s uploaded.');
+                } else {
+                    alert('❌ No contract found for your account. Please sign your contract first.');
+                }
+                return;
+            }
+            
+            try {
+                // Try to download from GitHub first
+                if (userContract.githubUrl) {
+                    console.log('📤 Downloading from GitHub URL:', userContract.githubUrl);
+                    // Direct download from GitHub
+                    const link = document.createElement('a');
+                    link.href = userContract.githubUrl;
+                    link.download = userContract.fileName;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    console.log('📄 Downloaded contract from GitHub:', userContract.fileName);
+                    return;
+                }
+                
+                // Fallback to local file data
+                if (userContract.fileData) {
+                    console.log('📤 Downloading from local data');
+                    const link = document.createElement('a');
+                    link.href = userContract.fileData;
+                    link.download = userContract.fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    console.log('📄 Downloaded contract from local data:', userContract.fileName);
+                    return;
+                }
+                
+                // Try to download from contracts directory
+                if (userContract.fileName) {
+                    console.log('📤 Attempting to download from contracts directory:', userContract.fileName);
+                    const contractUrl = `contracts/${userContract.fileName}`;
+                    
+                    // Also try with contract ID as filename
+                    if (userContract.contractId) {
+                        const possibleContractIds = [userContract.contractId];
+                        
+                        // If the contract ID contains "UPLOAD", also try without it
+                        if (userContract.contractId.includes('CF-UPLOAD-')) {
+                            possibleContractIds.push(userContract.contractId.replace('CF-UPLOAD-', 'CF-'));
+                        }
+                        // If the contract ID doesn't contain "UPLOAD", also try with it
+                        else if (userContract.contractId.includes('CF-') && !userContract.contractId.includes('CF-UPLOAD-')) {
+                            possibleContractIds.push(userContract.contractId.replace('CF-', 'CF-UPLOAD-'));
+                        }
+
+                        for (const idToTry of possibleContractIds) {
+                            const contractIdFileName = `${idToTry}.pdf`;
+                            const contractIdUrl = `contracts/${contractIdFileName}`;
+                            console.log(`📤 Trying with contract ID filename: ${contractIdFileName}`);
+                            
+                            try {
+                                const response = await fetch(contractIdUrl, { method: 'HEAD' });
+                                if (response.ok) {
+                                    console.log('📄 File found in contracts directory with contract ID, downloading...');
+                                    const link = document.createElement('a');
+                                    link.href = contractIdUrl;
+                                    link.download = contractIdFileName;
+                                    link.target = '_blank';
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                    console.log('📄 Downloaded contract from contracts directory:', contractIdFileName);
+                                    return;
+                                } else {
+                                    console.warn(`⚠️ File not found in local directory with ID ${idToTry}: ${contractIdUrl}`);
+                                }
+                            } catch (fetchError) {
+                                console.warn(`⚠️ Could not access file with contract ID ${idToTry} in contracts directory:`, fetchError);
+                            }
+                        }
+                    }
+                    
+                    // Test if file exists by making a HEAD request
+                    try {
+                        const response = await fetch(contractUrl, { method: 'HEAD' });
+                        if (response.ok) {
+                            console.log('📄 File found in contracts directory, downloading...');
+                            const link = document.createElement('a');
+                            link.href = contractUrl;
+                            link.download = userContract.fileName;
+                            link.target = '_blank';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            console.log('📄 Downloaded contract from contracts directory:', userContract.fileName);
+                            return;
+                        }
+                    } catch (fetchError) {
+                        console.warn('⚠️ Could not access file in contracts directory:', fetchError);
+                    }
+                }
+                
+                // Try to construct GitHub URL from contract ID
+                if (userContract.contractId && userContract.fileName) {
+                    console.log('📤 Attempting to download from GitHub using contract ID:', userContract.contractId);
+                    
+                    const possibleContractIds = [userContract.contractId];
+                    
+                    // If the contract ID contains "UPLOAD", also try without it
+                    if (userContract.contractId.includes('CF-UPLOAD-')) {
+                        possibleContractIds.push(userContract.contractId.replace('CF-UPLOAD-', 'CF-'));
+                    }
+                    // If the contract ID doesn't contain "UPLOAD", also try with it
+                    else if (userContract.contractId.includes('CF-') && !userContract.contractId.includes('CF-UPLOAD-')) {
+                        possibleContractIds.push(userContract.contractId.replace('CF-', 'CF-UPLOAD-'));
+                    }
+
+                    for (const idToTry of possibleContractIds) {
+                        const contractIdFileName = `${idToTry}.pdf`;
+                        const githubRawUrl = `https://raw.githubusercontent.com/cochranfilms/cochran-job-listings/main/contracts/${contractIdFileName}`;
+                        console.log(`📤 Trying GitHub URL with contract ID: ${idToTry}`);
+                        
+                        try {
+                            const response = await fetch(githubRawUrl, { method: 'HEAD' });
+                            if (response.ok) {
+                                console.log('📄 File found on GitHub, downloading...');
+                                const link = document.createElement('a');
+                                link.href = githubRawUrl;
+                                link.download = userContract.fileName;
+                                link.target = '_blank';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                console.log('📄 Downloaded contract from GitHub:', userContract.fileName);
+                                return;
+                            } else {
+                                console.warn(`⚠️ File not found on GitHub with ID ${idToTry}:`, githubRawUrl);
+                            }
+                        } catch (fetchError) {
+                            console.warn(`⚠️ Could not access file on GitHub with ID ${idToTry}:`, fetchError);
+                        }
+                    }
+                }
+                
+                // Try to use GitHub download URL if available (from automated upload)
+                if (userContract.githubUrl) {
+                    console.log('📤 Attempting to download from GitHub URL:', userContract.githubUrl);
+                    try {
+                        const response = await fetch(userContract.githubUrl, { method: 'HEAD' });
+                        if (response.ok) {
+                            console.log('📄 File found on GitHub via direct URL, downloading...');
+                            const link = document.createElement('a');
+                            link.href = userContract.githubUrl;
+                            link.download = userContract.fileName;
+                            link.target = '_blank';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            console.log('📄 Downloaded contract from GitHub direct URL:', userContract.fileName);
+                            return;
+                        } else {
+                            console.warn('⚠️ File not found on GitHub via direct URL:', userContract.githubUrl);
+                        }
+                    } catch (fetchError) {
+                        console.warn('⚠️ Could not access file on GitHub via direct URL:', fetchError);
+                    }
+                }
+                
+                alert('❌ Contract file not available. Please contact admin.');
+                
+            } catch (error) {
+                console.error('❌ Error downloading contract:', error);
+                alert('❌ Error downloading contract. Please try again or contact admin.');
+            }
+        }
+
+        // View contract details
+        function viewContractDetails() {
+            console.log('👁️ View details button clicked');
+            console.log('👤 Current user:', currentUser);
+            console.log('📋 Uploaded contracts:', uploadedContracts);
+            
+            // Check if user has uploaded contract
+            const userContract = uploadedContracts.find(contract => 
+                contract.freelancerEmail.toLowerCase() === currentUser.email.toLowerCase()
+            );
+            
+            console.log('📄 Found user contract:', userContract);
+            
+            if (!userContract) {
+                // If no uploaded contract, check if contract is signed but not uploaded
+                if (currentUser.contractStatus === 'signed') {
+                    alert('✅ Your contract has been signed and is being processed by admin. You will be able to view details once it\'s uploaded.');
+                } else {
+                    alert('❌ No contract found for your account. Please sign your contract first.');
+                }
+                return;
+            }
+            
+            const details = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎬 COCHRAN FILMS - CONTRACT DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 BASIC INFO:
+Contract ID: ${userContract.contractId}
+Freelancer: ${userContract.freelancerEmail}
+Email: ${userContract.freelancerEmail}
+Role: ${userContract.role}
+Rate: ${userContract.rate}
+Location: ${userContract.location}
+Contract Date: ${userContract.contractDate || 'Not specified'}
+
+📁 FILE INFO:
+File Name: ${userContract.fileName}
+File Size: ${(userContract.fileSize / 1024).toFixed(1)} KB
+Upload Date: ${new Date(userContract.uploadDate).toLocaleString()}
+Status: ${userContract.status}
+
+${userContract.notes ? `📝 NOTES:\n${userContract.notes}\n\n` : ''}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            `.trim();
+            
+            alert(details);
+        }
+
+        // Make functions globally accessible
+        window.downloadUserContract = downloadUserContract;
+        window.viewContractDetails = viewContractDetails;
+
+        // Logout
+        function logout() {
+            sessionStorage.removeItem('userPortalAuthenticated');
+            showLoginScreen();
+        }
+
+        // Tab switching functionality
+        function switchPortalTab(tabName) {
+            // Remove active class from all tabs and buttons
+            document.querySelectorAll('.portal-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to selected tab and button
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            console.log('📑 Switched to tab:', tabName);
+        }
+
+        // Check authentication on page load
+        function checkAuth() {
+            const savedUser = sessionStorage.getItem('userPortalAuthenticated');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    showUserPortal();
+                } catch (error) {
+                    showLoginScreen();
+                }
+            } else {
+                showLoginScreen();
+            }
+        }
+
+        // Refresh user data (reload from JSON file)
+        async function refreshUserData() {
+            console.log('🔄 Refreshing user data...');
+            await loadEventPlannerData();
+            await loadUploadedContracts();
+            await loadProjectStatus();
+            await loadJobsData();
+            
+            if (currentUser) {
+                // Find updated user data
+                const updatedUser = eventPlanners.find(f => f.email.toLowerCase() === currentUser.email.toLowerCase());
+                if (updatedUser) {
+                    currentUser = updatedUser;
+                    console.log('✅ User data refreshed:', currentUser);
+                    loadUserData(); // Refresh displays
+                } else {
+                    console.warn('⚠️ User not found after refresh');
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadEventPlannerData();
+            await loadUploadedContracts();
+            await loadProjectStatus();
+            await loadJobsData();
+            checkAuth();
+            
+            // Add login form handler
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            
+            // Add refresh button functionality
+            window.refreshUserData = refreshUserData;
+        });
+    </script>
+
+    <style>
+        :root {
+            --primary: #FFB200;
+            --primary-dark: #FF9000;
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --gray-dark: #343a40;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,178,0,0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.3);
+        }
+        
+        .login-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 3px #FFB200) drop-shadow(0 0 6px #FFB200) drop-shadow(2px 2px 0px #000000);
+        }
+        
+        .login-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #FFB200;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+        }
+        
+        .login-subtitle {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #FFB200;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.6);
+            border-color: #FFB200;
+            box-shadow: 0 0 0 2px rgba(255, 178, 0, 0.2);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,178,0,0.4);
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        /* User Portal */
+        .user-portal {
+            display: none;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .user-portal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,178,0,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .portal-header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .portal-header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #FFB200;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% { text-shadow: 0 2px 10px rgba(255,178,0,0.3); }
+            100% { text-shadow: 0 2px 15px rgba(255,178,0,0.5); }
+        }
+        
+        .portal-header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: #FFB200;
+            transform: translateY(-1px);
+        }
+
+        .refresh-btn {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            transform: rotate(180deg);
+        }
+        
+        .portal-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .info-card, .contract-card {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            margin-bottom: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-card::before, .contract-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,178,0,0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .info-card:hover, .contract-card:hover {
+            border-color: #FFB200;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(255,178,0,0.15);
+        }
+        
+        .info-card:hover::before, .contract-card:hover::before {
+            opacity: 1;
+        }
+        
+        .info-card h3, .contract-card h4 {
+            color: #FFB200;
+            margin-bottom: 1rem;
+            font-family: 'Cinzel', serif;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .info-grid > div {
+            background: rgba(255,178,0,0.05);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,178,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .info-grid > div:hover {
+            background: rgba(255,178,0,0.1);
+            border-color: rgba(255,178,0,0.2);
+            transform: scale(1.02);
+        }
+        
+        .contract-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .status-badge {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .contract-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .contract-actions {
+            margin-top: 1rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .empty-state h3 {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1rem;
+        }
+        
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 178, 0, 0.3);
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            background: rgba(255, 178, 0, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,178,0,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 178, 0, 0.2);
+            border-color: rgba(255, 178, 0, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,178,0,0.2);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            border-color: #FFB200;
+            box-shadow: 0 0 0 2px rgba(255, 178, 0, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .portal-tab {
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .portal-tab.active {
+            display: block; /* Show when active */
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Job Card Styles */
+        .job-card {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-header h3 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 0.25rem;
+        }
+
+        .job-location {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .job-status {
+            background: rgba(255, 178, 0, 0.1);
+            color: #FFB200;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .job-status.upcoming {
+            background: rgba(255, 178, 0, 0.05);
+            color: #FFB200;
+        }
+
+        .job-status.active {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .job-status.completed {
+            background: rgba(34, 197, 94, 0.05);
+            color: #22c55e;
+        }
+
+        .job-status.pending {
+            background: rgba(255, 178, 0, 0.05);
+            color: #FFB200;
+        }
+
+        .job-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .job-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-detail-item i {
+            color: #FFB200;
+            font-size: 1rem;
+        }
+
+        .job-detail-item strong {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+        }
+
+        .job-detail-item span {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .contract-status.signed {
+            color: #22c55e !important;
+            font-weight: 600;
+        }
+
+        .contract-status.pending {
+            color: #FFB200 !important;
+            font-weight: 600;
+        }
+
+        /* Contract status display styles */
+        .pending-state {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .job-action-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .job-action-btn.secondary {
+            background: rgba(255, 178, 0, 0.05);
+            color: #FFB200;
+            border: 1px solid rgba(255, 178, 0, 0.2);
+        }
+
+        .job-action-btn.secondary:hover {
+            background: rgba(255, 178, 0, 0.1);
+            border-color: rgba(255, 178, 0, 0.3);
+        }
+
+        /* Job Timeline Styles */
+        .job-timeline {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            margin-top: 1.5rem;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .timeline-header h4 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 200px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 178, 0, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFB200, #FFD700);
+            border-radius: 4px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            color: #FFB200;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .current-status {
+            margin-bottom: 2rem;
+        }
+
+        .status-card {
+            background: linear-gradient(135deg, rgba(255, 178, 0, 0.1), rgba(255, 178, 0, 0.05));
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: statusPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 178, 0, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 178, 0, 0); }
+        }
+
+        .status-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #000;
+            flex-shrink: 0;
+        }
+
+        .status-content h5 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .status-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 178, 0, 0.3);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -1rem;
+            top: 0.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: rgba(255, 178, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #FFB200;
+            z-index: 2;
+        }
+
+        .timeline-item.completed .timeline-icon {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+        }
+
+        .timeline-item.current .timeline-icon {
+            background: rgba(255, 178, 0, 0.2);
+            border-color: #FFB200;
+            box-shadow: 0 0 0 4px rgba(255, 178, 0, 0.2);
+        }
+
+        .timeline-item.pending .timeline-icon {
+            background: rgba(255, 178, 0, 0.05);
+            border-color: rgba(255, 178, 0, 0.5);
+        }
+
+        .timeline-icon i {
+            font-size: 1rem;
+            color: #FFB200;
+        }
+
+        .timeline-item.completed .timeline-icon i {
+            color: #22c55e;
+        }
+
+        .timeline-item.current .timeline-icon i {
+            color: #FFB200;
+        }
+
+        .timeline-item.pending .timeline-icon i {
+            color: rgba(255, 178, 0, 0.6);
+        }
+
+        .timeline-content {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255, 178, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item.current .timeline-content {
+            background: rgba(255, 178, 0, 0.05);
+            border-color: rgba(255, 178, 0, 0.3);
+        }
+
+        .timeline-main {
+            margin-bottom: 1rem;
+        }
+
+        .timeline-content strong {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-content span {
+            color: rgba(255,255,255,0.7);
+            display: block;
+        }
+
+        .timeline-date {
+            color: rgba(255, 178, 0, 0.8);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .timeline-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 178, 0, 0.2);
+        }
+
+        .timeline-details p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .timeline-action {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 178, 0, 0.4);
+        }
+
+        .timeline-checklist, .timeline-requirements {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 3px solid #FFB200;
+        }
+
+        .timeline-checklist h6, .timeline-requirements h6 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0 0 0.75rem 0;
+            font-size: 0.9rem;
+        }
+
+        .timeline-checklist ul, .timeline-requirements ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            list-style: none;
+        }
+
+        .timeline-checklist li, .timeline-requirements li {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .timeline-checklist li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: bold;
+            position: absolute;
+            left: -1.25rem;
+        }
+
+        .timeline-requirements li::before {
+            content: '•';
+            color: #FFB200;
+            font-weight: bold;
+            position: absolute;
+            left: -1.25rem;
+        }
+
+        .timeline-expand {
+            background: rgba(255, 178, 0, 0.1);
+            color: #FFB200;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .timeline-expand:hover {
+            background: rgba(255, 178, 0, 0.2);
+            border-color: rgba(255, 178, 0, 0.5);
+        }
+
+        /* Job Details Modal */
+        .job-details-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .job-details-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .job-details-modal.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(26, 26, 26, 0.95));
+            border-radius: 20px;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            width: 90vw;
+            max-height: 80vh;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 178, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 178, 0, 0.2);
+            border-color: #FFB200;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .job-progress-section {
+            background: rgba(255, 178, 0, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 178, 0, 0.2);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-header h3 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .progress-percentage {
+            color: #FFB200;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .modal-progress-bar {
+            height: 12px;
+            background: rgba(255, 178, 0, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .modal-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFB200, #FFD700);
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .current-phase {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+        }
+
+        .job-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .job-info-card {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 178, 0, 0.1);
+        }
+
+        .job-info-card h4 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-item .label {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .info-item .value {
+            color: white;
+            font-weight: 600;
+        }
+
+        .info-item .value.highlight {
+            color: #FFB200;
+        }
+
+        .requirements-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .requirements-list li {
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .requirements-list li i {
+            color: #FFB200;
+            width: 16px;
+            flex-shrink: 0;
+        }
+
+        .current-step-section {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 178, 0, 0.1);
+        }
+
+        .current-step-section h4 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .step-details p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .action-required {
+            background: rgba(255, 178, 0, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .action-required i {
+            color: #FFB200;
+        }
+
+        .modal-action-btn {
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: auto;
+            transition: all 0.3s ease;
+        }
+
+        .modal-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 178, 0, 0.4);
+        }
+
+        .contact-section {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 178, 0, 0.1);
+            text-align: center;
+        }
+
+        .contact-section h4 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 178, 0, 0.1);
+            color: #FFB200;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 178, 0, 0.2);
+            border-color: rgba(255, 178, 0, 0.5);
+        }
+
+        /* Profile Tab Styles */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        .contact-info-card, .current-job-card {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info-card::before, .current-job-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,178,0,0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-info-card:hover, .current-job-card:hover {
+            border-color: #FFB200;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(255,178,0,0.15);
+        }
+
+        .contact-info-card:hover::before, .current-job-card:hover::before {
+            opacity: 1;
+        }
+
+        .contact-info-card h3, .current-job-card h3 {
+            color: #FFB200;
+            margin-bottom: 1.5rem;
+            font-family: 'Cinzel', serif;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255,178,0,0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255,178,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255,178,0,0.1);
+            border-color: rgba(255,178,0,0.2);
+            transform: scale(1.02);
+        }
+
+        .contact-item i {
+            color: #FFB200;
+            font-size: 1.2rem;
+            width: 24px;
+            flex-shrink: 0;
+        }
+
+        .contact-item div {
+            flex: 1;
+        }
+
+        .contact-item strong {
+            display: block;
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .contact-item span {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+        }
+
+        .job-header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .job-count {
+            background: rgba(255, 178, 0, 0.2);
+            color: #FFB200;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+        }
+
+        .job-selector {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .job-option {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 178, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-option:hover {
+            border-color: rgba(255, 178, 0, 0.5);
+            background: rgba(255, 178, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .job-option.active {
+            border-color: #FFB200;
+            background: rgba(255, 178, 0, 0.1);
+            box-shadow: 0 0 0 2px rgba(255, 178, 0, 0.2);
+        }
+
+        .job-info {
+            flex: 1;
+        }
+
+        .job-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .job-title i {
+            color: #FFB200;
+            font-size: 1.2rem;
+        }
+
+        .job-title strong {
+            color: white;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+        }
+
+        .job-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .job-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .job-detail i {
+            color: #FFB200;
+            width: 16px;
+            flex-shrink: 0;
+        }
+
+        .job-detail span {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .job-status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .job-status-indicator.upcoming {
+            background: rgba(255, 178, 0, 0.2);
+            color: #FFB200;
+            border: 1px solid rgba(255, 178, 0, 0.4);
+        }
+
+        .job-status-indicator.active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .job-status-indicator.completed {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .job-status-indicator.pending {
+            background: rgba(156, 163, 175, 0.2);
+            color: #9ca3af;
+            border: 1px solid rgba(156, 163, 175, 0.4);
+        }
+
+        .job-actions-section {
+            display: flex;
+            gap: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 178, 0, 0.1);
+            color: #FFB200;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 178, 0, 0.2);
+            border-color: rgba(255, 178, 0, 0.5);
+        }
+
+        /* Multiple Jobs UI */
+        .primary-badge {
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .job-type {
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-type i {
+            color: #FFB200;
+        }
+
+        .job-description {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(255, 178, 0, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #FFB200;
+        }
+
+        .job-description p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .job-selector-header {
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 178, 0, 0.2);
+        }
+
+        .job-selector-header h3 {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .job-tabs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .job-tab {
+            background: rgba(255, 178, 0, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .job-tab:hover {
+            background: rgba(255, 178, 0, 0.2);
+            border-color: rgba(255, 178, 0, 0.5);
+        }
+
+        .job-tab.active {
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            border-color: #FFB200;
+        }
+
+        .primary-dot {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            border: 2px solid #000;
+        }
+
+        .job-type-info {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-type-info i {
+            color: #FFB200;
+        }
+        
+        @media (max-width: 768px) {
+            .portal-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid, .contract-details, .job-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .job-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .timeline-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .progress-indicator {
+                min-width: auto;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .status-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .timeline {
+                padding-left: 1.5rem;
+            }
+            
+            .timeline-icon {
+                left: -1.25rem;
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+            
+            .timeline-icon i {
+                font-size: 0.8rem;
+            }
+            
+            .timeline-checklist, .timeline-requirements {
+                padding: 0.75rem;
+                margin: 0.75rem 0;
+            }
+            
+            .tab-navigation {
+                justify-content: stretch;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            /* Modal responsive */
+            .modal-content {
+                width: 95vw;
+                max-height: 90vh;
+            }
+            
+            .modal-header {
+                padding: 1.5rem 1.5rem 1rem 1.5rem;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+            
+            .job-info-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .action-required {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .modal-action-btn {
+                margin-left: 0;
+                text-align: center;
+            }
+            
+            /* Profile responsive */
+            .profile-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .contact-info-card, .current-job-card {
+                padding: 1.5rem;
+            }
+            
+            .job-details-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .job-actions-section {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .job-option {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+                padding: 1.25rem;
+            }
+            
+            .job-status-indicator {
+                align-self: flex-start;
+            }
+            
+            .job-tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .job-tab {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <img src="Logo.png" alt="Cochran Films" class="login-logo">
+            <h1 class="login-title">🎉 Event Planner Portal</h1>
+            <p class="login-subtitle">Access your events and client information</p>
+            
+            <div id="loginError" class="error-message">
+                Invalid email or password. Please try again.
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">🔐 Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Portal -->
+    <div id="userPortal" class="user-portal">
+        <div class="portal-header">
+            <div style="position: absolute; top: 1rem; right: 1rem; display: flex; gap: 0.5rem;">
+                <button class="refresh-btn" onclick="refreshUserData()" title="Refresh data from server">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+            <h1>Welcome, <span id="userName">User</span>!</h1>
+            <p>Your personal event planner portal</p>
+        </div>
+
+        <div class="portal-content">
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" onclick="switchPortalTab('profile')">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+                <button class="tab-btn" onclick="switchPortalTab('jobs')">
+                    <i class="fas fa-briefcase"></i> Current Events
+                </button>
+                <button class="tab-btn" onclick="switchPortalTab('contracts')">
+                    <i class="fas fa-file-contract"></i> Contracts
+                </button>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="portal-tab active">
+                <div id="userInfo">
+                    <!-- User info will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Current Jobs Tab -->
+            <div id="jobs-tab" class="portal-tab">
+                <h2 style="color: #FFB200; margin-bottom: 1rem; font-family: 'Cinzel', serif;">🎉 Your Current Events</h2>
+                <div id="userJobs">
+                    <!-- Jobs will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Contracts Tab -->
+            <div id="contracts-tab" class="portal-tab">
+                <h2 style="color: #FFB200; margin-bottom: 1rem; font-family: 'Cinzel', serif;">📋 Your Contracts</h2>
+                <div id="userContracts">
+                    <!-- Contracts will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

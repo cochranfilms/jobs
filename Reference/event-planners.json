@@ -1,0 +1,83 @@
+{
+  "approvedFreelancers": {
+    "Sophie Anderson": {
+      "email": "sophie.anderson@premierevents.com",
+      "password": "Events2025",
+      "approvedDate": "2024-01-25",
+      "contractUrl": "contract.html",
+      "contractStatus": "pending",
+      "contractSignedDate": null,
+      "contractUploadedDate": null,
+      "contractId": null,
+      "jobs": [
+        {
+          "id": "event-sophie-001",
+          "role": "Wedding Coordinator",
+          "location": "Atlanta Botanical Garden, 1345 Piedmont Ave, Atlanta, GA",
+          "projectStart": "December 21, 2025 at 4:00 PM",
+          "rate": "$2,500.00 USD (Flat)",
+          "status": "upcoming",
+          "projectType": "Wedding",
+          "description": "Full wedding coordination and day-of management"
+        }
+      ],
+      "primaryJob": "event-sophie-001"
+    },
+    "Marcus Johnson": {
+      "email": "marcus.johnson@premierevents.com",
+      "password": "Corporate2025",
+      "approvedDate": "2024-02-20",
+      "contractUrl": "contract.html",
+      "contractStatus": "signed",
+      "contractSignedDate": "2024-02-25",
+      "contractUploadedDate": "2024-02-27",
+      "contractId": "CF-EVENT-001",
+      "jobs": [
+        {
+          "id": "event-marcus-001",
+          "role": "Corporate Event Manager",
+          "location": "Georgia World Congress Center, 285 Andrew Young Intl Blvd, Atlanta, GA",
+          "projectStart": "December 16, 2025 at 8:00 AM",
+          "rate": "$3,500.00 USD (Flat)",
+          "status": "upcoming",
+          "projectType": "Corporate",
+          "description": "Annual corporate conference with 500+ attendees"
+        },
+        {
+          "id": "event-marcus-002",
+          "role": "Trade Show Coordinator",
+          "location": "Cobb Galleria Centre, 2 Galleria Pkwy SE, Atlanta, GA",
+          "projectStart": "December 23, 2025 at 9:00 AM",
+          "rate": "$2,800.00 USD (Flat)",
+          "status": "upcoming",
+          "projectType": "Trade Show",
+          "description": "Technology trade show with vendor coordination"
+        }
+      ],
+      "primaryJob": "event-marcus-001"
+    },
+    "Elena Rodriguez": {
+      "email": "elena.rodriguez@premierevents.com",
+      "password": "Elena2025",
+      "approvedDate": "2024-03-15",
+      "contractUrl": "contract.html",
+      "contractStatus": "uploaded",
+      "contractSignedDate": "2024-03-20",
+      "contractUploadedDate": "2024-03-22",
+      "contractId": "CF-EVENT-002",
+      "jobs": [
+        {
+          "id": "event-elena-001",
+          "role": "Luxury Event Designer",
+          "location": "The St. Regis Atlanta, 88 West Paces Ferry Rd, Atlanta, GA",
+          "projectStart": "December 19, 2025 at 6:00 PM",
+          "rate": "$4,200.00 USD (Flat)",
+          "status": "upcoming",
+          "projectType": "Luxury",
+          "description": "High-end gala dinner with custom design elements"
+        }
+      ],
+      "primaryJob": "event-elena-001"
+    }
+  }
+} 

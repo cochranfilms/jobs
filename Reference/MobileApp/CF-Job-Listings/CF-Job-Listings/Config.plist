@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_BASE_URL</key>
+	<string>https://collaborate.cochranfilms.com/</string>
+	<key>FIREBASE_API_KEY</key>
+	<string></string>
+	<key>FIREBASE_PROJECT_ID</key>
+	<string>cochran-films</string>
+	<key>FIREBASE_APP_ID</key>
+	<string></string>
+	<key>FIREBASE_MESSAGING_SENDER_ID</key>
+	<string></string>
+	<key>FIREBASE_STORAGE_BUCKET</key>
+	<string>cochran-films.appspot.com</string>
+	<key>FIREBASE_AUTH_DOMAIN</key>
+	<string>cochran-films.firebaseapp.com</string>
+</dict>
+</plist>

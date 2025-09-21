@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Display Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .results {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .success {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Profile Display Debug Test</h1>
+    
+    <div class="test-container">
+        <h2>Test Profile Data Loading</h2>
+        <p>This test will check if the profile data is being loaded correctly from the API and transformed properly.</p>
+        <button class="test-button" onclick="runTest()">Run Profile Display Test</button>
+        
+        <div class="results" id="testResults">
+            Click "Run Profile Display Test" to start debugging...
+        </div>
+    </div>
+
+    <script>
+        // Test script to debug profile display issue
+        async function testProfileDisplay() {
+            const results = document.getElementById('testResults');
+            
+            try {
+                results.innerHTML = '🧪 Testing profile display functionality...\n\n';
+                
+                // Load users data from the API
+                results.innerHTML += '📡 Loading users data from API...\n';
+                const response = await fetch('/api/users');
+                
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    results.innerHTML += '✅ Raw API response received\n';
+                    results.innerHTML += `📊 Found ${Object.keys(jsonData.users || {}).length} users\n\n`;
+                    
+                    if (jsonData.users) {
+                        // Test the data transformation logic
+                        const users = Object.entries(jsonData.users).map(([name, user]) => ({
+                            name: name,
+                            email: user.profile?.email,
+                            password: user.profile?.password,
+                            approvedDate: user.profile?.approvedDate,
+                            contractUrl: user.contract?.contractUrl || 'contract.html',
+                            contractStatus: user.contract?.contractStatus || 'pending',
+                            contractSignedDate: user.contract?.contractSignedDate,
+                            contractUploadedDate: user.contract?.contractUploadedDate,
+                            contractId: user.contract?.contractId,
+                            paymentMethod: user.paymentMethod || null,
+                            paymentStatus: user.paymentStatus || 'pending',
+                            jobs: user.jobs || {
+                                'legacy-job': {
+                                    id: 'legacy-job',
+                                    role: user.profile?.role,
+                                    location: user.profile?.location,
+                                    projectStart: user.profile?.projectStart,
+                                    rate: user.profile?.rate,
+                                    status: 'upcoming',
+                                    projectType: 'Legacy Job',
+                                    description: `${user.profile?.role} position`
+                                }
+                            },
+                            primaryJob: user.primaryJob || 'legacy-job'
+                        }));
+                        
+                        results.innerHTML += '🔄 Data transformation completed\n';
+                        results.innerHTML += `📋 Transformed ${users.length} users\n\n`;
+                        
+                        // Find Test User
+                        const testUser = users.find(u => u.name === 'Test User');
+                        if (testUser) {
+                            results.innerHTML += '👤 Test User found in transformed data\n';
+                            results.innerHTML += `📧 Email: ${testUser.email}\n`;
+                            results.innerHTML += `📅 Approved: ${testUser.approvedDate}\n`;
+                            results.innerHTML += `💼 Jobs count: ${Object.keys(testUser.jobs).length}\n`;
+                            results.innerHTML += `🎯 Primary job: ${testUser.primaryJob}\n\n`;
+                            
+                            // Test getSelectedJob logic
+                            const selectedJob = testUser.jobs[testUser.primaryJob] || Object.values(testUser.jobs)[0];
+                            if (selectedJob) {
+                                results.innerHTML += '🎯 Selected job details:\n';
+                                results.innerHTML += `   Role: ${selectedJob.role || 'N/A'}\n`;
+                                results.innerHTML += `   Location: ${selectedJob.location || 'N/A'}\n`;
+                                results.innerHTML += `   Rate: ${selectedJob.rate || 'N/A'}\n`;
+                                results.innerHTML += `   Status: ${selectedJob.status || 'N/A'}\n\n`;
+                            }
+                            
+                            // Test profile display data
+                            const profileData = {
+                                name: testUser.name,
+                                email: testUser.email,
+                                approvedDate: testUser.approvedDate,
+                                role: selectedJob?.role || 'Creator',
+                                location: selectedJob?.location || 'N/A',
+                                rate: selectedJob?.rate || 'N/A'
+                            };
+                            
+                            results.innerHTML += '📊 Profile display data ready:\n';
+                            results.innerHTML += JSON.stringify(profileData, null, 2) + '\n\n';
+                            results.innerHTML += '✅ Profile data should display correctly now!\n';
+                        } else {
+                            results.innerHTML += '❌ Test User not found in transformed data\n';
+                            results.innerHTML += 'Available users:\n';
+                            users.forEach(u => {
+                                results.innerHTML += `  - ${u.name} (${u.email})\n`;
+                            });
+                        }
+                    }
+                } else {
+                    results.innerHTML += `❌ API response not ok: ${response.status} ${response.statusText}\n`;
+                }
+            } catch (error) {
+                results.innerHTML += `❌ Error testing profile display: ${error.message}\n`;
+                console.error('Test error:', error);
+            }
+        }
+
+        function runTest() {
+            testProfileDisplay();
+        }
+    </script>
+</body>
+</html>

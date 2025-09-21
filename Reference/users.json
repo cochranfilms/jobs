@@ -1,0 +1,325 @@
+{
+  "users": {
+    "Cody Cochran": {
+      "profile": {
+        "email": "codylcochran89@gmail.com",
+        "location": "Douglasville, GA",
+        "role": "Photographer",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-16T00:23:48.812Z",
+        "jobTitle": "Backdrop Photographer Spotlight",
+        "eventDate": "2025-10-24",
+        "pay": "$300 + Tip",
+        "description": "You will be taking pictures for on-site printing at the Douglasville O'Neal Plaza Halloween Block Party from 4-8pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "4704202169",
+        "portfolio": "https://www.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "james brown": {
+      "profile": {
+        "email": "dedejackson727@gmail.com",
+        "location": "Atlanta Area",
+        "role": "Developer",
+        "projectType": ""
+      },
+      "profilePicture": null,
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-08-18T04:19:46.635Z",
+        "jobTitle": "Firebase",
+        "eventDate": "2025-08-09",
+        "pay": "$300",
+        "description": "Firestore elements",
+        "phone": "4704202169",
+        "portfolio": "https://www.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "eric thomas": {
+      "profile": {
+        "email": "codylcochran87@gmail.com",
+        "location": "Atlanta Area",
+        "role": "Developer",
+        "projectType": ""
+      },
+      "profilePicture": null,
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-08-18T05:43:04.539Z",
+        "jobTitle": "Firebase",
+        "eventDate": "2025-08-09",
+        "pay": "$300",
+        "description": "Firestore elements",
+        "phone": "4704202169",
+        "portfolio": "https://landing.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Erica Jackson": {
+      "profile": {
+        "email": "dedejackson727@gmail.com",
+        "location": "Atlanta, GA",
+        "role": "Photographer",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-15T01:50:33.161Z",
+        "jobTitle": "OBS Tech Assistant",
+        "eventDate": "2025-09-15",
+        "pay": "$400",
+        "description": "I need an OBS Tech for the software and connecting via a capture card.",
+        "phone": "(678) 934-2841",
+        "portfolio": "https://www.coursecreatoracademy.org",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Erica Cochran": {
+      "profile": {
+        "email": "dedejackson727@gmail.com",
+        "location": "Douglasville, GA",
+        "role": "Photographer",
+        "projectType": ""
+      },
+      "profilePicture": null,
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-08-20T08:01:23.373Z",
+        "jobTitle": "Backdrop Photographer Base",
+        "eventDate": "2025-11-08",
+        "pay": "$400",
+        "description": "You will be taking pictures for on-site printing at the 2nd annual Stranger Things block party from 4-9pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "4704202169",
+        "portfolio": "https://www.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Cody smith": {
+      "profile": {
+        "email": "codylcochran@icloud.com",
+        "location": "Douglasville, GA",
+        "role": "Photographer",
+        "projectType": ""
+      },
+      "profilePicture": null,
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-08-20T16:00:42.316Z",
+        "jobTitle": "Backdrop Photographer Base",
+        "eventDate": "2025-11-08",
+        "pay": "$400",
+        "description": "You will be taking pictures for on-site printing at the 2nd annual Stranger Things block party from 4-9pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "4704202169",
+        "portfolio": "https://www.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Will Smith": {
+      "profile": {
+        "email": "codylcochran89@gmail.com",
+        "location": "Douglasville, GA",
+        "role": "Photographer",
+        "projectType": ""
+      },
+      "profilePicture": null,
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-08T10:33:32.123Z",
+        "jobTitle": "Backdrop Photographer Base",
+        "eventDate": "2025-11-08",
+        "pay": "$400",
+        "description": "You will be taking pictures for on-site printing at the 2nd annual Stranger Things block party from 4-9pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "4704202169",
+        "portfolio": "https://www.cochranfilms.studio",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Destiny Wild": {
+      "profile": {
+        "email": "developer@marketingmousetrapagency.com",
+        "location": "Douglasville, GA",
+        "role": "",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-12T05:29:19.380Z",
+        "jobTitle": "Backdrop Photographer Base",
+        "eventDate": "2025-11-08",
+        "pay": "$400",
+        "description": "You will be taking pictures for on-site printing at the 2nd annual Stranger Things block party from 4-9pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "4704202169",
+        "portfolio": "https://www.cochranfilms.studio",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Wolf Man": {
+      "profile": {
+        "email": "developer@marketingmousetrapagency.com",
+        "location": "Douglasville, GA",
+        "role": "",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-12T23:39:58.423Z",
+        "jobTitle": "Backdrop Photographer Base",
+        "eventDate": "2025-11-08",
+        "pay": "$400",
+        "description": "You will be taking pictures for on-site printing at the 2nd annual Stranger Things block party from 4-9pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "7706165522",
+        "portfolio": "https://www.cochranfilms.studio",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Big Bad": {
+      "profile": {
+        "email": "dedejackson727@gmail.com",
+        "location": "Douglasville, GA",
+        "role": "",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-13T09:09:36.830Z",
+        "jobTitle": "Backdrop Photographer Spotlight",
+        "eventDate": "2025-10-24",
+        "pay": "$300 + Tip",
+        "description": "You will be taking pictures for on-site printing at the Douglasville O'Neal Plaza Halloween Block Party from 4-8pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "(678) 934-2841",
+        "portfolio": "https://www.coursecreatoracademy.org",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Eric John": {
+      "profile": {
+        "email": "codylcochran87@gmail.com",
+        "location": "Atlanta, GA",
+        "role": "",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-13T10:41:01.578Z",
+        "jobTitle": "OBS Tech Assistant",
+        "eventDate": "2025-09-15",
+        "pay": "$400",
+        "description": "I need an OBS Tech for the software and connecting via a capture card.",
+        "phone": "4704202169",
+        "portfolio": "https://pitch.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Jim Jones": {
+      "profile": {
+        "email": "dedejackson727@gmail.com",
+        "location": "Douglasville, GA",
+        "role": "",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-13T20:10:35.158Z",
+        "jobTitle": "Backdrop Photographer Base",
+        "eventDate": "2025-11-08",
+        "pay": "$400",
+        "description": "You will be taking pictures for on-site printing at the 2nd annual Stranger Things block party from 4-9pm. I will be on site to assist and print the photos.<br><b>(On set by 3:15. I will provide the backdrop and printer. You only need your equipment)</b>",
+        "phone": "6787590786",
+        "portfolio": "https://pitch.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    },
+    "Bill Bar": {
+      "profile": {
+        "email": "codylcochran89@gmail.com",
+        "location": "Atlanta, GA",
+        "role": "",
+        "projectType": ""
+      },
+      "contract": {
+        "contractStatus": "pending"
+      },
+      "application": {
+        "status": "pending",
+        "submittedAt": "2025-09-16T00:22:51.327Z",
+        "jobTitle": "OBS Tech Assistant",
+        "eventDate": "2025-09-15",
+        "pay": "$400",
+        "description": "I need an OBS Tech for the software and connecting via a capture card.",
+        "phone": "4704202169",
+        "portfolio": "https://www.cochranfilms.com",
+        "source": "apply-html"
+      },
+      "jobs": {},
+      "primaryJob": null
+    }
+  },
+  "statusOptions": {},
+  "lastUpdated": "2025-09-16",
+  "totalUsers": 13,
+  "system": {}
+}

@@ -1,0 +1,56 @@
+{
+  "users": {
+    "Cody Cochran": {
+      "profile": {
+        "email": "codylcochran89@gmail.com",
+        "password": "test1234",
+        "role": "Assistant",
+        "location": "Miami, FL",
+        "projectStart": "2025-08-08T06:30",
+        "rate": "$150/hour",
+        "approvedDate": "2025-08-05"
+      },
+      "contract": {
+        "contractUrl": "contract.html",
+        "contractStatus": "signed",
+        "contractSignedDate": "8/5/2025, 8:15:17 PM",
+        "contractUploadedDate": null,
+        "contractId": "CF-1754439317321-J8HF4"
+      },
+      "jobs": {
+        "job-assistant-default": {
+          "id": "job-assistant-default",
+          "title": "Assistant Position",
+          "date": "2025-08-06",
+          "location": "Miami, FL",
+          "pay": "$150/hour",
+          "description": "Professional Assistant position in Miami, FL. Details to be provided.",
+          "status": "upcoming",
+          "projectStatus": "completed",
+          "paymentStatus": "paid",
+          "assignedDate": "2025-08-06",
+          "projectStart": "2025-08-08T06:30"
+        }
+      },
+      "primaryJob": "job-assistant-default",
+      "paymentMethod": "zelle",
+      "paymentStatus": "configured"
+    }
+  },
+  "statusOptions": {
+    "projectStatus": [
+      "upcoming",
+      "in-progress",
+      "completed",
+      "cancelled"
+    ],
+    "paymentStatus": [
+      "pending",
+      "processing",
+      "paid",
+      "overdue"
+    ]
+  },
+  "lastUpdated": "2025-08-06",
+  "totalUsers": 1
+}

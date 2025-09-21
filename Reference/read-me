@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Cochran Films Platform Showcase...</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        
+        .redirect-container {
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #FFB200;
+            border-radius: 15px;
+            padding: 3rem;
+            max-width: 500px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 178, 0, 0.3);
+            border-top: 3px solid #FFB200;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 2rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            color: #FFB200;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+        }
+        
+        .manual-link {
+            background: linear-gradient(135deg, #FFB200, #FF8C00);
+            color: #1a1a1a;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .manual-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 178, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="spinner"></div>
+        <h1><i class="fas fa-film"></i> Cochran Films</h1>
+        <p>Redirecting to our platform showcase...</p>
+        <p>If you're not redirected automatically, click below:</p>
+        <a href="Read-Me.html" class="manual-link">
+            <i class="fas fa-external-link-alt"></i> View Platform Showcase
+        </a>
+    </div>
+
+    <script>
+        // Auto-redirect after 2 seconds
+        setTimeout(() => {
+            window.location.href = 'Read-Me.html';
+        }, 2000);
+    </script>
+</body>
+</html> 

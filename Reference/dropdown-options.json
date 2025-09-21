@@ -1,0 +1,42 @@
+{
+  "roles": [
+    "Photographer",
+    "Videographer",
+    "Producer",
+    "Director"
+  ],
+  "locations": [
+    "Los Angeles, CA",
+    "New York, NY",
+    "Miami, FL",
+    "Chicago, IL",
+    "Atlanta, GA",
+    "San Francisco, CA",
+    "Douglasville, GA"
+  ],
+  "rates": [
+    "$75/hour",
+    "$100/hour",
+    "$125/hour",
+    "$150/hour",
+    "$200/hour",
+    "$250/hour",
+    "$300/hour",
+    "$400",
+    "$300 + Tip"
+  ],
+  "projectTypes": [
+    "Wedding Photography",
+    "Corporate Event",
+    "Product Photography",
+    "Real Estate",
+    "Fashion Shoot",
+    "Portrait Session",
+    "Event Coverage",
+    "Commercial Video",
+    "Music Video",
+    "Documentary",
+    "Block Party Photography",
+    "On-site Printing"
+  ]
+}

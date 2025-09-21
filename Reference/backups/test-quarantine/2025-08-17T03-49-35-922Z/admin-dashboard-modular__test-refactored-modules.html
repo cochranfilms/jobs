@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refactored Modules Test | Cochran Films</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://static.wixstatic.com/media/aeef42_570164eee75f4394a4fc1cf9c62ceae0~mv2.png" type="image/png">
+    
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(135deg, #FFB200, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 1rem 0 0 0;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-section h2 {
+            color: #FFB200;
+            margin: 0 0 1.5rem 0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+        
+        .status-indicator.error {
+            background: #ef4444;
+        }
+        
+        .status-indicator.warning {
+            background: #f59e0b;
+        }
+        
+        .test-area {
+            min-height: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .log-area {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        .log-entry {
+            margin: 0.25rem 0;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .log-entry.success { color: #22c55e; }
+        .log-entry.error { color: #ef4444; }
+        .log-entry.warning { color: #f59e0b; }
+        .log-entry.info { color: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Refactored Modules Test</h1>
+            <p>Testing UserForm, UserList, JobForm, JobList, ContractManager, ContractGenerator, DropdownManager, and DashboardManager modules with Component Library</p>
+        </div>
+
+        <!-- Component Library Status -->
+        <div class="test-section">
+            <h2><i class="fas fa-info-circle"></i> Component Library Status</h2>
+            <div class="test-buttons">
+                <button onclick="checkComponentLibrary()" class="btn btn-primary">Check Library</button>
+                <button onclick="showLibraryStatus()" class="btn btn-secondary">Show Status</button>
+                <button onclick="testAllComponents()" class="btn btn-success">Test All</button>
+            </div>
+            <div id="libraryStatus">
+                <!-- Component library status will be displayed here -->
+            </div>
+        </div>
+
+        <!-- UserForm Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-edit"></i> UserForm Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testUserForm()" class="btn btn-primary">Test UserForm</button>
+                <button onclick="testFormValidation()" class="btn btn-secondary">Test Validation</button>
+                <button onclick="testFormReset()" class="btn btn-info">Test Reset</button>
+                <button onclick="clearUserForm()" class="btn btn-warning">Clear Form</button>
+            </div>
+            <div class="test-area" id="userFormTest">
+                <!-- UserForm will be rendered here -->
+            </div>
+        </div>
+
+        <!-- UserList Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-list"></i> UserList Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testUserList()" class="btn btn-primary">Test UserList</button>
+                <button onclick="testUserActions()" class="btn btn-secondary">Test Actions</button>
+                <button onclick="testUserFilters()" class="btn btn-info">Test Filters</button>
+                <button onclick="refreshUserList()" class="btn btn-warning">Refresh List</button>
+            </div>
+            <div class="test-area" id="userListTest">
+                <!-- UserList will be rendered here -->
+            </div>
+        </div>
+
+        <!-- JobForm Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-briefcase"></i> JobForm Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testJobForm()" class="btn btn-primary">Test JobForm</button>
+                <button onclick="testJobFormValidation()" class="btn btn-secondary">Test Validation</button>
+                <button onclick="testJobFormReset()" class="btn btn-info">Test Reset</button>
+                <button onclick="clearJobForm()" class="btn btn-warning">Clear Form</button>
+            </div>
+            <div class="test-area" id="jobFormTest">
+                <!-- JobForm will be rendered here -->
+            </div>
+        </div>
+
+        <!-- JobList Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-list-alt"></i> JobList Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testJobList()" class="btn btn-primary">Test JobList</button>
+                <button onclick="testJobActions()" class="btn btn-secondary">Test Actions</button>
+                <button onclick="testJobFilters()" class="btn btn-info">Test Filters</button>
+                <button onclick="refreshJobList()" class="btn btn-warning">Refresh List</button>
+            </div>
+            <div class="test-area" id="jobListTest">
+                <!-- JobList will be rendered here -->
+            </div>
+        </div>
+
+        <!-- ContractManager Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-file-contract"></i> ContractManager Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testContractManager()" class="btn btn-primary">Test ContractManager</button>
+                <button onclick="testContractActions()" class="btn btn-secondary">Test Actions</button>
+                <button onclick="testContractFilters()" class="btn btn-info">Test Filters</button>
+                <button onclick="refreshContracts()" class="btn btn-warning">Refresh Contracts</button>
+            </div>
+            <div class="test-area" id="contractManagerTest">
+                <!-- ContractManager will be rendered here -->
+            </div>
+        </div>
+
+        <!-- ContractGenerator Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-file-pdf"></i> ContractGenerator Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testContractGenerator()" class="btn btn-primary">Test ContractGenerator</button>
+                <button onclick="testPDFGeneration()" class="btn btn-secondary">Test PDF Generation</button>
+                <button onclick="testTemplates()" class="btn btn-info">Test Templates</button>
+                <button onclick="clearGeneratedContracts()" class="btn btn-warning">Clear Generated</button>
+            </div>
+            <div class="test-area" id="contractGeneratorTest">
+                <!-- ContractGenerator will be rendered here -->
+            </div>
+        </div>
+
+        <!-- DropdownManager Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-list-ul"></i> DropdownManager Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testDropdownManager()" class="btn btn-primary">Test DropdownManager</button>
+                <button onclick="testDropdownActions()" class="btn btn-secondary">Test Actions</button>
+                <button onclick="testDropdownFilters()" class="btn btn-info">Test Filters</button>
+                <button onclick="refreshDropdownOptions()" class="btn btn-warning">Refresh Options</button>
+            </div>
+            <div class="test-area" id="dropdownManagerTest">
+                <!-- DropdownManager will be rendered here -->
+            </div>
+        </div>
+
+        <!-- DashboardManager Test -->
+        <div class="test-section">
+            <h2><i class="fas fa-tachometer-alt"></i> DashboardManager Module Test</h2>
+            <div class="test-buttons">
+                <button onclick="testDashboardManager()" class="btn btn-primary">Test DashboardManager</button>
+                <button onclick="testDashboardActions()" class="btn btn-secondary">Test Actions</button>
+                <button onclick="testDashboardStats()" class="btn btn-info">Test Stats</button>
+                <button onclick="refreshDashboard()" class="btn btn-warning">Refresh Dashboard</button>
+            </div>
+            <div class="test-area" id="dashboardManagerTest">
+                <!-- DashboardManager will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Test Logs -->
+        <div class="test-section">
+            <h2><i class="fas fa-clipboard-list"></i> Test Logs</h2>
+            <div class="test-buttons">
+                <button onclick="clearLogs()" class="btn btn-secondary">Clear Logs</button>
+                <button onclick="exportLogs()" class="btn btn-info">Export Logs</button>
+            </div>
+            <div class="log-area" id="testLogs">
+                <!-- Test logs will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-indicator" id="libraryStatusIndicator"></div>
+            <span>Component Library</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="userFormStatusIndicator"></div>
+            <span>UserForm Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="userListStatusIndicator"></div>
+            <span>UserList Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="jobFormStatusIndicator"></div>
+            <span>JobForm Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="jobListStatusIndicator"></div>
+            <span>JobList Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="contractManagerStatusIndicator"></div>
+            <span>ContractManager Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="contractGeneratorStatusIndicator"></div>
+            <span>ContractGenerator Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="dropdownManagerStatusIndicator"></div>
+            <span>DropdownManager Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="dashboardManagerStatusIndicator"></div>
+            <span>DashboardManager Module</span>
+        </div>
+        <div class="status-item">
+            <div class="status-indicator" id="overallStatusIndicator"></div>
+            <span>Overall Status</span>
+        </div>
+    </div>
+
+    <!-- Component Library Scripts -->
+    <script src="js/components/ui/Button.js"></script>
+    <script src="js/components/ui/Form.js"></script>
+    <script src="js/components/ui/Modal.js"></script>
+    <script src="js/components/ui/Notification.js"></script>
+    <script src="js/components/index.js"></script>
+
+    <!-- Refactored Modules -->
+    <script src="js/users/user-form.js"></script>
+    <script src="js/users/user-list.js"></script>
+    <script src="js/jobs/job-form.js"></script>
+    <script src="js/jobs/job-list.js"></script>
+    <script src="js/contracts/contract-manager.js"></script>
+    <script src="js/contracts/contract-generator.js"></script>
+    <script src="js/dropdowns/dropdown-manager.js"></script>
+    <script src="js/dashboard/dashboard-manager.js"></script>
+
+    <!-- Test Scripts -->
+    <script>
+        // Test logs
+        let testLogs = [];
+        
+        // Log function
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = {
+                timestamp,
+                message,
+                type
+            };
+            
+            testLogs.push(logEntry);
+            updateLogDisplay();
+            
+            console.log(`[${timestamp}] ${message}`);
+        }
+        
+        // Update log display
+        function updateLogDisplay() {
+            const logArea = document.getElementById('testLogs');
+            if (!logArea) return;
+            
+            logArea.innerHTML = testLogs.map(entry => `
+                <div class="log-entry ${entry.type}">
+                    <strong>[${entry.timestamp}]</strong> ${entry.message}
+                </div>
+            `).join('');
+            
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+        
+        // Wait for component library to be ready
+        window.addEventListener('componentLibraryReady', () => {
+            log('🎉 Component Library ready!', 'success');
+            initializeTests();
+        });
+
+        // Initialize tests
+        function initializeTests() {
+            log('🚀 Initializing tests...', 'info');
+            updateStatusIndicators();
+        }
+
+        // Check component library
+        function checkComponentLibrary() {
+            if (window.ComponentLibrary) {
+                const status = window.ComponentLibrary.getStatus();
+                log('✅ Component Library available', 'success');
+                log(`Components loaded: ${Object.keys(status).join(', ')}`, 'info');
+                showLibraryStatus();
+            } else {
+                log('❌ Component Library not available', 'error');
+            }
+        }
+
+        // Show library status
+        function showLibraryStatus() {
+            if (!window.ComponentLibrary) {
+                log('❌ Component Library not available', 'error');
+                return;
+            }
+            
+            const status = window.ComponentLibrary.getStatus();
+            const statusContainer = document.getElementById('libraryStatus');
+            
+            statusContainer.innerHTML = '';
+            Object.entries(status).forEach(([name, info]) => {
+                const statusItem = document.createElement('div');
+                statusItem.style.cssText = 'padding: 0.5rem; margin: 0.25rem 0; background: rgba(255,255,255,0.05); border-radius: 0.25rem;';
+                statusItem.innerHTML = `
+                    <strong>${name}:</strong> 
+                    <span style="color: ${info.loaded ? '#22c55e' : '#ef4444'}">
+                        ${info.loaded ? '✓ Loaded' : '✗ Failed'}
+                    </span>
+                    <span style="color: rgba(255,255,255,0.6)">(v${info.version})</span>
+                `;
+                statusContainer.appendChild(statusItem);
+            });
+            
+            log('📊 Library status displayed', 'info');
+        }
+
+        // Test all components
+        function testAllComponents() {
+            log('🧪 Testing all components...', 'info');
+            
+            const tests = [
+                () => testComponentLibrary(),
+                () => testUserForm(),
+                () => testUserList(),
+                () => testJobForm(),
+                () => testJobList(),
+                () => testContractManager(),
+                () => testContractGenerator(),
+                () => testDropdownManager(),
+                () => testDashboardManager()
+            ];
+
+            tests.forEach((test, index) => {
+                setTimeout(() => {
+                    try {
+                        test();
+                        log(`✅ Test ${index + 1} completed`, 'success');
+                    } catch (error) {
+                        log(`❌ Test ${index + 1} failed: ${error.message}`, 'error');
+                    }
+                }, index * 1000);
+            });
+        }
+
+        // Test component library
+        function testComponentLibrary() {
+            if (!window.ComponentLibrary) {
+                throw new Error('Component Library not available');
+            }
+            
+            const status = window.ComponentLibrary.getStatus();
+            const componentCount = Object.keys(status).length;
+            
+            log(`Component Library test: ${componentCount} components available`, 'success');
+            return true;
+        }
+
+        // Test UserForm module
+        function testUserForm() {
+            if (!window.UserForm) {
+                throw new Error('UserForm module not available');
+            }
+            
+            // Initialize UserForm
+            window.UserForm.init().then(() => {
+                log('✅ UserForm initialized successfully', 'success');
+                
+                // Render form
+                window.UserForm.renderForm('userFormTest');
+                log('✅ UserForm rendered successfully', 'success');
+                
+                updateStatusIndicators();
+            }).catch(error => {
+                log(`❌ UserForm initialization failed: ${error.message}`, 'error');
+            });
+        }
+
+        // Test form validation
+        function testFormValidation() {
+            const form = document.querySelector('#userFormTest form');
+            if (!form) {
+                log('❌ No form found for validation test', 'error');
+                return;
+            }
+            
+            if (window.Form) {
+                const results = window.Form.validateForm(form);
+                log(`Form validation test: ${results.length} fields validated`, 'info');
+                
+                const isValid = results.every(result => result.isValid);
+                if (isValid) {
+                    log('✅ Form validation passed', 'success');
+                } else {
+                    log('⚠️ Form validation failed', 'warning');
+                }
+            } else {
+                log('⚠️ Form component not available for validation', 'warning');
+            }
+        }
+
+        // Test form reset
+        function testFormReset() {
+            const form = document.querySelector('#userFormTest form');
+            if (!form) {
+                log('❌ No form found for reset test', 'error');
+                return;
+            }
+            
+            if (window.Form) {
+                window.Form.resetForm(form);
+                log('✅ Form reset successfully', 'success');
+            } else {
+                form.reset();
+                log('✅ Form reset using fallback method', 'success');
+            }
+        }
+
+        // Clear user form
+        function clearUserForm() {
+            const container = document.getElementById('userFormTest');
+            if (container) {
+                container.innerHTML = '';
+                log('✅ UserForm cleared', 'success');
+            }
+        }
+
+        // Test UserList module
+        function testUserList() {
+            if (!window.UserList) {
+                throw new Error('UserList module not available');
+            }
+            
+            // Initialize UserList
+            window.UserList.init().then(() => {
+                log('✅ UserList initialized successfully', 'success');
+                
+                // Render user list
+                window.UserList.renderUserManagement('userListTest');
+                log('✅ UserList rendered successfully', 'success');
+                
+                updateStatusIndicators();
+            }).catch(error => {
+                log(`❌ UserList initialization failed: ${error.message}`, 'error');
+            });
+        }
+
+        // Test user actions
+        function testUserActions() {
+            log('🧪 Testing user actions...', 'info');
+            
+            // Test various actions
+            const actions = [
+                'generateAllContracts',
+                'exportUsersData',
+                'downloadUsersJSON'
+            ];
+            
+            actions.forEach(action => {
+                if (window.UserList && typeof window.UserList[action] === 'function') {
+                    log(`✅ Action ${action} available`, 'success');
+                } else {
+                    log(`❌ Action ${action} not available`, 'error');
+                }
+            });
+        }
+
+        // Test user filters
+        function testUserFilters() {
+            log('🧪 Testing user filters...', 'info');
+            
+            if (window.UserList) {
+                // Test filter switching
+                window.UserList.switchView('active');
+                log('✅ Switched to active view', 'success');
+                
+                window.UserList.switchView('archived');
+                log('✅ Switched to archived view', 'success');
+                
+                window.UserList.switchView('active');
+                log('✅ Switched back to active view', 'success');
+            } else {
+                log('❌ UserList not available for filter test', 'error');
+            }
+        }
+
+        // Refresh user list
+        function refreshUserList() {
+            if (window.UserList) {
+                window.UserList.loadAndDisplayUsers();
+                log('✅ User list refreshed', 'success');
+            } else {
+                log('❌ UserList not available for refresh', 'error');
+            }
+        }
+
+        // Test JobForm module
+        function testJobForm() {
+            if (!window.JobForm) {
+                throw new Error('JobForm module not available');
+            }
+            
+            // Initialize JobForm
+            window.JobForm.init().then(() => {
+                log('✅ JobForm initialized successfully', 'success');
+                
+                // Render form
+                window.JobForm.renderForm('jobFormTest');
+                log('✅ JobForm rendered successfully', 'success');
+                
+                updateStatusIndicators();
+            }).catch(error => {
+                log(`❌ JobForm initialization failed: ${error.message}`, 'error');
+            });
+        }
+
+        // Test job form validation
+        function testJobFormValidation() {
+            const form = document.querySelector('#jobFormTest form');
+            if (!form) {
+                log('❌ No job form found for validation test', 'error');
+                return;
+            }
+            
+            if (window.Form) {
+                const results = window.Form.validateForm(form);
+                log(`Job form validation test: ${results.length} fields validated`, 'info');
+                
+                const isValid = results.every(result => result.isValid);
+                if (isValid) {
+                    log('✅ Job form validation passed', 'success');
+                } else {
+                    log('⚠️ Job form validation failed', 'warning');
+                }
+            } else {
+                log('⚠️ Form component not available for validation', 'warning');
+            }
+        }
+
+        // Test job form reset
+        function testJobFormReset() {
+            const form = document.querySelector('#jobFormTest form');
+            if (!form) {
+                log('❌ No job form found for reset test', 'error');
+                return;
+            }
+            
+            if (window.Form) {
+                window.Form.resetForm(form);
+                log('✅ Job form reset successfully', 'success');
+            } else {
+                form.reset();
+                log('✅ Job form reset using fallback method', 'success');
+            }
+        }
+
+        // Clear job form
+        function clearJobForm() {
+            const container = document.getElementById('jobFormTest');
+            if (container) {
+                container.innerHTML = '';
+                log('✅ JobForm cleared', 'success');
+            }
+        }
+
+        // Test JobList module
+        function testJobList() {
+            if (!window.JobList) {
+                throw new Error('JobList module not available');
+            }
+            
+            // Initialize JobList
+            window.JobList.init().then(() => {
+                log('✅ JobList initialized successfully', 'success');
+                
+                // Render job list
+                window.JobList.renderJobManagement('jobListTest');
+                log('✅ JobList rendered successfully', 'success');
+                
+                updateStatusIndicators();
+            }).catch(error => {
+                log(`❌ JobList initialization failed: ${error.message}`, 'error');
+            });
+        }
+
+        // Test job actions
+        function testJobActions() {
+            log('🧪 Testing job actions...', 'info');
+            
+            if (window.JobList) {
+                // Test various actions
+                const actions = [
+                    'refreshJobList',
+                    'clearSelection',
+                    'bulkUpdateStatus',
+                    'bulkDeleteJobs'
+                ];
+                
+                actions.forEach(action => {
+                    if (typeof window.JobList[action] === 'function') {
+                        log(`✅ Action ${action} available`, 'success');
+                    } else {
+                        log(`❌ Action ${action} not available`, 'error');
+                    }
+                });
+            } else {
+                log('❌ JobList not available for action test', 'error');
+            }
+        }
+
+        // Test job filters
+        function testJobFilters() {
+            log('🧪 Testing job filters...', 'info');
+            
+            if (window.JobList) {
+                // Test filter switching
+                window.JobList.switchView('active');
+                log('✅ Switched to active view', 'success');
+                
+                window.JobList.switchView('pending');
+                log('✅ Switched to pending view', 'success');
+                
+                window.JobList.switchView('all');
+                log('✅ Switched back to all view', 'success');
+            } else {
+                log('❌ JobList not available for filter test', 'error');
+            }
+        }
+
+        // Refresh job list
+        function refreshJobList() {
+            if (window.JobList) {
+                window.JobList.refreshJobList();
+                log('✅ Job list refresh initiated', 'success');
+            } else {
+                log('❌ JobList not available for refresh', 'error');
+            }
+        }
+
+        // Test ContractManager module
+        function testContractManager() {
+            if (!window.ContractManager) {
+                throw new Error('ContractManager module not available');
+            }
+            
+            // Initialize ContractManager
+            window.ContractManager.init().then(() => {
+                log('✅ ContractManager initialized successfully', 'success');
+                
+                // Render contract management
+                window.ContractManager.renderContractManagement('contractManagerTest');
+                log('✅ ContractManager rendered successfully', 'success');
+                
+                updateStatusIndicators();
+            }).catch(error => {
+                log(`❌ ContractManager initialization failed: ${error.message}`, 'error');
+            });
+        }
+
+        // Test contract actions
+        function testContractActions() {
+            log('🧪 Testing contract actions...', 'info');
+            
+            if (window.ContractManager) {
+                // Test various actions
+                const actions = [
+                    'refreshContracts',
+                    'clearSelection',
+                    'bulkUpdateStatus',
+                    'bulkDeleteContracts'
+                ];
+                
+                actions.forEach(action => {
+                    if (typeof window.ContractManager[action] === 'function') {
+                        log(`✅ Action ${action} available`, 'success');
+                    } else {
+                        log(`❌ Action ${action} not available`, 'error');
+                    }
+                });
+            } else {
+                log('❌ ContractManager not available for action test', 'error');
+            }
+        }
+
+        // Test contract filters
+        function testContractFilters() {
+            log('🧪 Testing contract filters...', 'info');
+            
+            if (window.ContractManager) {
+                // Test filter switching
+                window.ContractManager.state.filters.status = 'active';
+                log('✅ Switched to active status filter', 'success');
+                
+                window.ContractManager.state.filters.type = 'standard';
+                log('✅ Switched to standard type filter', 'success');
+                
+                window.ContractManager.state.filters.status = 'all';
+                window.ContractManager.state.filters.type = 'all';
+                log('✅ Reset filters to all', 'success');
+            } else {
+                log('❌ ContractManager not available for filter test', 'error');
+            }
+        }
+
+        // Refresh contracts
+        function refreshContracts() {
+            if (window.ContractManager) {
+                window.ContractManager.refreshContracts();
+                log('✅ Contracts refresh initiated', 'success');
+            } else {
+                log('❌ ContractManager not available for refresh', 'error');
+            }
+        }
+
+        // Test ContractGenerator module
+        function testContractGenerator() {
+            if (!window.ContractGenerator) {
+                throw new Error('ContractGenerator module not available');
+            }
+            
+            // Initialize ContractGenerator
+            window.ContractGenerator.init().then(() => {
+                log('✅ ContractGenerator initialized successfully', 'success');
+                
+                // Render contract generator
+                window.ContractGenerator.renderContractGenerator('contractGeneratorTest');
+                log('✅ ContractGenerator rendered successfully', 'success');
+                
+                updateStatusIndicators();
+            }).catch(error => {
+                log(`❌ ContractGenerator initialization failed: ${error.message}`, 'error');
+            });
+        }
+
+        // Test PDF generation
+        function testPDFGeneration() {
+            log('🧪 Testing PDF generation...', 'info');
+            
+            if (window.ContractGenerator) {
+                // Test PDF generation capabilities
+                const capabilities = [
+                    'isJsPDFAvailable',
+                    'getAvailableTemplates',
+                    'setTemplate'
+                ];
+                
+                capabilities.forEach(capability => {
+                    if (typeof window.ContractGenerator[capability] === 'function') {
+                        log(`✅ Capability ${capability} available`, 'success');
+                    } else {
+                        log(`❌ Capability ${capability} not available`, 'error');
+                    }
+                });
+                
+                // Test jsPDF availability
+                if (window.ContractGenerator.isJsPDFAvailable()) {
+                    log('✅ jsPDF is available for PDF generation', 'success');
+                } else {
+                    log('⚠️ jsPDF not available - PDF generation limited', 'warning');
+                }
+            } else {
+                log('❌ ContractGenerator not available for PDF test', 'error');
+            }
+        }
+
+        // Test templates
+        function testTemplates() {
+            log('🧪 Testing contract templates...', 'info');
+            
+            if (window.ContractGenerator) {
+                // Test template switching
+                const templates = ['standard', 'advanced', 'custom'];
+                
+                templates.forEach(template => {
+                    window.ContractGenerator.setTemplate(template);
+                    log(`✅ Template set to ${template}`, 'success');
+                });
+                
+                // Reset to standard
+                window.ContractGenerator.setTemplate('standard');
+                log('✅ Template reset to standard', 'success');
+            } else {
+                log('❌ ContractGenerator not available for template test', 'error');
+            }
+        }
+
+        // Clear generated contracts
+        function clearGeneratedContracts() {
+            if (window.ContractGenerator) {
+                window.ContractGenerator.clearGeneratedContracts();
+                log('✅ Generated contracts cleared', 'success');
+            } else {
+                log('❌ ContractGenerator not available for clear operation', 'error');
+            }
+        }
+
+        // Test DropdownManager module
+        function testDropdownManager() {
+            if (!window.DropdownManager) {
+                throw new Error('DropdownManager module not available');
+            }
+            
+            // Initialize DropdownManager
+            window.DropdownManager.init().then(() => {
+                log('✅ DropdownManager initialized successfully', 'success');
+                
+                // Render dropdown management
+                window.DropdownManager.renderDropdownManagement('dropdownManagerTest');
+                log('✅ DropdownManager rendered successfully', 'success');
+                
+                updateStatusIndicators();
+            }).catch(error => {
+                log(`❌ DropdownManager initialization failed: ${error.message}`, 'error');
+            });
+        }
+
+        // Test dropdown actions
+        function testDropdownActions() {
+            log('🧪 Testing dropdown actions...', 'info');
+            
+            if (window.DropdownManager) {
+                // Test various actions
+                const actions = [
+                    'addDropdownOption',
+                    'removeDropdownOption',
+                    'saveDropdownOptions',
+                    'exportDropdownOptions',
+                    'resetAllCategories',
+                    'cleanupDuplicateOptions'
+                ];
+                
+                actions.forEach(action => {
+                    if (typeof window.DropdownManager[action] === 'function') {
+                        log(`✅ Action ${action} available`, 'success');
+                    } else {
+                        log(`❌ Action ${action} not available`, 'error');
+                    }
+                });
+                
+                // Test dropdown statistics
+                const stats = window.DropdownManager.getDropdownStats();
+                log(`Dropdown statistics: ${Object.keys(stats).length} categories`, 'info');
+                Object.entries(stats).forEach(([category, count]) => {
+                    log(`  ${category}: ${count} options`, 'info');
+                });
+            } else {
+                log('❌ DropdownManager not available for action test', 'error');
+            }
+        }
+
+        // Test dropdown filters
+        function testDropdownFilters() {
+            log('🧪 Testing dropdown filters...', 'info');
+            
+            if (window.DropdownManager) {
+                // Test filter switching
+                window.DropdownManager.switchCategory('roles');
+                log('✅ Switched to roles category', 'success');
+                
+                window.DropdownManager.switchCategory('locations');
+                log('✅ Switched to locations category', 'success');
+                
+                window.DropdownManager.switchCategory('all');
+                log('✅ Switched back to all categories', 'success');
+                
+                // Test search filtering
+                window.DropdownManager.filterOptions('photo');
+                log('✅ Applied search filter: "photo"', 'success');
+                
+                window.DropdownManager.filterOptions('');
+                log('✅ Cleared search filter', 'success');
+            } else {
+                log('❌ DropdownManager not available for filter test', 'error');
+            }
+        }
+
+        // Refresh dropdown options
+        function refreshDropdownOptions() {
+            if (window.DropdownManager) {
+                window.DropdownManager.refreshDropdownOptions();
+                log('✅ Dropdown options refresh initiated', 'success');
+            } else {
+                log('❌ DropdownManager not available for refresh', 'error');
+            }
+        }
+
+        // Test DashboardManager module
+        function testDashboardManager() {
+            if (!window.DashboardManager) {
+                log('❌ DashboardManager not available', 'error');
+                return;
+            }
+            
+            try {
+                log('🧪 Testing DashboardManager module...', 'info');
+                
+                // Initialize dashboard manager
+                window.DashboardManager.init();
+                log('✅ DashboardManager initialized', 'success');
+                
+                // Render dashboard
+                const testArea = document.getElementById('dashboardManagerTest');
+                if (testArea) {
+                    testArea.innerHTML = `
+                        <div class="dashboard-manager-container">
+                            <div class="dashboard-header">
+                                <div class="notification-bell">
+                                    <span>
+                                        <i class="fas fa-bell"></i>
+                                        <span class="notification-badge" id="notificationBadge">3</span>
+                                    </span>
+                                </div>
+                                <h1>Admin Dashboard</h1>
+                                <p>Welcome to the Cochran Films administration panel</p>
+                                <a href="#" class="logout-btn" onclick="window.DashboardManager.handleLogout()">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </div>
+                            
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="stat-number" id="totalCreators">-</div>
+                                    <div class="stat-label">Total Creators</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <div class="stat-number" id="activeJobs">-</div>
+                                    <div class="stat-label">Active Jobs</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stat-number" id="pendingReviews">-</div>
+                                    <div class="stat-label">Pending Reviews</div>
+                                    <div class="stat-badge pending">New</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-file-contract"></i>
+                                    </div>
+                                    <div class="stat-number" id="totalContracts">-</div>
+                                    <div class="stat-label">Total Contracts</div>
+                                </div>
+                            </div>
+                            
+                            <div class="content-grid">
+                                <div class="content-row">
+                                    <div class="content-card">
+                                        <div class="card-header">
+                                            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="quick-actions">
+                                                <button class="btn btn-primary" onclick="showUserManagement()">
+                                                    <i class="fas fa-user-plus"></i> Add User
+                                                </button>
+                                                <button class="btn btn-secondary" onclick="showJobManagement()">
+                                                    <i class="fas fa-briefcase"></i> Manage Jobs
+                                                </button>
+                                                <button class="btn btn-secondary" onclick="showContractManagement()">
+                                                    <i class="fas fa-file-contract"></i> View Contracts
+                                                </button>
+                                                <button class="btn btn-secondary" onclick="showDropdownManagement()">
+                                                    <i class="fas fa-cogs"></i> System Settings
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="content-card">
+                                        <div class="card-header">
+                                            <h2><i class="fas fa-chart-line"></i> Recent Activity</h2>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="recent-activity" id="recentActivity">
+                                                <div class="activity-item">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <span>Dashboard loaded successfully</span>
+                                                    <small>Just now</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-row">
+                                    <div class="content-card">
+                                        <div class="card-header">
+                                            <h2><i class="fas fa-server"></i> System Status</h2>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="system-status">
+                                                <div class="status-item">
+                                                    <span class="status-label">Firebase Connection:</span>
+                                                    <span class="status-value connected">Connected</span>
+                                                </div>
+                                                <div class="status-item">
+                                                    <span class="status-label">Email Service:</span>
+                                                    <span class="status-value connected">Available</span>
+                                                </div>
+                                                <div class="status-item">
+                                                    <span class="status-label">Data Sync:</span>
+                                                    <span class="status-value connected">Up to date</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="content-card">
+                                        <div class="card-header">
+                                            <h2><i class="fas fa-question-circle"></i> Help & Support</h2>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="help-section">
+                                                <p>Need help with the admin dashboard?</p>
+                                                <button class="btn btn-secondary" onclick="showHelp()">
+                                                    <i class="fas fa-book"></i> View Documentation
+                                                </button>
+                                                <button class="btn btn-secondary" onclick="showJobManagement()">
+                                                    <i class="fas fa-envelope"></i> Contact Support
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    log('✅ Dashboard rendered successfully', 'success');
+                }
+                
+                // Update status indicator
+                updateStatusIndicators();
+                
+            } catch (error) {
+                log(`❌ DashboardManager test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test dashboard actions
+        function testDashboardActions() {
+            if (!window.DashboardManager) {
+                log('❌ DashboardManager not available for actions test', 'error');
+                return;
+            }
+            
+            try {
+                log('🧪 Testing DashboardManager actions...', 'info');
+                
+                // Test dashboard status
+                const status = window.DashboardManager.getDashboardStatus();
+                log('✅ Dashboard status retrieved', 'success');
+                log(`📊 Status: ${JSON.stringify(status, null, 2)}`, 'info');
+                
+                // Test authentication check
+                const isAuth = window.DashboardManager.checkAuth();
+                log(`✅ Authentication check: ${isAuth ? 'Authenticated' : 'Not Authenticated'}`, 'success');
+                
+                // Test dashboard tests
+                window.DashboardManager.runDashboardTests();
+                log('✅ Dashboard tests executed', 'success');
+                
+                log('✅ DashboardManager actions test completed', 'success');
+                
+            } catch (error) {
+                log(`❌ DashboardManager actions test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test dashboard stats
+        function testDashboardStats() {
+            if (!window.DashboardManager) {
+                log('❌ DashboardManager not available for stats test', 'error');
+                return;
+            }
+            
+            try {
+                log('🧪 Testing DashboardManager stats...', 'info');
+                
+                // Test stats calculation
+                window.DashboardManager.updateDashboardStats();
+                log('✅ Dashboard stats updated', 'success');
+                
+                // Get current stats
+                const status = window.DashboardManager.getDashboardStatus();
+                log('✅ Current stats retrieved', 'success');
+                log(`📊 Stats: ${JSON.stringify(status.stats, null, 2)}`, 'info');
+                
+                log('✅ DashboardManager stats test completed', 'success');
+                
+            } catch (error) {
+                log(`❌ DashboardManager stats test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Refresh dashboard
+        function refreshDashboard() {
+            if (!window.DashboardManager) {
+                log('❌ DashboardManager not available for refresh', 'error');
+                return;
+            }
+            
+            try {
+                log('🔄 Refreshing dashboard...', 'info');
+                window.DashboardManager.refreshDashboard();
+                log('✅ Dashboard refresh initiated', 'success');
+            } catch (error) {
+                log(`❌ Dashboard refresh failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Clear logs
+        function clearLogs() {
+            testLogs = [];
+            updateLogDisplay();
+            log('📝 Logs cleared', 'info');
+        }
+
+        // Export logs
+        function exportLogs() {
+            const logText = testLogs.map(entry => 
+                `[${entry.timestamp}] ${entry.message}`
+            ).join('\n');
+            
+            const blob = new Blob([logText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'test-logs.txt';
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            log('📥 Logs exported successfully', 'success');
+        }
+
+        // Update status indicators
+        function updateStatusIndicators() {
+            const indicators = {
+                libraryStatusIndicator: window.ComponentLibrary ? 'success' : 'error',
+                userFormStatusIndicator: window.UserForm ? 'success' : 'error',
+                userListStatusIndicator: window.UserList ? 'success' : 'error',
+                jobFormStatusIndicator: window.JobForm ? 'success' : 'error',
+                jobListStatusIndicator: window.JobList ? 'success' : 'error',
+                contractManagerStatusIndicator: window.ContractManager ? 'success' : 'error',
+                contractGeneratorStatusIndicator: window.ContractGenerator ? 'success' : 'error',
+                dropdownManagerStatusIndicator: window.DropdownManager ? 'success' : 'error',
+                dashboardManagerStatusIndicator: window.DashboardManager ? 'success' : 'error',
+                overallStatusIndicator: (window.ComponentLibrary && window.UserForm && window.UserList && window.JobForm && window.JobList && window.ContractManager && window.ContractGenerator && window.DropdownManager && window.DashboardManager) ? 'success' : 'warning'
+            };
+
+            Object.entries(indicators).forEach(([id, status]) => {
+                const indicator = document.getElementById(id);
+                if (indicator) {
+                    indicator.className = `status-indicator ${status === 'success' ? '' : status === 'warning' ? 'warning' : 'error'}`;
+                }
+            });
+        }
+
+        // Auto-update status every 5 seconds
+        setInterval(updateStatusIndicators, 5000);
+
+        // Initial status check
+        setTimeout(() => {
+            updateStatusIndicators();
+        }, 1000);
+    </script>
+</body>
+</html>

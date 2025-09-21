@@ -1,0 +1,37 @@
+{
+  "id": "cochran-films-landing",
+  "name": "Job Listings - Cochran Films",
+  "category": "Media & Creative",
+  "shortDescription": "Explore photography and videography job opportunities with Cochran Films in Atlanta. Now hiring creatives in media production, post-production, and event coverage.",
+  "longDescription": "Explore photography and videography job opportunities with Cochran Films in Atlanta. Now hiring creatives in media production, post-production, and event coverage.",
+  "features": [
+    "Hero CTA",
+    "Contact form",
+    "Search/Filters"
+  ],
+  "techStack": [
+    "HTML",
+    "CSS",
+    "JS"
+  ],
+  "demoEntry": "index.html",
+  "demoMode": "iframe",
+  "thumbnail": "DSC03378.jpg",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "status": "production",
+  "version": "1.0.0",
+  "lastUpdated": "2025-08-12",
+  "tags": [
+    "video",
+    "dark-mode",
+    "seo",
+    "responsive",
+    "clean"
+  ],
+  "ctaLabel": "Request This Build",
+  "ctaUrl": "https://forms.gle/o7Z8bsame2uvLsUy7",
+  "license": "white-label"
+}

@@ -1,0 +1,107 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public read-only access to job listings
+    match /jobs/{jobId} {
+      allow read: if true;
+      allow write: if request.auth != null && (
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com'
+      );
+    }
+
+    // Public read for dropdown options used by forms and landing
+    match /dropdownOptions/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && (
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com'
+      );
+    }
+
+    // Contracts are private; visible to the freelancer or admins
+    match /contracts/{contractId} {
+      allow read: if request.auth != null && (
+        request.auth.token.email == resource.data.freelancerEmail ||
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com'
+      );
+      allow write: if request.auth != null && (
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com'
+      );
+    }
+
+    // Users are private; readable by the user or admins
+    match /users/{userId} {
+      allow read, update: if request.auth != null && (
+        request.auth.token.email == resource.data.profile.email ||
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com'
+      );
+      allow create, delete: if request.auth != null && (
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com'
+      );
+    }
+
+    // Direct Messages - conversations between users and admins
+    match /directMessages/{conversationId} {
+      // Create allowed if the authenticated user is in the incoming participants list, or is admin
+      allow create: if request.auth != null && (
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com' ||
+        (request.resource.data.participants is list && request.auth.token.email in request.resource.data.participants)
+      );
+
+      // Read/Update allowed if user is participant on the stored document, or is admin
+      allow read, update: if request.auth != null && (
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com' ||
+        (resource.data.participants is list && request.auth.token.email in resource.data.participants)
+      );
+
+      // Delete restricted to admins
+      allow delete: if request.auth != null && (
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com'
+      );
+    }
+
+    // Individual messages within conversations
+    match /directMessages/{conversationId}/messages/{messageId} {
+      allow read, write: if request.auth != null && (
+        // Admin users can access all messages
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com' ||
+        // Regular users can only access messages in conversations they're part of
+        request.auth.token.email in get(/databases/$(database)/documents/directMessages/$(conversationId)).data.participants
+      );
+    }
+
+    // Message attachments stored in Firebase Storage
+    match /messageAttachments/{conversationId}/{messageId}/{fileName} {
+      allow read, write: if request.auth != null && (
+        // Admin users can access all attachments
+        request.auth.token.email == 'cody@cochranfilms.com' ||
+        request.auth.token.email == 'info@cochranfilms.com' ||
+        request.auth.token.email == 'admin@cochranfilms.com' ||
+        // Regular users can only access attachments in conversations they're part of
+        request.auth.token.email in get(/databases/$(database)/documents/directMessages/$(conversationId)).data.participants
+      );
+    }
+  }
+}
+
+

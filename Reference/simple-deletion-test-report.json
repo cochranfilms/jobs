@@ -1,0 +1,118 @@
+{
+  "timestamp": "2025-08-07T16:25:46.344Z",
+  "testName": "Simple Admin User Deletion Test",
+  "config": {
+    "adminUrl": "https://collaborate.cochranfilms.com/admin-dashboard",
+    "testUser": "Test User Deletion Simple",
+    "testUserEmail": "test-deletion-simple@cochranfilms.com",
+    "timeout": 10000
+  },
+  "results": [
+    {
+      "timestamp": "2025-08-07T16:25:45.276Z",
+      "type": "test",
+      "message": "🚀 Starting simple admin user deletion test..."
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.282Z",
+      "type": "test",
+      "message": "💾 Backing up current users.json..."
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.283Z",
+      "type": "success",
+      "message": "✅ users.json backed up successfully"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.283Z",
+      "type": "test",
+      "message": "📊 Checking current users in the system..."
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.284Z",
+      "type": "info",
+      "message": "📈 Current user count: 1"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.284Z",
+      "type": "info",
+      "message": "👥 Current users: Erica Cochran"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.284Z",
+      "type": "success",
+      "message": "✅ Test user \"Test User Deletion Simple\" does not exist (ready for creation)"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.284Z",
+      "type": "test",
+      "message": "🌐 Testing users API endpoint..."
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.868Z",
+      "type": "success",
+      "message": "✅ Users API working - 1 users"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.868Z",
+      "type": "info",
+      "message": "📊 Data source: github"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.868Z",
+      "type": "test",
+      "message": "🔄 Testing update-users API endpoint..."
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.907Z",
+      "type": "error",
+      "message": "❌ Update users API failed: 404 - The page could not be found\n\nNOT_FOUND\n\niad1::c45m6-1754583945986-b05c21f34ee8\n"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.907Z",
+      "type": "test",
+      "message": "📄 Testing PDF deletion API..."
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.907Z",
+      "type": "info",
+      "message": "📊 Found 1 PDF files in contracts directory"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:45.907Z",
+      "type": "test",
+      "message": "🧪 Testing deletion of: Erica Cochran.pdf"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:46.189Z",
+      "type": "error",
+      "message": "❌ PDF deletion API failed: 400 - {\"success\":false,\"error\":\"fileName is required\"}"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:46.190Z",
+      "type": "test",
+      "message": "🔥 Testing Firebase API..."
+    },
+    {
+      "timestamp": "2025-08-07T16:25:46.344Z",
+      "type": "success",
+      "message": "✅ Firebase API working"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:46.344Z",
+      "type": "info",
+      "message": "📊 Firebase Response: {\n  \"success\": true,\n  \"message\": \"User deletion attempted for test-deletion-simple@cochranfilms.com. Note: Full Firebase deletion requires additional authentication setup.\",\n  \"note\": \"User will be removed from local data. For full Firebase deletion, additional authentication setup is required.\"\n}"
+    },
+    {
+      "timestamp": "2025-08-07T16:25:46.344Z",
+      "type": "test",
+      "message": "📊 Generating test report..."
+    }
+  ],
+  "summary": {
+    "totalTests": 20,
+    "successCount": 4,
+    "errorCount": 2,
+    "warningCount": 0
+  }
+}

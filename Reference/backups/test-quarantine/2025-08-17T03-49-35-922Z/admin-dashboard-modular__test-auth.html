@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Test | Admin Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .info { background: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🔐 Authentication System Test</h1>
+    
+    <div class="test-section info">
+        <h3>📋 Test Instructions</h3>
+        <p>This page tests the authentication system for the modular admin dashboard.</p>
+        <p><strong>Test Credentials:</strong> Use any email + password: <code>admin123</code></p>
+    </div>
+
+    <div class="test-section">
+        <h3>🧪 Manual Authentication Test</h3>
+        <div>
+            <input type="email" id="testEmail" placeholder="Email" value="admin@cochranfilms.com">
+            <input type="password" id="testPassword" placeholder="Password" value="admin123">
+            <button class="btn-primary" onclick="testSignIn()">Test Sign In</button>
+            <button class="btn-danger" onclick="testSignOut()">Test Sign Out</button>
+        </div>
+        <div id="authResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🔍 System Status Check</h3>
+        <button class="btn-success" onclick="checkSystemStatus()">Check System Status</button>
+        <div id="systemStatus" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>📊 Authentication State</h3>
+        <button class="btn-info" onclick="showAuthState()">Show Auth State</button>
+        <div id="authState" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🚀 Quick Actions</h3>
+        <button class="btn-success" onclick="openAdminDashboard()">Open Admin Dashboard</button>
+        <button class="btn-primary" onclick="runFullTest()">Run Full Test Suite</button>
+    </div>
+
+    <script>
+        // Test sign in functionality
+        async function testSignIn() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            const resultDiv = document.getElementById('authResult');
+            
+            resultDiv.innerHTML = '🔄 Testing sign in...';
+            
+            try {
+                if (window.AuthManager) {
+                    const result = await window.AuthManager.signIn(email, password);
+                    if (result.success) {
+                        resultDiv.innerHTML = `✅ Sign in successful!<br>User: ${result.user.email}<br>Admin: ${window.AuthManager.hasAdminPrivileges()}`;
+                        resultDiv.className = 'result success';
+                    } else {
+                        resultDiv.innerHTML = `❌ Sign in failed: ${result.error}`;
+                        resultDiv.className = 'result error';
+                    }
+                } else {
+                    resultDiv.innerHTML = '❌ AuthManager not available';
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Test sign out functionality
+        async function testSignOut() {
+            const resultDiv = document.getElementById('authResult');
+            
+            try {
+                if (window.AuthManager) {
+                    await window.AuthManager.signOut();
+                    resultDiv.innerHTML = '✅ Sign out successful';
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = '❌ AuthManager not available';
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Check system status
+        function checkSystemStatus() {
+            const statusDiv = document.getElementById('systemStatus');
+            let status = '<h4>System Status:</h4>';
+            
+            // Check Firebase
+            if (window.FirebaseConfig) {
+                status += '✅ FirebaseConfig available<br>';
+                status += `✅ Firebase auth: ${typeof window.FirebaseConfig.auth}<br>`;
+                status += `✅ isAdminUser: ${typeof window.FirebaseConfig.isAdminUser}<br>`;
+            } else {
+                status += '❌ FirebaseConfig not available<br>';
+            }
+            
+            // Check ADMIN_PASSWORD
+            if (window.ADMIN_PASSWORD) {
+                status += '✅ ADMIN_PASSWORD configured<br>';
+            } else {
+                status += '❌ ADMIN_PASSWORD not configured<br>';
+            }
+            
+            // Check AuthManager
+            if (window.AuthManager) {
+                status += '✅ AuthManager available<br>';
+                const authState = window.AuthManager.getAuthState();
+                status += `✅ Auth state: ${JSON.stringify(authState)}<br>`;
+            } else {
+                status += '❌ AuthManager not available<br>';
+            }
+            
+            statusDiv.innerHTML = status;
+        }
+
+        // Show authentication state
+        function showAuthState() {
+            const stateDiv = document.getElementById('authState');
+            
+            if (window.AuthManager) {
+                const state = window.AuthManager.getAuthState();
+                stateDiv.innerHTML = `<pre>${JSON.stringify(state, null, 2)}</pre>`;
+            } else {
+                stateDiv.innerHTML = '❌ AuthManager not available';
+            }
+        }
+
+        // Open admin dashboard
+        function openAdminDashboard() {
+            window.open('http://localhost:8001', '_blank');
+        }
+
+        // Run full test suite
+        async function runFullTest() {
+            console.log('🧪 Running full authentication test suite...');
+            
+            // Test 1: Check system components
+            console.log('📋 Test 1: System Components');
+            checkSystemStatus();
+            
+            // Test 2: Test authentication
+            console.log('📋 Test 2: Authentication Test');
+            await testSignIn();
+            
+            // Test 3: Check admin privileges
+            console.log('📋 Test 3: Admin Privileges');
+            if (window.AuthManager) {
+                const hasPrivileges = window.AuthManager.hasAdminPrivileges();
+                console.log('Admin privileges:', hasPrivileges);
+            }
+            
+            console.log('✅ Full test suite complete!');
+        }
+
+        // Auto-run system check when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('🚀 Authentication test page loaded');
+                checkSystemStatus();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

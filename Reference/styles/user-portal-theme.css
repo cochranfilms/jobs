@@ -1,0 +1,282 @@
+/* ==========================================================================
+   USER PORTAL THEME - CLEAN VERSION
+   ========================================================================== */
+
+/* IMPORTANT: This file NO LONGER controls login screen styling.
+   All login screen styles are now handled inline in user-portal.html
+   to prevent conflicts and ensure proper application. */
+
+/* ==========================================================================
+   Reset & Base Styles (Non-Login Only)
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body, h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+ul[role="list"], ol[role="list"] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+:focus {
+  outline: none;
+}
+
+/* ==========================================================================
+   Variables (Design Tokens)
+   ========================================================================== */
+
+:root {
+  /* Brand */
+  --color-brand: #FFB200;
+  --color-brand-strong: #e09f00;
+  --color-brand-contrast: #000000;
+
+  /* Neutrals & Surfaces */
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-surface-2: #f2f3f5;
+  --color-border: #e6e8eb;
+  --color-overlay: rgba(255, 255, 255, 0.55);
+  --color-backdrop: rgba(15, 18, 20, 0.35);
+
+  /* Text */
+  --color-text: #0f1214;
+  --color-text-muted: #5f6b76;
+  --color-text-inverse: #ffffff;
+
+  /* States */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-focus: #0ea5e9;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(15, 18, 20, 0.05);
+  --shadow-md: 0 4px 6px rgba(15, 18, 20, 0.07);
+  --shadow-lg: 0 10px 15px rgba(15, 18, 20, 0.1);
+  --shadow-xl: 0 20px 25px rgba(15, 18, 20, 0.15);
+  --shadow-2xl: 0 25px 50px rgba(15, 18, 20, 0.25);
+
+  /* Typography */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+
+  /* Focus */
+  --focus-outline: 2px;
+  --focus-ring: 4px;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--space-md);
+}
+
+h1 { font-size: var(--font-size-4xl); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5 { font-size: var(--font-size-lg); }
+h6 { font-size: var(--font-size-base); }
+
+p {
+  margin-bottom: var(--space-md);
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+   Layout & Components (Non-Login Only)
+   ========================================================================== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--color-brand);
+  color: var(--color-brand-contrast);
+  border-color: var(--color-brand);
+}
+
+.btn-primary:hover {
+  background: var(--color-brand-strong);
+  border-color: var(--color-brand-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================================
+   User Portal Specific (Non-Login Only)
+   ========================================================================== */
+
+/* Ensure user portal doesn't interfere with login */
+#userPortal {
+  overflow-x: hidden;
+}
+
+/* Portal content styling */
+.portal-content {
+  padding: var(--space-lg);
+}
+
+.portal-section {
+  margin-bottom: var(--space-xl);
+}
+
+.portal-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--space-md);
+}
+
+/* ==========================================================================
+   Responsive Design (Non-Login Only)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  .portal-content {
+    padding: var(--space-md);
+  }
+  
+  .portal-card {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .portal-content {
+    padding: var(--space-sm);
+  }
+  
+  .portal-card {
+    padding: var(--space-sm);
+  }
+}
+
+/* ==========================================================================
+   Utility Classes (Non-Login Only)
+   ========================================================================== */
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--space-xs); }
+.mb-2 { margin-bottom: var(--space-sm); }
+.mb-3 { margin-bottom: var(--space-md); }
+.mb-4 { margin-bottom: var(--space-lg); }
+.mb-5 { margin-bottom: var(--space-xl); }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--space-xs); }
+.mt-2 { margin-top: var(--space-sm); }
+.mt-3 { margin-top: var(--space-md); }
+.mt-4 { margin-top: var(--space-lg); }
+.mt-5 { margin-top: var(--space-xl); }
+
+.p-0 { padding: 0; }
+.p-1 { padding: var(--space-xs); }
+.p-2 { padding: var(--space-sm); }
+.p-3 { padding: var(--space-md); }
+.p-4 { padding: var(--space-lg); }
+.p-5 { padding: var(--space-xl); }
+
+/* ==========================================================================
+   END OF FILE - LOGIN STYLES ARE INLINE IN user-portal.html
+   ========================================================================== */

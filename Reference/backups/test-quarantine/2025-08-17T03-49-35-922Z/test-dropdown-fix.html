@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dropdown Options Fix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Dropdown Options Fix Test</h1>
+        <p>This page will test and fix the missing dropdown options in your Firebase users collection.</p>
+        
+        <div id="status" class="status info">⏳ Initializing...</div>
+        
+        <div>
+            <button onclick="runFix()">🚀 Run Fix</button>
+            <button onclick="checkStatus()">🔍 Check Status</button>
+            <button onclick="clearLog()">🗑️ Clear Log</button>
+        </div>
+        
+        <h3>Console Log:</h3>
+        <div id="log" class="log"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Firebase Configuration and Data Manager -->
+    <script src="firebase-config.js"></script>
+    <script src="firestore-data-manager.js"></script>
+    <script src="firestore-integration.js"></script>
+    
+    <!-- Fix Script -->
+    <script src="fix-dropdown-options.js"></script>
+    
+    <script>
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logElement = document.getElementById('log');
+        const statusElement = document.getElementById('status');
+        
+        function addToLog(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'warn' ? '⚠️' : '📋';
+            logElement.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToLog(args.join(' '));
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToLog(args.join(' '), 'error');
+        };
+        
+        // Update status
+        function updateStatus(message, type = 'info') {
+            statusElement.textContent = message;
+            statusElement.className = `status ${type}`;
+        }
+        
+        // Run the fix
+        async function runFix() {
+            try {
+                updateStatus('🚀 Running dropdown options fix...', 'info');
+                const success = await window.fixDropdownOptions();
+                
+                if (success) {
+                    updateStatus('✅ Dropdown options fix completed successfully!', 'success');
+                } else {
+                    updateStatus('❌ Dropdown options fix failed', 'error');
+                }
+            } catch (error) {
+                updateStatus('❌ Error running fix: ' + error.message, 'error');
+                console.error('Fix error:', error);
+            }
+        }
+        
+        // Check current status
+        async function checkStatus() {
+            try {
+                updateStatus('🔍 Checking current status...', 'info');
+                
+                if (!window.FirestoreDataManager || !window.FirestoreDataManager.isReady()) {
+                    updateStatus('❌ Firebase not ready yet', 'error');
+                    return;
+                }
+                
+                const options = await window.FirestoreDataManager.getDropdownOptions();
+                if (options && Object.keys(options).length > 0) {
+                    updateStatus(`✅ Dropdown options found: ${Object.keys(options).length} categories`, 'success');
+                    console.log('Current dropdown options:', options);
+                } else {
+                    updateStatus('❌ No dropdown options found in Firebase', 'error');
+                }
+            } catch (error) {
+                updateStatus('❌ Error checking status: ' + error.message, 'error');
+                console.error('Status check error:', error);
+            }
+        }
+        
+        // Clear log
+        function clearLog() {
+            logElement.textContent = '';
+        }
+        
+        // Auto-check status after Firebase is ready
+        async function autoCheck() {
+            try {
+                await new Promise(resolve => {
+                    const check = () => {
+                        if (window.FirestoreDataManager && window.FirestoreDataManager.isReady()) {
+                            resolve();
+                        } else {
+                            setTimeout(check, 100);
+                        }
+                    };
+                    check();
+                });
+                
+                updateStatus('✅ Firebase ready - click "Check Status" to see current state', 'success');
+            } catch (error) {
+                updateStatus('❌ Firebase initialization failed', 'error');
+            }
+        }
+        
+        // Start auto-check
+        autoCheck();
+    </script>
+</body>
+</html>

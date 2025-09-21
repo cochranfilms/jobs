@@ -1,0 +1,19 @@
+{
+  "users": {},
+  "statusOptions": {
+    "projectStatus": [
+      "upcoming",
+      "in-progress",
+      "completed",
+      "cancelled"
+    ],
+    "paymentStatus": [
+      "pending",
+      "processing",
+      "paid",
+      "overdue"
+    ]
+  },
+  "lastUpdated": "2025-08-06",
+  "totalUsers": 0
+}

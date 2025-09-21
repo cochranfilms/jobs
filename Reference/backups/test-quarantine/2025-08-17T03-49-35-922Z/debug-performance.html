@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Performance Review</title>
+</head>
+<body>
+    <h1>Debug Performance Review</h1>
+    <div id="results"></div>
+
+    <script>
+        let performanceReviews = {};
+        let users = [];
+
+        // Load performance reviews from API
+        async function loadPerformanceReviews() {
+            try {
+                console.log('🔄 Loading performance reviews from API...');
+                const response = await fetch('/api/performance');
+                console.log('📡 API response status:', response.status);
+                if (response.ok) {
+                    const data = await response.json();
+                    performanceReviews = data.performanceReviews || {};
+                    console.log('✅ Performance reviews loaded from API:', Object.keys(performanceReviews).length, 'reviews');
+                    console.log('📋 Performance reviews data:', performanceReviews);
+                    console.log('🔍 Available email keys:', Object.keys(performanceReviews));
+                } else {
+                    console.warn('⚠️ Could not load performance reviews from API');
+                }
+            } catch (error) {
+                console.error('❌ Error loading performance reviews:', error);
+            }
+        }
+
+        // Load users data
+        async function loadUsersData() {
+            try {
+                const response = await fetch('/api/users');
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    if (jsonData.users) {
+                        users = Object.entries(jsonData.users).map(([name, user]) => ({
+                            name: name,
+                            email: user.profile?.email,
+                            password: user.profile?.password,
+                            approvedDate: user.profile?.approvedDate,
+                            contractUrl: user.contract?.contractUrl || 'contract.html',
+                            contractStatus: user.contract?.contractStatus || 'pending',
+                            contractSignedDate: user.contract?.contractSignedDate,
+                            contractUploadedDate: user.contract?.contractUploadedDate,
+                            contractId: user.contract?.contractId,
+                            paymentMethod: user.paymentMethod || null,
+                            paymentStatus: user.paymentStatus || 'pending',
+                            jobs: user.jobs || {},
+                            primaryJob: user.primaryJob || 'legacy-job'
+                        }));
+                        console.log('✅ Users data loaded:', users);
+                    }
+                }
+            } catch (error) {
+                console.error('❌ Error loading users data:', error);
+            }
+        }
+
+        // Test performance review lookup
+        function testPerformanceReview() {
+            const testEmail = 'dedejackson727@gmail.com';
+            console.log('🔍 Testing performance review for:', testEmail);
+            console.log('🔍 Available performance reviews:', Object.keys(performanceReviews));
+            console.log('🔍 Available users:', users.map(u => ({ name: u.name, email: u.email })));
+            
+            // Test exact match
+            let review = performanceReviews[testEmail] || null;
+            console.log('🔍 Exact match result:', review);
+            
+            // Test case-insensitive match
+            if (!review) {
+                const availableEmails = Object.keys(performanceReviews);
+                const matchingEmail = availableEmails.find(email => 
+                    email.toLowerCase() === testEmail.toLowerCase()
+                );
+                if (matchingEmail) {
+                    review = performanceReviews[matchingEmail];
+                    console.log('✅ Found case-insensitive match:', matchingEmail);
+                }
+            }
+            
+            console.log('🔍 Final review result:', review);
+            
+            document.getElementById('results').innerHTML = `
+                <h2>Debug Results</h2>
+                <p><strong>Test email:</strong> ${testEmail}</p>
+                <p><strong>Available performance review emails:</strong> ${Object.keys(performanceReviews).join(', ')}</p>
+                <p><strong>Available user emails:</strong> ${users.map(u => u.email).join(', ')}</p>
+                <p><strong>Review found:</strong> ${review ? 'YES' : 'NO'}</p>
+                <p><strong>Review data:</strong> ${JSON.stringify(review, null, 2)}</p>
+            `;
+        }
+
+        // Load data and test
+        async function init() {
+            await loadPerformanceReviews();
+            await loadUsersData();
+            testPerformanceReview();
+        }
+
+        // Load on page load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firestore Setup Test | Cochran Films</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .console-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔥 Firestore Setup Test</h1>
+        <p>This page tests the Firestore integration for both admin dashboard and user portal.</p>
+        
+        <div class="status warning">
+            <strong>Test Instructions:</strong>
+            <ol>
+                <li>Click "Test Firebase Config" to verify Firebase initialization</li>
+                <li>Click "Test Firestore Data Manager" to check Firestore connectivity</li>
+                <li>Click "Test Data Migration" to migrate existing data to Firestore</li>
+                <li>Click "Test Real-time Listeners" to verify real-time updates</li>
+                <li>Check the console for detailed logs</li>
+            </ol>
+        </div>
+        
+        <div>
+            <button class="test-button" onclick="testFirebaseConfig()">Test Firebase Config</button>
+            <button class="test-button" onclick="testFirestoreDataManager()">Test Firestore Data Manager</button>
+            <button class="test-button" onclick="testDataMigration()">Test Data Migration</button>
+            <button class="test-button" onclick="testRealtimeListeners()">Test Real-time Listeners</button>
+            <button class="test-button" onclick="clearConsole()">Clear Console Output</button>
+        </div>
+        
+        <div id="statusOutput"></div>
+        
+        <h3>Console Output:</h3>
+        <div id="consoleOutput" class="console-output"></div>
+    </div>
+
+    <!-- Load Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Load Firebase Configuration and Data Manager -->
+    <script src="firebase-config.js"></script>
+    <script src="firestore-data-manager.js"></script>
+    
+    <script>
+        // Capture console output
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        
+        function captureConsole(type, ...args) {
+            const output = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = `[${timestamp}] ${type}: ${args.join(' ')}`;
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        console.log = (...args) => {
+            captureConsole('LOG', ...args);
+            originalLog.apply(console, args);
+        };
+        
+        console.warn = (...args) => {
+            captureConsole('WARN', ...args);
+            originalWarn.apply(console, args);
+        };
+        
+        console.error = (...args) => {
+            captureConsole('ERROR', ...args);
+            originalError.apply(console, args);
+        };
+        
+        // Test functions
+        function testFirebaseConfig() {
+            const statusOutput = document.getElementById('statusOutput');
+            statusOutput.innerHTML = '<div class="status warning">Testing Firebase Configuration...</div>';
+            
+            try {
+                if (window.FirebaseConfig) {
+                    window.FirebaseConfig.init().then(() => {
+                        statusOutput.innerHTML = '<div class="status success">✅ Firebase Configuration Test Passed - Firebase initialized successfully</div>';
+                    }).catch(error => {
+                        statusOutput.innerHTML = `<div class="status error">❌ Firebase Configuration Test Failed: ${error.message}</div>`;
+                    });
+                } else {
+                    statusOutput.innerHTML = '<div class="status error">❌ FirebaseConfig not found</div>';
+                }
+            } catch (error) {
+                statusOutput.innerHTML = `<div class="status error">❌ Firebase Configuration Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        function testFirestoreDataManager() {
+            const statusOutput = document.getElementById('statusOutput');
+            statusOutput.innerHTML = '<div class="status warning">Testing Firestore Data Manager...</div>';
+            
+            try {
+                if (window.FirestoreDataManager) {
+                    window.FirestoreDataManager.init().then(() => {
+                        if (window.FirestoreDataManager.isAvailable()) {
+                            statusOutput.innerHTML = '<div class="status success">✅ Firestore Data Manager Test Passed - Firestore connected successfully</div>';
+                        } else {
+                            statusOutput.innerHTML = '<div class="status error">❌ Firestore Data Manager Test Failed - Firestore not available</div>';
+                        }
+                    }).catch(error => {
+                        statusOutput.innerHTML = `<div class="status error">❌ Firestore Data Manager Test Failed: ${error.message}</div>`;
+                    });
+                } else {
+                    statusOutput.innerHTML = '<div class="status error">❌ FirestoreDataManager not found</div>';
+                }
+            } catch (error) {
+                statusOutput.innerHTML = `<div class="status error">❌ Firestore Data Manager Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        function testDataMigration() {
+            const statusOutput = document.getElementById('statusOutput');
+            statusOutput.innerHTML = '<div class="status warning">Testing Data Migration...</div>';
+            
+            try {
+                if (window.FirestoreDataManager && window.FirestoreDataManager.isAvailable()) {
+                    // Create some test data
+                    const testUsers = {
+                        'Test User 1': {
+                            profile: { email: 'test1@example.com', role: 'Photographer' },
+                            contract: { contractStatus: 'pending' }
+                        },
+                        'Test User 2': {
+                            profile: { email: 'test2@example.com', role: 'Videographer' },
+                            contract: { contractStatus: 'signed' }
+                        }
+                    };
+                    
+                    window.users = testUsers;
+                    
+                    window.FirestoreDataManager.migrateDataToFirestore().then(() => {
+                        statusOutput.innerHTML = '<div class="status success">✅ Data Migration Test Passed - Test data migrated to Firestore</div>';
+                    }).catch(error => {
+                        statusOutput.innerHTML = `<div class="status error">❌ Data Migration Test Failed: ${error.message}</div>`;
+                    });
+                } else {
+                    statusOutput.innerHTML = '<div class="status error">❌ Firestore not available for data migration test</div>';
+                }
+            } catch (error) {
+                statusOutput.innerHTML = `<div class="status error">❌ Data Migration Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        function testRealtimeListeners() {
+            const statusOutput = document.getElementById('statusOutput');
+            statusOutput.innerHTML = '<div class="status warning">Testing Real-time Listeners...</div>';
+            
+            try {
+                if (window.FirestoreDataManager && window.FirestoreDataManager.isAvailable()) {
+                    // Set up a test listener
+                    const testCollection = window.FirestoreDataManager.getCollection('test');
+                    
+                    // Listen for changes
+                    const unsubscribe = testCollection.onSnapshot((snapshot) => {
+                        console.log('✅ Real-time listener working:', snapshot.docChanges().length, 'changes');
+                        statusOutput.innerHTML = '<div class="status success">✅ Real-time Listeners Test Passed - Listeners working correctly</div>';
+                        unsubscribe(); // Clean up
+                    }, (error) => {
+                        console.error('❌ Real-time listener error:', error);
+                        statusOutput.innerHTML = `<div class="status error">❌ Real-time Listeners Test Failed: ${error.message}</div>`;
+                    });
+                    
+                    // Add a test document to trigger the listener
+                    setTimeout(() => {
+                        testCollection.add({
+                            test: true,
+                            timestamp: new Date().toISOString()
+                        });
+                    }, 1000);
+                    
+                } else {
+                    statusOutput.innerHTML = '<div class="status error">❌ Firestore not available for real-time listener test</div>';
+                }
+            } catch (error) {
+                statusOutput.innerHTML = `<div class="status error">❌ Real-time Listeners Test Failed: ${error.message}</div>`;
+            }
+        }
+        
+        function clearConsole() {
+            document.getElementById('consoleOutput').textContent = '';
+        }
+        
+        // Auto-test when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (window.FirebaseConfig) {
+                    document.getElementById('statusOutput').innerHTML = '<div class="status success">✅ Firebase Configuration loaded successfully</div>';
+                } else {
+                    document.getElementById('statusOutput').innerHTML = '<div class="status error">❌ Firebase Configuration failed to load</div>';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{
+  "approvedFreelancers": {
+    "Dr. Sarah Johnson": {
+      "email": "sarah.johnson@medstaffpro.com",
+      "password": "Healthcare2025",
+      "approvedDate": "2024-01-15",
+      "contractUrl": "contract.html",
+      "contractStatus": "pending",
+      "contractSignedDate": null,
+      "contractUploadedDate": null,
+      "contractId": null,
+      "jobs": [
+        {
+          "id": "shift-sarah-001",
+          "role": "Emergency Room Physician",
+          "location": "Atlanta Medical Center, 1234 Peachtree St, Atlanta, GA",
+          "projectStart": "December 20, 2025 at 7:00 PM",
+          "rate": "$150.00 USD per hour",
+          "status": "upcoming",
+          "projectType": "Emergency Medicine",
+          "description": "Overnight ER coverage for 12-hour shift"
+        }
+      ],
+      "primaryJob": "shift-sarah-001"
+    },
+    "Nurse Maria Rodriguez": {
+      "email": "maria.rodriguez@medstaffpro.com",
+      "password": "Nursing2025",
+      "approvedDate": "2024-02-10",
+      "contractUrl": "contract.html",
+      "contractStatus": "signed",
+      "contractSignedDate": "2024-02-15",
+      "contractUploadedDate": "2024-02-16",
+      "contractId": "CF-HEALTH-001",
+      "jobs": [
+        {
+          "id": "shift-maria-001",
+          "role": "ICU Registered Nurse",
+          "location": "Emory University Hospital, 1364 Clifton Rd, Atlanta, GA",
+          "projectStart": "December 18, 2025 at 6:00 AM",
+          "rate": "$85.00 USD per hour",
+          "status": "upcoming",
+          "projectType": "Critical Care",
+          "description": "Day shift ICU nursing with patient care responsibilities"
+        },
+        {
+          "id": "shift-maria-002",
+          "role": "ICU Registered Nurse",
+          "location": "Piedmont Atlanta Hospital, 1968 Peachtree Rd, Atlanta, GA",
+          "projectStart": "December 22, 2025 at 6:00 PM",
+          "rate": "$95.00 USD per hour",
+          "status": "upcoming",
+          "projectType": "Critical Care",
+          "description": "Night shift ICU nursing with critical patient monitoring"
+        }
+      ],
+      "primaryJob": "shift-maria-001"
+    },
+    "Dr. Michael Chen": {
+      "email": "michael.chen@medstaffpro.com",
+      "password": "Cardiology2025",
+      "approvedDate": "2024-03-05",
+      "contractUrl": "contract.html",
+      "contractStatus": "uploaded",
+      "contractSignedDate": "2024-03-10",
+      "contractUploadedDate": "2024-03-12",
+      "contractId": "CF-HEALTH-002",
+      "jobs": [
+        {
+          "id": "shift-michael-001",
+          "role": "Cardiologist",
+          "location": "Northside Hospital, 1000 Johnson Ferry Rd, Atlanta, GA",
+          "projectStart": "December 19, 2025 at 8:00 AM",
+          "rate": "$200.00 USD per hour",
+          "status": "upcoming",
+          "projectType": "Cardiology",
+          "description": "Cardiology consultation and patient rounds"
+        }
+      ],
+      "primaryJob": "shift-michael-001"
+    }
+  }
+} 

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Design Preview | Cochran Films</title>
+    
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FFB200;
+            --primary-dark: #FF9000;
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --gray-dark: #343a40;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .preview-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .preview-header {
+            background: #FFB200;
+            color: #000;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .preview-header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .preview-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .contract-content {
+            padding: 30px;
+        }
+        
+        .contract-details {
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .contractor-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .info-column {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #FFB200;
+        }
+        
+        .info-column h3 {
+            font-size: 16px;
+            color: #000;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .info-value {
+            color: #000;
+            font-weight: 500;
+        }
+        
+        .terms-section {
+            margin-bottom: 30px;
+        }
+        
+        .terms-section h3 {
+            font-size: 20px;
+            color: #000;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .terms-column {
+            flex: 1;
+        }
+        
+        .terms-list {
+            list-style: decimal;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .terms-list li {
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .signatures-section {
+            margin-bottom: 20px;
+        }
+        
+        .signature-blocks {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .signature-block {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .signature-block h4 {
+            font-size: 16px;
+            color: #000;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .signature-info {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .signature-info strong {
+            color: #333;
+        }
+        
+        .preview-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        @media (max-width: 768px) {
+            .terms-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .contractor-info {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .signature-blocks {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h1>COCHRAN FILMS</h1>
+            <h2>FREELANCE CONTRACT AGREEMENT</h2>
+        </div>
+        
+        <div class="contract-content">
+            <!-- Contract Details -->
+            <div class="contract-details">
+                <strong>Contract ID:</strong> CF-1754315451785-VLNVP | <strong>Effective Date:</strong> 2025-08-04
+            </div>
+            
+            <!-- Contractor Information -->
+            <div class="contractor-info">
+                <div class="info-column">
+                    <h3>CONTRACTOR INFORMATION</h3>
+                    <div class="info-item">
+                        <span class="info-label">Name:</span>
+                        <span class="info-value">Thing Two</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Role:</span>
+                        <span class="info-value">Producer</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Location:</span>
+                        <span class="info-value">Los Angeles, CA</span>
+                    </div>
+                </div>
+                
+                <div class="info-column">
+                    <h3>PROJECT DETAILS</h3>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">dedejackson727@gmail.com</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Start Date:</span>
+                        <span class="info-value">2026-01-01T22:00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Rate:</span>
+                        <span class="info-value">$75/hour</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contract Terms -->
+            <div class="terms-section">
+                <h3>CONTRACT TERMS & CONDITIONS</h3>
+                <div class="terms-grid">
+                    <div class="terms-column">
+                        <ol class="terms-list">
+                            <li><strong>INDEPENDENT CONTRACTOR:</strong> Not an employee of Cochran Films.</li>
+                            <li><strong>SERVICES:</strong> Provide professional services as specified.</li>
+                            <li><strong>COMPENSATION:</strong> Payment within 24 hours of completion.</li>
+                            <li><strong>STANDARDS:</strong> All work must meet Cochran Films quality.</li>
+                            <li><strong>ATTIRE:</strong> Professional attire (all black) required.</li>
+                        </ol>
+                    </div>
+                    <div class="terms-column">
+                        <ol class="terms-list" start="6">
+                            <li><strong>PUNCTUALITY:</strong> Arrive 15 minutes before start time.</li>
+                            <li><strong>DOCUMENTATION:</strong> Bring valid ID and signed contract.</li>
+                            <li><strong>EQUIPMENT:</strong> Use provided Cochran Films equipment.</li>
+                            <li><strong>CONDUCT:</strong> Maintain professional demeanor at all times.</li>
+                            <li><strong>SAFETY:</strong> Follow all safety protocols provided.</li>
+                        </ol>
+                    </div>
+                    <div class="terms-column">
+                        <ol class="terms-list" start="11">
+                            <li><strong>CONFIDENTIALITY:</strong> Respect project confidentiality.</li>
+                            <li><strong>BTS CONTENT:</strong> May freely take and share behind-the-scenes.</li>
+                            <li><strong>TAX OBLIGATIONS:</strong> Contractor responsible for personal taxes.</li>
+                            <li><strong>TRANSPORTATION:</strong> Contractor responsible for own transport.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Signatures Section -->
+            <div class="signatures-section">
+                <div class="signature-blocks">
+                    <div class="signature-block">
+                        <h4>COCHRAN FILMS (COMPANY)</h4>
+                        <div class="signature-info">
+                            <strong>Authorized Signature:</strong> Cody Cochran
+                        </div>
+                        <div class="signature-info">
+                            <strong>Title:</strong> Founder & CEO
+                        </div>
+                        <div class="signature-info">
+                            <strong>Date:</strong> 2025-08-04
+                        </div>
+                        <div class="signature-info">
+                            <strong>Email:</strong> info@cochranfilms.com
+                        </div>
+                    </div>
+                    
+                    <div class="signature-block">
+                        <h4>CONTRACTOR SIGNATURE</h4>
+                        <div class="signature-info">
+                            <strong>Contractor:</strong> Thing Two
+                        </div>
+                        <div class="signature-info">
+                            <strong>Signature:</strong> thing two
+                        </div>
+                        <div class="signature-info">
+                            <strong>Date:</strong> 2025-08-04
+                        </div>
+                        <div class="signature-info">
+                            <strong>ID:</strong> CF-1754315451785-VLNVP
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="preview-footer">
+            <p>This is a preview of the current contract design from contract.html</p>
+            <p>This shows how the contract will look when generated as a PDF</p>
+        </div>
+    </div>
+</body>
+</html> 

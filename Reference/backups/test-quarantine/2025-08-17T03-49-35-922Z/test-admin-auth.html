@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Auth Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #1a1a1a; color: white; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #FFB200; border-radius: 8px; }
+        .success { border-color: #22c55e; }
+        .error { border-color: #ef4444; }
+        .warning { border-color: #f59e0b; }
+        button { background: #FFB200; color: black; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #FFD700; }
+        .result { margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Admin Dashboard Authentication Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="clearResults()">Clear Results</button>
+        <button onclick="testLogin()">Test Login</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="testResults"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Manual Tests</h2>
+        <div>
+            <label for="testEmail">Email:</label>
+            <input type="email" id="testEmail" value="admin@cochranfilms.com" style="margin: 10px; padding: 5px; background: #333; color: white; border: 1px solid #FFB200; border-radius: 3px;">
+        </div>
+        <div>
+            <label for="testPassword">Password:</label>
+            <input type="password" id="testPassword" value="Cochranfilms2@" style="margin: 10px; padding: 5px; background: #333; color: white; border: 1px solid #FFB200; border-radius: 3px;">
+        </div>
+        <button onclick="testManualAuth()">Test Manual Authentication</button>
+    </div>
+
+    <script>
+        // Test results container
+        const testResults = document.getElementById('testResults');
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = message;
+            testResults.appendChild(div);
+        }
+        
+        function clearResults() {
+            testResults.innerHTML = '';
+        }
+        
+        function runAllTests() {
+            clearResults();
+            addResult('🧪 Starting authentication tests...', 'info');
+            
+            // Test 1: ADMIN_PASSWORD
+            if (typeof window.ADMIN_PASSWORD !== 'undefined') {
+                addResult('✅ ADMIN_PASSWORD is available', 'success');
+            } else {
+                addResult('❌ ADMIN_PASSWORD is not available', 'error');
+            }
+            
+            // Test 2: FirebaseConfig
+            if (typeof window.FirebaseConfig !== 'undefined') {
+                addResult('✅ FirebaseConfig is available', 'success');
+            } else {
+                addResult('❌ FirebaseConfig is not available', 'warning');
+            }
+            
+            // Test 3: Main dashboard functions
+            const functions = ['checkAuth', 'showDashboard', 'showLoginScreen', 'isAdminUser'];
+            let functionCount = 0;
+            functions.forEach(func => {
+                if (typeof window[func] === 'function') {
+                    functionCount++;
+                }
+            });
+            
+            if (functionCount === functions.length) {
+                addResult('✅ All main dashboard functions available', 'success');
+            } else {
+                addResult(`⚠️ ${functionCount}/${functions.length} main dashboard functions available`, 'warning');
+            }
+            
+            // Test 4: Modular system interference
+            if (typeof window.MAIN_DASHBOARD_AUTH_OVERRIDE !== 'undefined') {
+                addResult('✅ Main dashboard auth override flag is set', 'success');
+            } else {
+                addResult('❌ Main dashboard auth override flag is not set', 'error');
+            }
+            
+            // Test 5: Session storage
+            const sessionAuth = sessionStorage.getItem('adminDashboardAuthenticated');
+            if (sessionAuth === 'true') {
+                addResult('✅ User is authenticated in session', 'success');
+            } else {
+                addResult('ℹ️ User is not authenticated in session', 'info');
+            }
+            
+            addResult('📊 All tests completed', 'info');
+        }
+        
+        function testLogin() {
+            addResult('🔐 Testing login functionality...', 'info');
+            
+            // Simulate login attempt
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            
+            if (password === window.ADMIN_PASSWORD) {
+                addResult('✅ Password matches ADMIN_PASSWORD', 'success');
+                
+                // Test if we can set session storage
+                try {
+                    sessionStorage.setItem('adminDashboardAuthenticated', 'true');
+                    sessionStorage.setItem('adminUser', JSON.stringify({
+                        email: email,
+                        uid: 'test-admin-' + Date.now()
+                    }));
+                    addResult('✅ Session storage updated successfully', 'success');
+                } catch (error) {
+                    addResult('❌ Failed to update session storage: ' + error.message, 'error');
+                }
+            } else {
+                addResult('❌ Password does not match ADMIN_PASSWORD', 'error');
+            }
+        }
+        
+        function testManualAuth() {
+            addResult('🔐 Testing manual authentication...', 'info');
+            
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            
+            if (!email || !password) {
+                addResult('❌ Please enter both email and password', 'error');
+                return;
+            }
+            
+            if (password === window.ADMIN_PASSWORD) {
+                addResult('✅ Authentication successful!', 'success');
+                addResult(`📧 Logged in as: ${email}`, 'success');
+                
+                // Update session
+                sessionStorage.setItem('adminDashboardAuthenticated', 'true');
+                sessionStorage.setItem('adminUser', JSON.stringify({
+                    email: email,
+                    uid: 'manual-test-' + Date.now()
+                }));
+                
+                addResult('✅ Session updated - you can now test the main dashboard', 'success');
+            } else {
+                addResult('❌ Authentication failed - incorrect password', 'error');
+            }
+        }
+        
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addResult('🚀 Page loaded, running initial tests...', 'info');
+                runAllTests();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

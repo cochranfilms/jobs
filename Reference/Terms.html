@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - Cochran Films</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #111111;
+      --text-primary: #ffffff;
+      --text-secondary: #cccccc;
+      --text-muted: #aaaaaa;
+      --text-light: #888888;
+      --border-color: #333333;
+      --section-bg: rgba(255,255,255,0.05);
+      --section-border: rgba(255,178,0,0.3);
+      --contact-bg: rgba(255,178,0,0.15);
+      --shadow: rgba(255,255,255,0.1);
+      --shadow-dark: rgba(255,255,255,0.2);
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+    
+
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: var(--bg-primary);
+      box-shadow: 0 20px 60px var(--shadow);
+      border-radius: 20px;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #FFD700 0%, #FFB200 60%, #FF9000 100%);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--border-color);
+    }
+    
+    .title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #FFD700 0%, #FFB200 60%, #FF9000 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    
+    .dates {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    .date-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .date-label {
+      font-weight: 600;
+      color: #FFB200;
+    }
+    
+    .content {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+    
+    .section {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem;
+      background: var(--section-bg);
+      border-radius: 12px;
+      border-left: 4px solid #FFB200;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,178,0,0.3), transparent);
+    }
+    
+    .section-number {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #FFB200;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--section-border);
+      padding-bottom: 0.5rem;
+    }
+    
+    .section-content {
+      color: var(--text-secondary);
+    }
+    
+    .section-content ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .section-content li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .section-content li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #FFB200;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,178,0,0.3), transparent);
+      margin: 2rem 0;
+      border-radius: 1px;
+    }
+    
+    .contact-section {
+      background: rgba(255,178,0,0.08);
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-top: 3rem;
+      border: 1px solid rgba(255,178,0,0.3);
+      box-shadow: 0 8px 25px rgba(255,178,0,0.15);
+    }
+    
+    .contact-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      padding: 0.8rem 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      border: 1px solid rgba(255,178,0,0.25);
+    }
+    
+    .contact-item:hover {
+      background: rgba(255,178,0,0.1);
+      border-color: rgba(255,178,0,0.5);
+    }
+    
+    .contact-icon {
+      color: #FFB200;
+      font-size: 1.2rem;
+    }
+    
+    .contact-link {
+      color: #FFB200;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .contact-link:hover {
+      color: #FFD700;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 15px;
+      }
+      
+      .title {
+        font-size: 2rem;
+      }
+      
+      .dates {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      
+      .contact-info {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .section {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Terms of Service</h1>
+      <p class="subtitle">Cochran Films</p>
+      
+      <div class="dates">
+        <div class="date-item">
+          <span class="date-label">Effective Date:</span>
+          <span>January 1, 2020</span>
+        </div>
+        <div class="date-item">
+          <span class="date-label">Last Updated:</span>
+          <span>July 28, 2025</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="content">
+      <p style="margin-bottom: 2rem; font-size: 1.1rem; color: #666; text-align: center;">
+        Welcome to Cochran Films. By booking or purchasing any of our services, you agree to the following terms and conditions. These Terms of Service are designed to ensure clarity and professionalism in all business transactions.
+      </p>
+      
+      <div class="divider"></div>
+      
+      <div class="section">
+        <span class="section-number">1</span>
+        <h2 class="section-title">Booking & Deposits</h2>
+        <div class="section-content">
+          <ul>
+            <li>A deposit of 25% of the total service fee, or a minimum of $100, is required to secure your booking.</li>
+            <li>This deposit is non-refundable, except in cases of emergency and only at the sole discretion of Cochran Films.</li>
+            <li>If you choose to pay in full on the day of the service, this must be communicated at the time of booking. Failure to do so may result in cancellation or rescheduling of your session.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">2</span>
+        <h2 class="section-title">Payment Terms</h2>
+        <div class="section-content">
+          <ul>
+            <li>The remaining balance (if not paid upfront) is due on the day of the scheduled service, prior to any final deliverables being provided.</li>
+            <li>Payments can be made via card, invoice, cash app, or other accepted payment methods.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">3</span>
+        <h2 class="section-title">Cancellation & Rescheduling</h2>
+        <div class="section-content">
+          <ul>
+            <li>All cancellations must be made in writing via email or official company channels.</li>
+            <li>Deposits will not be refunded for cancellations, unless approved under special circumstances by Cochran Films.</li>
+            <li>Clients may request one free reschedule with at least 48 hours' notice. Additional rescheduling may incur a fee.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">4</span>
+        <h2 class="section-title">Turnaround Times</h2>
+        <div class="section-content">
+          <ul>
+            <li>Standard turnaround time for most services (photography, videography editing, etc.) is within 72 hours, unless otherwise stated in your agreement or invoice.</li>
+            <li>Larger-scale projects such as web development or brand design may take 1–2 weeks or longer, depending on the scope and your responsiveness during the review and feedback process.</li>
+            <li>Rush orders are available upon request for an additional fee, which must be agreed upon in advance.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">5</span>
+        <h2 class="section-title">Client Responsibilities</h2>
+        <div class="section-content">
+          <ul>
+            <li>Clients are expected to provide all required information, access, or assets (such as logos, content, or brand guidelines) in a timely manner.</li>
+            <li>Any delay in providing required materials may result in delays in project completion.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">6</span>
+        <h2 class="section-title">Revisions & Final Deliverables</h2>
+        <div class="section-content">
+          <ul>
+            <li>All services include one round of revisions, unless otherwise stated in writing. Additional revisions will be billed at our hourly rate.</li>
+            <li>Final deliverables will be provided in high-resolution format through a secure online delivery method or cloud folder.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">7</span>
+        <h2 class="section-title">Usage & Rights</h2>
+        <div class="section-content">
+          <ul>
+            <li>Cochran Films retains the right to use any footage, images, or deliverables for promotional purposes unless otherwise agreed in writing.</li>
+            <li>Clients receive full rights to use the final product for personal or commercial use once final payment is made and the deliverables are released.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">8</span>
+        <h2 class="section-title">Force Majeure</h2>
+        <div class="section-content">
+          <p>Cochran Films shall not be held liable for any failure to perform due to circumstances beyond our control, including but not limited to acts of God, weather conditions, equipment failure, or illness.</p>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">9</span>
+        <h2 class="section-title">Limitation of Liability</h2>
+        <div class="section-content">
+          <p>Cochran Films is not liable for any indirect, incidental, or consequential damages arising out of the use or inability to use our services or deliverables.</p>
+        </div>
+      </div>
+      
+      <div class="section">
+        <span class="section-number">10</span>
+        <h2 class="section-title">Contact Information</h2>
+        <div class="section-content">
+          <p>For questions, changes, or concerns related to these terms or your project, please contact us at:</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="contact-section">
+      <h3 class="contact-title">Get In Touch</h3>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="contact-icon">📧</span>
+          <a href="mailto:info@cochranfilms.com" class="contact-link">info@cochranfilms.com</a>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">🌐</span>
+          <a href="https://vision.cochranfilms.com" class="contact-link" target="_blank">vision.cochranfilms.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

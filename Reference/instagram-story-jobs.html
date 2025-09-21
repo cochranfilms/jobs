@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cochran Films - Job Opportunities</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            overflow: hidden;
+            width: 1080px;
+            height: 1920px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .story-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            overflow: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .bg-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #FFB200 0%, transparent 70%);
+            animation-delay: 0s;
+        }
+
+        .bg-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+            animation-delay: 2s;
+        }
+
+        .bg-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #FF9000 0%, transparent 70%);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Logo animation */
+        .logo-container {
+            position: absolute;
+            top: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: slideInDown 1s ease-out 0.5s forwards;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            filter: drop-shadow(0 4px 20px rgba(255, 178, 0, 0.5));
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { filter: drop-shadow(0 4px 20px rgba(255, 178, 0, 0.5)); }
+            50% { filter: drop-shadow(0 4px 30px rgba(255, 178, 0, 0.8)); }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Main title */
+        .main-title {
+            position: absolute;
+            top: 22%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.5s forwards;
+        }
+
+        .main-title h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #FFB200;
+            text-shadow: 0 4px 20px rgba(255, 178, 0, 0.3);
+            margin-bottom: 0.5rem;
+            animation: titlePulse 2s ease-in-out infinite 2.5s;
+        }
+
+        .main-title p {
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 300;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: subtitleFloat 3s ease-in-out infinite 3s;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes subtitleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Job cards container */
+        .jobs-container {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Job card */
+        .job-card {
+            background: linear-gradient(135deg, rgba(255, 178, 0, 0.1) 0%, rgba(255, 178, 0, 0.05) 100%);
+            border: 2px solid rgba(255, 178, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease-out forwards;
+            transition: all 0.3s ease;
+        }
+
+        .job-card:nth-child(1) {
+            animation-delay: 3s;
+        }
+
+        .job-card:nth-child(2) {
+            animation-delay: 3.5s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 178, 0, 0.2);
+        }
+
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 178, 0, 0.2), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .job-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #FFB200;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(255, 178, 0, 0.3);
+            animation: titleGlow 2s ease-in-out infinite 4s;
+        }
+
+        .job-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .job-location {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .job-pay {
+            color: #FFD700;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+            animation: payPulse 1.5s ease-in-out infinite 4.5s;
+        }
+
+        .job-description {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0.8rem;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 2px 10px rgba(255, 178, 0, 0.3); }
+            50% { text-shadow: 0 2px 15px rgba(255, 178, 0, 0.6); }
+        }
+
+        @keyframes payPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .job-status {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFB200 0%, #FFD700 100%);
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CTA section */
+        .cta-section {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 4.5s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFB200 0%, #FFD700 100%);
+            color: #000;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 30px rgba(255, 178, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 2s ease-in-out infinite 5.5s;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { 
+                box-shadow: 0 8px 30px rgba(255, 178, 0, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 12px 40px rgba(255, 178, 0, 0.5);
+                transform: scale(1.05);
+            }
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 178, 0, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-text {
+            color: #fff;
+            font-size: 1rem;
+            margin-top: 0.8rem;
+            font-weight: 300;
+            animation: textFade 3s ease-in-out infinite 6s;
+        }
+
+        @keyframes textFade {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Particle effects */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #FFB200;
+            border-radius: 50%;
+            animation: particleFloat 8s linear infinite;
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 40%; left: 85%; animation-delay: 1s; }
+        .particle:nth-child(3) { top: 70%; left: 15%; animation-delay: 2s; }
+        .particle:nth-child(4) { top: 80%; left: 80%; animation-delay: 3s; }
+        .particle:nth-child(5) { top: 30%; left: 70%; animation-delay: 4s; }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Final branding */
+        .branding {
+            position: absolute;
+            bottom: 3%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 5s forwards;
+        }
+
+        .branding-text {
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(255, 178, 0, 0.3);
+            animation: brandGlow 2.5s ease-in-out infinite 6.5s;
+        }
+
+        @keyframes brandGlow {
+            0%, 100% { 
+                text-shadow: 0 2px 10px rgba(255, 178, 0, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 2px 20px rgba(255, 178, 0, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Responsive adjustments for story format */
+        @media (max-width: 1080px) {
+            body {
+                width: 100vw;
+                height: calc(100vw * 16 / 9);
+                max-height: 100vh;
+            }
+        }
+
+        /* Additional floating elements for more cinematic feel */
+        .floating-icon {
+            position: absolute;
+            opacity: 0.1;
+            animation: floatIcon 8s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) {
+            top: 15%;
+            right: 10%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #FFB200 0%, transparent 70%);
+            animation-delay: 0s;
+        }
+
+        .floating-icon:nth-child(2) {
+            top: 75%;
+            left: 8%;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+            animation-delay: 3s;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: translateY(-15px) rotate(180deg) scale(1.1);
+                opacity: 0.2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="story-container">
+        <!-- Background elements -->
+        <div class="bg-element"></div>
+        <div class="bg-element"></div>
+        <div class="bg-element"></div>
+
+        <!-- Additional floating icons -->
+        <div class="floating-icon"></div>
+        <div class="floating-icon"></div>
+
+        <!-- Particles -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="Logo.png" alt="Cochran Films" class="logo">
+        </div>
+
+        <!-- Main title -->
+        <div class="main-title">
+            <h1>WE'RE HIRING</h1>
+            <p>Join Our Creative Team</p>
+        </div>
+
+        <!-- Job listings -->
+        <div class="jobs-container">
+            <div class="job-card">
+                <div class="job-title">Backdrop Photographer</div>
+                <div class="job-details">
+                    <span class="job-location">Douglasville, GA</span>
+                    <span class="job-pay">$300</span>
+                </div>
+                <div class="job-description">
+                    On-site printing at the 2nd annual Stranger Things block party. 
+                    Professional event photography experience required.
+                </div>
+                <div class="job-status">Active</div>
+            </div>
+
+            <div class="job-card">
+                <div class="job-title">Event Photographer</div>
+                <div class="job-details">
+                    <span class="job-location">Douglasville, GA</span>
+                    <span class="job-pay">$400</span>
+                </div>
+                <div class="job-description">
+                    Halloween Block Party coverage with on-site printing. 
+                    Perfect for photographers looking for event experience.
+                </div>
+                <div class="job-status">Active</div>
+            </div>
+        </div>
+
+        <!-- Call to action -->
+        <div class="cta-section">
+            <a href="Job-Listings.html" class="cta-button">Apply Now</a>
+            <div class="cta-text">Join Atlanta's premier media production team</div>
+        </div>
+
+        <!-- Branding -->
+        <div class="branding">
+            <div class="branding-text">COCHRAN FILMS</div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click effect to CTA button
+            const ctaButton = document.querySelector('.cta-button');
+            ctaButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '100px';
+                ripple.style.height = '100px';
+                ripple.style.marginLeft = '-50px';
+                ripple.style.marginTop = '-50px';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cochran Films - Photographer Opportunity | Douglasville</title>
+  
+  <!-- Preload fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Preload images -->
+  <link rel="preload" href="Logo.png" as="image">
+  <link rel="preload" href="professional-photography.jpg" as="image">
+  
+  <style>
+    :root {
+      --primary: #FFB200;
+      --primary-dark: #FF9000;
+      --gold: #FFD700;
+      --black: #000000;
+      --white: #ffffff;
+      --dark-bg: #0a0a0a;
+      --card-bg: #232336;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* Cinematic Background Effects */
+    .cinematic-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255,178,0,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,178,0,0.08) 0%, transparent 50%),
+        linear-gradient(135deg, var(--black) 0%, #1a1a1a 50%, var(--black) 100%);
+      z-index: -1;
+    }
+    
+    .floating-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: particleFloat 8s ease-in-out infinite;
+    }
+    
+    @keyframes particleFloat {
+      0%, 100% { transform: translateY(0) scale(0); opacity: 0; }
+      50% { transform: translateY(-20px) scale(1); opacity: 0.8; }
+    }
+    
+    /* Main Flyer Container */
+    .flyer-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .flyer-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,178,0,0.3);
+      border-radius: 30px;
+      padding: 4rem;
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 
+        0 20px 60px rgba(0,0,0,0.5),
+        0 8px 32px rgba(255,178,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+      animation: flyerEntrance 1.2s ease-out;
+    }
+    
+    @keyframes flyerEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    /* Header Section */
+    .flyer-header {
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .flyer-logo {
+      width: 200px;
+      height: auto;
+      margin: 0 auto 2rem;
+      filter: drop-shadow(0 8px 24px rgba(255,178,0,0.4));
+      animation: logoGlow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes logoGlow {
+      0% { filter: drop-shadow(0 8px 24px rgba(255,178,0,0.4)); }
+      100% { filter: drop-shadow(0 12px 36px rgba(255,178,0,0.6)); }
+    }
+    
+    .flyer-title {
+      font-family: 'Cinzel', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-shadow: 0 4px 24px rgba(255,178,0,0.5);
+      animation: titleSlideIn 1s ease-out 0.3s both;
+    }
+    
+    @keyframes titleSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .flyer-subtitle {
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 2rem;
+      font-weight: 400;
+      animation: subtitleSlideIn 1s ease-out 0.6s both;
+    }
+    
+    @keyframes subtitleSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    /* Divider */
+    .flyer-divider {
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%);
+      margin: 2rem auto;
+      border-radius: 2px;
+      animation: dividerGlow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes dividerGlow {
+      0% { box-shadow: 0 0 10px rgba(255,178,0,0.3); }
+      100% { box-shadow: 0 0 20px rgba(255,178,0,0.6); }
+    }
+    
+    /* Services Section */
+    .services-section {
+      margin: 3rem 0;
+      animation: servicesSlideIn 1s ease-out 0.9s both;
+    }
+    
+    @keyframes servicesSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .services-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .service-item {
+      background: rgba(255,178,0,0.1);
+      border: 1px solid rgba(255,178,0,0.3);
+      border-radius: 15px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .service-item:hover {
+      transform: translateY(-5px);
+      background: rgba(255,178,0,0.15);
+      border-color: rgba(255,178,0,0.5);
+      box-shadow: 0 10px 30px rgba(255,178,0,0.2);
+    }
+    
+    .service-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .service-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    
+    .service-description {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+    }
+    
+    /* Contact Section */
+    .contact-section {
+      margin: 3rem 0;
+      animation: contactSlideIn 1s ease-out 1.2s both;
+    }
+    
+    @keyframes contactSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .contact-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .contact-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,178,0,0.2);
+      border-radius: 15px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-item:hover {
+      background: rgba(255,178,0,0.1);
+      border-color: rgba(255,178,0,0.4);
+      transform: translateY(-3px);
+    }
+    
+    .contact-label {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .contact-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    
+    .contact-value a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-value a:hover {
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(255,215,0,0.5);
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      margin-top: 3rem;
+      animation: ctaSlideIn 1s ease-out 1.5s both;
+    }
+    
+    @keyframes ctaSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .cta-button {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--black);
+      border: none;
+      padding: 1.5rem 3rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 8px 25px rgba(255,178,0,0.3);
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(255,178,0,0.5);
+      background: linear-gradient(135deg, var(--gold) 0%, var(--primary) 100%);
+    }
+    
+    /* Location Badge */
+    .location-badge {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--black);
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 4px 15px rgba(255,178,0,0.3);
+      animation: badgePulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .flyer-container {
+        padding: 1rem;
+      }
+      
+      .flyer-card {
+        padding: 2rem;
+        border-radius: 20px;
+      }
+      
+      .flyer-title {
+        font-size: 2.5rem;
+      }
+      
+      .flyer-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .contact-info {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .location-badge {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 0 auto 2rem;
+        display: inline-block;
+      }
+    }
+    
+    /* Enhanced Visual Effects */
+    .flyer-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(255,178,0,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255,178,0,0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .morphing-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .morph-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(45deg, rgba(255,178,0,0.1), transparent);
+      opacity: 0.3;
+      animation: morph 12s ease-in-out infinite;
+    }
+    
+    .morph-shape:nth-child(1) {
+      width: 100px;
+      height: 100px;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    
+    .morph-shape:nth-child(2) {
+      width: 60px;
+      height: 60px;
+      top: 60%;
+      right: 15%;
+      animation-delay: 4s;
+    }
+    
+    .morph-shape:nth-child(3) {
+      width: 80px;
+      height: 80px;
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 8s;
+    }
+    
+    @keyframes morph {
+      0%, 100% { 
+        border-radius: 50%; 
+        transform: scale(1) rotate(0deg); 
+      }
+      25% { 
+        border-radius: 30%; 
+        transform: scale(1.2) rotate(90deg); 
+      }
+      50% { 
+        border-radius: 10%; 
+        transform: scale(0.8) rotate(180deg); 
+      }
+      75% { 
+        border-radius: 40%; 
+        transform: scale(1.1) rotate(270deg); 
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cinematic Background -->
+  <div class="cinematic-bg"></div>
+  
+  <!-- Floating Particles -->
+  <div class="floating-particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+  </div>
+  
+  <!-- Main Flyer Container -->
+  <div class="flyer-container">
+    <div class="flyer-card">
+      <!-- Location Badge -->
+      <div class="location-badge">
+        📍 Douglasville Area
+      </div>
+      
+      <!-- Morphing Shapes -->
+      <div class="morphing-shapes">
+        <div class="morph-shape"></div>
+        <div class="morph-shape"></div>
+        <div class="morph-shape"></div>
+      </div>
+      
+      <!-- Header Section -->
+      <div class="flyer-header">
+        <img src="Logo.png" alt="Cochran Films" class="flyer-logo">
+        <h1 class="flyer-title">Photographers Wanted</h1>
+        <p class="flyer-subtitle">Join our dynamic team and capture life's most precious moments</p>
+      </div>
+      
+      <!-- Divider -->
+      <div class="flyer-divider"></div>
+      
+      <!-- Services Section -->
+      <div class="services-section">
+        <h2 class="services-title">What We Do</h2>
+        <div class="services-grid">
+          <div class="service-item">
+            <div class="service-icon">📸</div>
+            <div class="service-name">Events</div>
+            <div class="service-description">Corporate events, weddings, parties, and special occasions</div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🖨️</div>
+            <div class="service-name">On-Site Printing</div>
+            <div class="service-description">Instant photo printing and professional quality prints</div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">👤</div>
+            <div class="service-name">Portraits</div>
+            <div class="service-description">Professional headshots, family portraits, and creative sessions</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact Section -->
+      <div class="contact-section">
+        <h2 class="contact-title">Get In Touch</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-label">Company</div>
+            <div class="contact-value">Cochran Films</div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">Email</div>
+            <div class="contact-value">
+              <a href="mailto:info@cochranfilms.com">info@cochranfilms.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-label">Phone</div>
+            <div class="contact-value">
+              <a href="tel:4704202169">(470) 420-2169</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CTA Section -->
+      <div class="cta-section">
+        <a href="mailto:info@cochranfilms.com" class="cta-button">
+          Apply Now
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Add interactive particle effects
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create additional floating particles
+      const particlesContainer = document.querySelector('.floating-particles');
+      
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 8 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        particlesContainer.appendChild(particle);
+      }
+      
+      // Add hover effects to service items
+      const serviceItems = document.querySelectorAll('.service-item');
+      serviceItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+      
+      // Add click effects to contact items
+      const contactItems = document.querySelectorAll('.contact-item');
+      contactItems.forEach(item => {
+        item.addEventListener('click', function() {
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = 'translateY(-3px)';
+          }, 150);
+        });
+      });
+      
+      // Add ripple effect to CTA button
+      const ctaButton = document.querySelector('.cta-button');
+      ctaButton.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+    
+    // Add scroll-based animations
+    window.addEventListener('scroll', function() {
+      const scrolled = window.pageYOffset;
+      const parallax = document.querySelector('.cinematic-bg');
+      parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+    });
+  </script>
+</body>
+</html>

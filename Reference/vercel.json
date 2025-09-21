@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "functions": {
+    "api/github/file/[filename].js": {
+      "maxDuration": 30
+    },
+    "api/github/info.js": {
+      "maxDuration": 30
+    },
+    "api/users.js": {
+      "maxDuration": 30
+    },
+    "api/jobs-data.js": {
+      "maxDuration": 30
+    },
+    "api/update-job-status.js": {
+      "maxDuration": 30
+    },
+    "api/dropdown-options.js": {
+      "maxDuration": 30
+    },
+    "api/update-users.js": {
+      "maxDuration": 30
+    },
+    "api/delete-pdf.js": {
+      "maxDuration": 30
+    },
+    "api/notifications.js": {
+      "maxDuration": 30
+    },
+    "api/contracts.js": {
+      "maxDuration": 30
+    },
+    "api/firebase.js": {
+      "maxDuration": 30
+    },
+    "api/health.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/admin-dashboard", "destination": "/admin-dashboard.html" },
+    { "source": "/user-portal", "destination": "/user-portal.html" },
+    { "source": "/contract", "destination": "/contract.html" },
+    { "source": "/admin", "destination": "/admin-dashboard.html" },
+    { "source": "/backend", "destination": "/backend.html" },
+    { "source": "/read-me", "destination": "/Read-Me.html" },
+    { "source": "/Read-Me", "destination": "/Read-Me.html" },
+    { "source": "/read-me.html", "destination": "/Read-Me.html" },
+    { "source": "/Read-Me.html", "destination": "/Read-Me.html" },
+    { "source": "/", "destination": "/index.html" }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

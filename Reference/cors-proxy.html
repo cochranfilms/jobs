@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Proxy Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>CORS Proxy Test</h1>
+    <p>This page helps test GitHub API calls that might be blocked by CORS when testing locally.</p>
+    
+    <div id="status"></div>
+    <button onclick="testDirectCall()">Test Direct GitHub Call</button>
+    <button onclick="testWithProxy()">Test With CORS Proxy</button>
+    <div id="results"></div>
+
+    <script>
+        function addStatus(message, type = 'success') {
+            const statusDiv = document.getElementById('status');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            statusDiv.appendChild(div);
+        }
+
+        async function testDirectCall() {
+            addStatus('🔄 Testing direct GitHub API call...', 'warning');
+            
+            try {
+                // This will likely fail due to CORS
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': 'token YOUR_GITHUB_TOKEN_HERE',
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    addStatus(`✅ Direct call worked! User: ${user.login}`, 'success');
+                } else {
+                    const error = await response.json();
+                    addStatus(`❌ Direct call failed: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                addStatus(`❌ CORS error (expected): ${error.message}`, 'error');
+                addStatus('💡 This is why your contract system might not work locally', 'warning');
+            }
+        }
+
+        async function testWithProxy() {
+            addStatus('🔄 Testing with CORS proxy...', 'warning');
+            
+            try {
+                // Using a public CORS proxy
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const response = await fetch(proxyUrl + 'https://api.github.com/user', {
+                    headers: {
+                        'Authorization': 'token YOUR_GITHUB_TOKEN_HERE',
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Origin': window.location.origin
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    addStatus(`✅ Proxy call worked! User: ${user.login}`, 'success');
+                } else {
+                    const error = await response.json();
+                    addStatus(`❌ Proxy call failed: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                addStatus(`❌ Proxy error: ${error.message}`, 'error');
+            }
+        }
+
+        addStatus('✅ CORS proxy test page loaded', 'success');
+        addStatus('💡 Try both buttons to see the difference between direct and proxied calls', 'warning');
+    </script>
+</body>
+</html> 

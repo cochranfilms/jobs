@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Test | Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 1px solid #FFB200;
+        }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+        .warning { color: #f59e0b; }
+        .info { color: #3b82f6; }
+        button {
+            background: #FFB200;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Module Test Page</h1>
+    
+    <div class="test-section">
+        <h2>Module Loading Test</h2>
+        <div id="moduleStatus"></div>
+        <button onclick="testModuleLoading()">Test Module Loading</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>User Manager Test</h2>
+        <div id="userManagerTest"></div>
+        <button onclick="testUserManager()">Test User Manager</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Job Manager Test</h2>
+        <div id="jobManagerTest"></div>
+        <button onclick="testJobManager()">Test Job Manager</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>User Form Test</h2>
+        <div id="userFormTest"></div>
+        <button onclick="testUserForm()">Test User Form</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>User List Test</h2>
+        <div id="userListTest"></div>
+        <button onclick="testUserList()">Test User List</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Job Form Test</h2>
+        <div id="jobFormTest"></div>
+        <button onclick="testJobForm()">Test Job Form</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Job List Test</h2>
+        <div id="jobListTest"></div>
+        <button onclick="testJobList()">Test Job List</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Contract Manager Test</h2>
+        <div id="contractManagerTest"></div>
+        <button onclick="testContractManager()">Test Contract Manager</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Contract Generator Test</h2>
+        <div id="contractGeneratorTest"></div>
+        <button onclick="testContractGenerator()">Test Contract Generator</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Dropdown Manager Test</h2>
+        <div id="dropdownManagerTest"></div>
+        <button onclick="testDropdownManager()">Test Dropdown Manager</button>
+    </div>
+
+    <!-- Load the modules -->
+    <script src="js/users/user-manager.js"></script>
+    <script src="js/users/user-form.js"></script>
+    <script src="js/users/user-list.js"></script>
+    <script src="js/jobs/job-manager.js"></script>
+    <script src="js/jobs/job-form.js"></script>
+    <script src="js/jobs/job-list.js"></script>
+    <script src="js/contracts/contract-manager.js"></script>
+    <script src="js/contracts/contract-generator.js"></script>
+    <script src="js/dropdowns/dropdown-manager.js"></script>
+    
+    <script>
+        // Test module loading
+        function testModuleLoading() {
+            const statusDiv = document.getElementById('moduleStatus');
+            statusDiv.innerHTML = '';
+            
+            const modules = [
+                'UserManager', 'UserForm', 'UserList', 
+                'JobManager', 'JobForm', 'JobList',
+                'ContractManager', 'ContractGenerator', 'DropdownManager'
+            ];
+            let allLoaded = true;
+            
+            modules.forEach(moduleName => {
+                const isLoaded = typeof window[moduleName] !== 'undefined';
+                const status = isLoaded ? '✅ Loaded' : '❌ Not Loaded';
+                const color = isLoaded ? 'success' : 'error';
+                
+                statusDiv.innerHTML += `<div class="${color}">${moduleName}: ${status}</div>`;
+                
+                if (!isLoaded) {
+                    allLoaded = false;
+                }
+            });
+            
+            if (allLoaded) {
+                statusDiv.innerHTML += '<div class="success"><strong>🎉 All modules loaded successfully!</strong></div>';
+            } else {
+                statusDiv.innerHTML += '<div class="error"><strong>❌ Some modules failed to load</strong></div>';
+            }
+        }
+        
+        // Test User Manager
+        async function testUserManager() {
+            const testDiv = document.getElementById('userManagerTest');
+            testDiv.innerHTML = '<div class="info">Testing User Manager...</div>';
+            
+            try {
+                if (window.UserManager) {
+                    // Test initialization
+                    await window.UserManager.init();
+                    testDiv.innerHTML = '<div class="success">✅ User Manager initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.UserManager.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ User Manager not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ User Manager test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Job Manager
+        async function testJobManager() {
+            const testDiv = document.getElementById('jobManagerTest');
+            testDiv.innerHTML = '<div class="info">Testing Job Manager...</div>';
+            
+            try {
+                if (window.JobManager) {
+                    // Test initialization
+                    await window.JobManager.init();
+                    testDiv.innerHTML = '<div class="success">✅ Job Manager initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.JobManager.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ Job Manager not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Job Manager test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test User Form
+        async function testUserForm() {
+            const testDiv = document.getElementById('userFormTest');
+            testDiv.innerHTML = '<div class="info">Testing User Form...</div>';
+            
+            try {
+                if (window.UserForm) {
+                    // Test initialization
+                    await window.UserForm.init();
+                    testDiv.innerHTML = '<div class="success">✅ User Form initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.UserForm.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ User Form not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ User Form test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test User List
+        async function testUserList() {
+            const testDiv = document.getElementById('userListTest');
+            testDiv.innerHTML = '<div class="info">Testing User List...</div>';
+            
+            try {
+                if (window.UserList) {
+                    // Test initialization
+                    await window.UserList.init();
+                    testDiv.innerHTML = '<div class="success">✅ User List initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.UserList.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ User List not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ User List test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Job Form
+        async function testJobForm() {
+            const testDiv = document.getElementById('jobFormTest');
+            testDiv.innerHTML = '<div class="info">Testing Job Form...</div>';
+            
+            try {
+                if (window.JobForm) {
+                    // Test initialization
+                    await window.JobForm.init();
+                    testDiv.innerHTML = '<div class="success">✅ Job Form initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.JobForm.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ Job Form not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Job Form test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Job List
+        async function testJobList() {
+            const testDiv = document.getElementById('jobListTest');
+            testDiv.innerHTML = '<div class="info">Testing Job List...</div>';
+            
+            try {
+                if (window.JobList) {
+                    // Test initialization
+                    await window.JobList.init();
+                    testDiv.innerHTML = '<div class="success">✅ Job List initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.JobList.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ Job List not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Job List test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Contract Manager
+        async function testContractManager() {
+            const testDiv = document.getElementById('contractManagerTest');
+            testDiv.innerHTML = '<div class="info">Testing Contract Manager...</div>';
+            
+            try {
+                if (window.ContractManager) {
+                    // Test initialization
+                    await window.ContractManager.init();
+                    testDiv.innerHTML = '<div class="success">✅ Contract Manager initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.ContractManager.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ Contract Manager not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Contract Manager test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Contract Generator
+        async function testContractGenerator() {
+            const testDiv = document.getElementById('contractGeneratorTest');
+            testDiv.innerHTML = '<div class="info">Testing Contract Generator...</div>';
+            
+            try {
+                if (window.ContractGenerator) {
+                    // Test initialization
+                    await window.ContractGenerator.init();
+                    testDiv.innerHTML = '<div class="success">✅ Contract Generator initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.ContractGenerator.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ Contract Generator not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Contract Generator test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Test Dropdown Manager
+        async function testDropdownManager() {
+            const testDiv = document.getElementById('dropdownManagerTest');
+            testDiv.innerHTML = '<div class="info">Testing Dropdown Manager...</div>';
+            
+            try {
+                if (window.DropdownManager) {
+                    // Test initialization
+                    await window.DropdownManager.init();
+                    testDiv.innerHTML = '<div class="success">✅ Dropdown Manager initialized successfully</div>';
+                    
+                    // Test state
+                    testDiv.innerHTML += `<div class="info">State: ${JSON.stringify(window.DropdownManager.state, null, 2)}</div>`;
+                } else {
+                    testDiv.innerHTML = '<div class="error">❌ Dropdown Manager not available</div>';
+                }
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Dropdown Manager test failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            console.log('🧪 Module test page loaded');
+            setTimeout(() => {
+                testModuleLoading();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

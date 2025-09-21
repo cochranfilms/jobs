@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Admin - Cochran Films</title>
+    
+    <!-- Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #FFB200;
+            --primary-dark: #FF9000;
+            --gold: #FFD700;
+            --black: #000000;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --gray-dark: #343a40;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Login Screen Styles */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,178,0,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .login-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(255,178,0,0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .login-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 2rem;
+            filter: 
+                drop-shadow(0 0 3px #FFB200)
+                drop-shadow(0 0 6px #FFB200)
+                drop-shadow(2px 2px 0px #000000);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes logoGlow {
+            0% {
+                filter: 
+                    drop-shadow(0 0 3px #FFB200)
+                    drop-shadow(0 0 6px #FFB200)
+                    drop-shadow(2px 2px 0px #000000);
+            }
+            100% {
+                filter: 
+                    drop-shadow(0 0 5px #FFB200)
+                    drop-shadow(0 0 8px #FFB200)
+                    drop-shadow(2px 2px 0px #000000);
+            }
+        }
+        
+        .login-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #FFB200;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+        }
+        
+        .login-subtitle {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .login-form {
+            text-align: left;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #FFB200;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.6);
+            border-color: #FFB200;
+            box-shadow: 0 0 0 2px rgba(255, 178, 0, 0.2);
+        }
+        
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #FFB200;
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .login-btn:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .login-btn:hover {
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,178,0,0.4);
+        }
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Main Admin Interface Styles */
+        .admin-interface {
+            display: none;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            position: relative;
+        }
+        
+        .admin-interface::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,178,0,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FFB200;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+        }
+        
+        .header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: #FFB200;
+        }
+        
+        .contract-form {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .contract-form h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #FFB200;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+        }
+        
+        .workflow-info {
+            background: rgba(255,178,0,0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,178,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .workflow-info p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1rem;
+        }
+        
+        .workflow-info ol {
+            color: rgba(255,255,255,0.8);
+            padding-left: 1.5rem;
+        }
+        
+        .workflow-info li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #FFB200;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 178, 0, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.6);
+            border-color: #FFB200;
+            box-shadow: 0 0 0 2px rgba(255, 178, 0, 0.2);
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #FFB200, #FFD700);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #FFB200;
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .btn:hover {
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,178,0,0.4);
+        }
+        
+        .contracts-list {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .contracts-list h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #FFB200;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+        }
+        
+        .contract-item {
+            border: 1px solid rgba(255,178,0,0.3);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .contract-item:hover {
+            border-color: #FFB200;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,178,0,0.2);
+        }
+        
+        .contract-item h3 {
+            margin: 0 0 0.5rem 0;
+            color: #FFB200;
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+        }
+        
+        .contract-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            flex-wrap: wrap;
+        }
+        
+        .contract-url {
+            word-break: break-all;
+            color: #FFB200;
+            font-family: monospace;
+            font-size: 0.8rem;
+            background: rgba(255,178,0,0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+        }
+        
+        .actions {
+            margin-top: 1rem;
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .export-section {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,178,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .export-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #FFB200;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(255,178,0,0.3);
+        }
+        
+        .export-section p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 1rem;
+        }
+        
+        pre {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            color: #FFB200;
+            border: 1px solid rgba(255,178,0,0.3);
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            .header, .contract-form, .contracts-list, .export-section {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .contract-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .btn {
+                margin-bottom: 0.5rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <img src="Logo.png" alt="Cochran Films" class="login-logo">
+            <h1 class="login-title">🔐 Contract Admin</h1>
+            <p class="login-subtitle">Enter password to manage freelancer contracts</p>
+            
+            <div id="errorMessage" class="error-message">
+                Incorrect password. Please try again.
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">🔐 Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Admin Interface -->
+    <div id="adminInterface" class="admin-interface">
+        <div class="header">
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Logout</a>
+            <h1>🔐 Contract Management</h1>
+            <p>Cochran Films - Manage Freelancer Contracts</p>
+            <div style="margin-top: 1rem;">
+                <a href="contract.html" style="color: #FFB200; text-decoration: none; font-weight: 600;">← Back to Contract Access</a>
+            </div>
+        </div>
+
+        <div class="contract-form">
+            <h2>📋 How This Works</h2>
+            <div class="workflow-info">
+                <p><strong>Workflow:</strong></p>
+                <ol>
+                    <li><strong>Add/Edit Freelancers</strong> → Use this admin panel to manage freelancer access</li>
+                    <li><strong>Export JSON</strong> → Download the updated freelancers.json file</li>
+                    <li><strong>Update Website</strong> → Replace the freelancers.json file on your server</li>
+                    <li><strong>Contract Access</strong> → Freelancers can now access their contracts</li>
+                </ol>
+                <p><strong>Note:</strong> Each freelancer needs a unique name and email combination for secure access.</p>
+            </div>
+            
+            <h2>Add/Edit Freelancer</h2>
+            <form id="contractForm">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" placeholder="Enter freelancer's full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" placeholder="Enter freelancer's email address" required>
+                </div>
+                <div class="form-group">
+                    <label for="contractUrl">Contract URL *</label>
+                    <input type="url" id="contractUrl" name="contractUrl" placeholder="https://yourdomain.com/contracts/freelancer-name.html" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role (Optional)</label>
+                    <input type="text" id="role" name="role" placeholder="e.g., Videographer, Photographer, Editor">
+                </div>
+                <div class="form-group">
+                    <label for="approvedDate">Approved Date</label>
+                    <input type="date" id="approvedDate" name="approvedDate">
+                </div>
+                <button type="submit" class="btn">Save Freelancer</button>
+                <button type="button" class="btn" onclick="clearForm()">Clear Form</button>
+            </form>
+        </div>
+
+        <div class="contracts-list">
+            <h2>Current Freelancers</h2>
+            <div id="contractsList"></div>
+        </div>
+
+        <div class="export-section">
+            <h2>Export Data</h2>
+            <p>Export your freelancer data to update <code>freelancers.json</code>:</p>
+            <button class="btn" onclick="exportData()">Generate JSON</button>
+            <button class="btn" onclick="downloadJSON()" id="downloadBtn" style="display: none;">Download freelancers.json</button>
+            <pre id="exportData"></pre>
+        </div>
+    </div>
+
+    <script>
+        // Password Configuration - CHANGE THIS PASSWORD!
+        const ADMIN_PASSWORD = 'Deannajack3#';
+        
+        // Session management
+        let isAuthenticated = false;
+        let approvedFreelancers = {};
+
+        // Check if already authenticated
+        function checkAuth() {
+            const session = sessionStorage.getItem('contractAdminAuthenticated');
+            if (session === 'true') {
+                isAuthenticated = true;
+                showAdminInterface();
+            } else {
+                showLoginScreen();
+            }
+        }
+
+        // Show login screen
+        function showLoginScreen() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('adminInterface').style.display = 'none';
+        }
+
+        // Show admin interface
+        function showAdminInterface() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminInterface').style.display = 'block';
+            loadFreelancers();
+        }
+
+        // Handle login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                isAuthenticated = true;
+                sessionStorage.setItem('contractAdminAuthenticated', 'true');
+                showAdminInterface();
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('password').value = '';
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+
+        // Logout function
+        function logout() {
+            isAuthenticated = false;
+            sessionStorage.removeItem('contractAdminAuthenticated');
+            showLoginScreen();
+        }
+
+        // Load existing freelancers
+        async function loadFreelancers() {
+            try {
+                const response = await fetch('freelancers.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    approvedFreelancers = data.approvedFreelancers || {};
+                }
+            } catch (error) {
+                console.log('No existing freelancers file found, starting fresh');
+                approvedFreelancers = {};
+            }
+            displayFreelancers();
+        }
+
+        // Display freelancers
+        function displayFreelancers() {
+            const contractsList = document.getElementById('contractsList');
+            contractsList.innerHTML = '';
+
+            Object.keys(approvedFreelancers).forEach((name, index) => {
+                const freelancer = approvedFreelancers[name];
+                const contractDiv = document.createElement('div');
+                contractDiv.className = 'contract-item';
+                contractDiv.innerHTML = `
+                    <h3>${name}</h3>
+                    <div class="contract-meta">
+                        <span>📧 ${freelancer.email}</span>
+                        <span>🎭 ${freelancer.role || 'Role not specified'}</span>
+                        <span>📅 ${freelancer.approvedDate || 'Date not specified'}</span>
+                    </div>
+                    <div class="contract-url">${freelancer.contractUrl}</div>
+                    <div class="actions">
+                        <button class="btn btn-small" onclick="editFreelancer('${name}')">Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteFreelancer('${name}')">Delete</button>
+                    </div>
+                `;
+                contractsList.appendChild(contractDiv);
+            });
+        }
+
+        // Add/Edit freelancer
+        document.getElementById('contractForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const freelancer = {
+                email: formData.get('email'),
+                contractUrl: formData.get('contractUrl'),
+                role: formData.get('role'),
+                approvedDate: formData.get('approvedDate')
+            };
+
+            const name = formData.get('name');
+            const editName = e.target.dataset.editName;
+            
+            if (editName && editName !== name) {
+                // Name changed, delete old entry
+                delete approvedFreelancers[editName];
+            }
+            
+            approvedFreelancers[name] = freelancer;
+            delete e.target.dataset.editName;
+
+            displayFreelancers();
+            clearForm();
+        });
+
+        // Edit freelancer
+        function editFreelancer(name) {
+            const freelancer = approvedFreelancers[name];
+            document.getElementById('name').value = name;
+            document.getElementById('email').value = freelancer.email || '';
+            document.getElementById('contractUrl').value = freelancer.contractUrl || '';
+            document.getElementById('role').value = freelancer.role || '';
+            document.getElementById('approvedDate').value = freelancer.approvedDate || '';
+            
+            document.getElementById('contractForm').dataset.editName = name;
+        }
+
+        // Delete freelancer
+        function deleteFreelancer(name) {
+            if (confirm(`Are you sure you want to delete ${name}?`)) {
+                delete approvedFreelancers[name];
+                displayFreelancers();
+            }
+        }
+
+        // Clear form
+        function clearForm() {
+            document.getElementById('contractForm').reset();
+            delete document.getElementById('contractForm').dataset.editName;
+        }
+
+        // Export data
+        function exportData() {
+            const data = {
+                approvedFreelancers: approvedFreelancers,
+                lastUpdated: new Date().toISOString().split('T')[0],
+                totalFreelancers: Object.keys(approvedFreelancers).length
+            };
+            
+            document.getElementById('exportData').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('downloadBtn').style.display = 'block';
+        }
+
+        // Download JSON
+        function downloadJSON() {
+            const data = {
+                approvedFreelancers: approvedFreelancers,
+                lastUpdated: new Date().toISOString().split('T')[0],
+                totalFreelancers: Object.keys(approvedFreelancers).length
+            };
+            const jsonString = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'freelancers.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize on page load
+        checkAuth();
+    </script>
+</body>
+</html> 

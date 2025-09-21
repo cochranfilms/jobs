@@ -1,0 +1,21 @@
+/* Base styles for Portfolio Builder and shared pages */
+:root {
+  --cf-bg: #0b0b0c;
+  --cf-surface: #131317;
+  --cf-text: #f2f3f5;
+  --cf-muted: #9aa3b2;
+  --cf-border: #1f2230;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--cf-bg);
+  color: var(--cf-text);
+}
+
+/* Utility */
+.hidden { display: none !important; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+

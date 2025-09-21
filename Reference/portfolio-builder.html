@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+    <style>
+        :root {
+            --pb-bg: #0b0b0c;
+            --pb-surface: #131317;
+            --pb-text: #f2f3f5;
+            --pb-muted: #9aa3b2;
+            --pb-primary: #6ee7b7;
+            --pb-accent: #60a5fa;
+            --pb-border: #1f2230;
+            --pb-radius: 14px;
+        }
+        body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; background: var(--pb-bg); color: var(--pb-text); margin: 0; }
+        .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+        .header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+        .title { font-size: 24px; font-weight: 600; }
+        .actions { display: flex; gap: 8px; }
+        .btn { background: var(--pb-surface); color: var(--pb-text); border: 1px solid var(--pb-border); border-radius: 10px; padding: 10px 14px; cursor: pointer; }
+        .btn.primary { background: linear-gradient(135deg, var(--pb-primary), var(--pb-accent)); color: #0a0a0a; border: none; }
+        .grid { display: grid; grid-template-columns: 360px 1fr; gap: 16px; }
+        .panel { background: var(--pb-surface); border: 1px solid var(--pb-border); border-radius: var(--pb-radius); padding: 16px; }
+        .panel h3 { margin: 0 0 12px 0; font-size: 16px; }
+        .field { display: grid; gap: 6px; margin-bottom: 12px; }
+        .field label { font-size: 12px; color: var(--pb-muted); }
+        .field input[type="text"], .field input[type="url"], .field textarea, .field input[type="color"] { background: #0e0f13; color: var(--pb-text); border: 1px solid var(--pb-border); border-radius: 8px; padding: 10px; }
+        .upload { border: 1px dashed var(--pb-border); border-radius: 12px; padding: 16px; text-align: center; background: #0e0f13; }
+        .thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 12px; }
+        .thumb { position: relative; border: 1px solid var(--pb-border); border-radius: 10px; overflow: hidden; background: #0b0d12; }
+        .thumb img { width: 100%; height: 100px; object-fit: cover; display: block; }
+        .thumb .meta { padding: 8px; font-size: 12px; color: var(--pb-muted); }
+        .preview { background: #0b0b0e; border: 1px solid var(--pb-border); border-radius: var(--pb-radius); height: 100%; }
+        .preview .hero { padding: 24px; border-bottom: 1px solid var(--pb-border); display: flex; gap: 16px; align-items: center; }
+        .avatar { width: 60px; height: 60px; background: #0e0f13; border: 1px solid var(--pb-border); border-radius: 50%; }
+        .hero .info .name { font-weight: 600; font-size: 18px; }
+        .hero .info .bio { color: var(--pb-muted); font-size: 13px; }
+        .gallery { padding: 16px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+        .card { background: var(--pb-surface); border: 1px solid var(--pb-border); border-radius: 12px; overflow: hidden; }
+        .card img { width: 100%; height: 160px; object-fit: cover; display: block; }
+        .card .cap { padding: 10px; font-size: 12px; color: var(--pb-muted); }
+        .row { display: flex; gap: 8px; align-items: center; }
+        .colors { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .status { font-size: 12px; color: var(--pb-muted); margin-left: 8px; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="header">
+            <div class="row">
+                <div class="title">Portfolio Builder</div>
+                <div id="saveStatus" class="status"></div>
+            </div>
+            <div class="actions">
+                <button class="btn" id="btnPreview">Preview</button>
+                <button class="btn primary" id="btnPublish">Publish</button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="panel">
+                <h3>Profile</h3>
+                <div class="field"><label>Name</label><input type="text" id="name" placeholder="Jane Creator"></div>
+                <div class="field"><label>Username (slug)</label><input type="text" id="slug" placeholder="jane-creator"></div>
+                <div class="field"><label>Bio</label><textarea id="bio" rows="3" placeholder="Short bio"></textarea></div>
+                <div class="field"><label>Links</label>
+                    <input type="url" id="linkSite" placeholder="Website URL">
+                    <input type="url" id="linkInsta" placeholder="Instagram URL">
+                    <input type="url" id="linkLinkedin" placeholder="LinkedIn URL">
+                </div>
+
+                <h3 style="margin-top:16px;">Theme</h3>
+                <div class="colors">
+                    <div class="field"><label>Primary</label><input type="color" id="colorPrimary" value="#6ee7b7"></div>
+                    <div class="field"><label>Accent</label><input type="color" id="colorAccent" value="#60a5fa"></div>
+                </div>
+                <div class="field"><label>Style</label>
+                    <input type="text" id="styleKeywords" placeholder="modern, cinematic, editorial">
+                </div>
+                <div class="row">
+                    <button class="btn" id="btnGenerate">Generate Theme with AI</button>
+                    <div id="genStatus" class="status"></div>
+                </div>
+
+                <h3 style="margin-top:16px;">Upload Gallery</h3>
+                <div class="upload">
+                    <div>Drop files here or select below</div>
+                    <input type="file" id="fileInput" multiple accept="image/*,video/*" style="margin-top:8px;" />
+                    <div class="row" style="margin-top:8px;">
+                        <button class="btn" id="btnUpload">Upload</button>
+                        <div id="uploadStatus" class="status"></div>
+                    </div>
+                </div>
+                <div class="thumbs" id="thumbs"></div>
+            </div>
+
+            <div class="panel preview" id="preview">
+                <div class="hero">
+                    <div class="avatar" id="avatar"></div>
+                    <div class="info">
+                        <div class="name" id="previewName">Your Name</div>
+                        <div class="bio" id="previewBio">Your bio here. A short line about your craft.</div>
+                    </div>
+                </div>
+                <div class="gallery" id="gallery"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="/firebase-config.js"></script>
+    <script src="/firestore-data-manager.js"></script>
+    <script src="/storage-utils.js"></script>
+    <script>
+        const state = {
+            owner: { email: '', name: '' },
+            slug: '',
+            profile: { bio: '', avatarUrl: null, links: {} },
+            theme: null,
+            gallery: [],
+            visibility: 'private'
+        };
+
+        function $(id) { return document.getElementById(id); }
+
+        function applyTheme(theme) {
+            if (!theme) return;
+            state.theme = theme;
+            const vars = theme.cssVariables || {};
+            Object.entries(vars).forEach(([k,v]) => document.documentElement.style.setProperty(k, v));
+        }
+
+        function renderPreview() {
+            $('previewName').textContent = state.owner.name || $('name').value || 'Your Name';
+            $('previewBio').textContent = state.profile.bio || $('bio').value || 'Your bio here. A short line about your craft.';
+            const g = $('gallery');
+            g.innerHTML = '';
+            state.gallery.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                const img = document.createElement('img');
+                img.src = item.downloadURL;
+                card.appendChild(img);
+                const cap = document.createElement('div');
+                cap.className = 'cap';
+                cap.textContent = item.caption || item.filename || '';
+                card.appendChild(cap);
+                g.appendChild(card);
+            });
+        }
+
+        function addThumb(previewURL, filename) {
+            const t = document.createElement('div');
+            t.className = 'thumb';
+            t.innerHTML = `<img src="${previewURL}" alt="${filename}"><div class="meta">${filename}</div>`;
+            $('thumbs').appendChild(t);
+        }
+
+        async function ensureOwner() {
+            try {
+                await window.FirebaseConfig.waitForInit();
+                const user = window.FirebaseConfig.getCurrentUser();
+                const email = (user && user.email) ? user.email : '';
+                state.owner.email = String(email).toLowerCase();
+                state.owner.name = $('name').value || '';
+            } catch (_) {}
+        }
+
+        $('name').addEventListener('input', () => { state.owner.name = $('name').value; renderPreview(); });
+        $('bio').addEventListener('input', () => { state.profile.bio = $('bio').value; renderPreview(); });
+        $('slug').addEventListener('input', () => { state.slug = $('slug').value.trim().toLowerCase(); });
+
+        $('btnGenerate').addEventListener('click', async () => {
+            $('genStatus').textContent = 'Generating…';
+            try {
+                const payload = {
+                    brand: {
+                        name: $('name').value || '',
+                        primary: $('colorPrimary').value,
+                        accent: $('colorAccent').value
+                    },
+                    preferences: {
+                        keywords: ($('styleKeywords').value || '').split(',').map(s => s.trim()).filter(Boolean)
+                    }
+                };
+                const res = await fetch('/api/portfolio-theme', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                });
+                const json = await res.json();
+                if (!json.success) throw new Error(json.error || 'Theme generation failed');
+                applyTheme(json.theme);
+                $('genStatus').textContent = 'Theme applied';
+            } catch (e) {
+                console.error(e);
+                $('genStatus').textContent = 'Failed to generate theme';
+            }
+        });
+
+        const selectedFiles = [];
+        $('fileInput').addEventListener('change', (e) => {
+            const files = Array.from(e.target.files || []);
+            files.forEach(f => {
+                selectedFiles.push(f);
+                addThumb(URL.createObjectURL(f), f.name);
+            });
+        });
+
+        $('btnUpload').addEventListener('click', async () => {
+            $('uploadStatus').textContent = 'Uploading…';
+            try {
+                await ensureOwner();
+                const ownerEmail = state.owner.email;
+                const results = await window.StorageUtils.uploadFiles(selectedFiles, {
+                    ownerEmail,
+                    folder: 'portfolios',
+                    onProgress: ({ index, percent }) => {
+                        $('uploadStatus').textContent = `Uploading ${index + 1}/${selectedFiles.length} – ${percent}%`;
+                    }
+                });
+                results.forEach((r, i) => {
+                    state.gallery.push({
+                        filename: selectedFiles[i]?.name || `file-${i}`,
+                        downloadURL: r.downloadURL,
+                        path: r.path,
+                        contentType: r.contentType,
+                        size: r.size,
+                        caption: ''
+                    });
+                });
+                $('uploadStatus').textContent = 'Upload complete';
+                renderPreview();
+            } catch (e) {
+                console.error(e);
+                $('uploadStatus').textContent = 'Upload failed';
+            }
+        });
+
+        $('btnPreview').addEventListener('click', () => {
+            renderPreview();
+        });
+
+        $('btnPublish').addEventListener('click', async () => {
+            const save = $('saveStatus');
+            save.textContent = 'Saving…';
+            try {
+                await ensureOwner();
+                const portfolioId = state.slug || (state.owner.name || 'portfolio').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                const payload = {
+                    owner: state.owner,
+                    slug: portfolioId,
+                    profile: {
+                        bio: $('bio').value || '',
+                        avatarUrl: state.profile.avatarUrl,
+                        links: {
+                            website: $('linkSite').value || '',
+                            instagram: $('linkInsta').value || '',
+                            linkedin: $('linkLinkedin').value || ''
+                        }
+                    },
+                    theme: state.theme,
+                    gallery: state.gallery,
+                    visibility: 'public'
+                };
+                await window.FirestoreDataManager.setPortfolio(portfolioId, payload);
+                save.textContent = 'Published';
+                setTimeout(() => { save.textContent = ''; }, 2000);
+            } catch (e) {
+                console.error(e);
+                save.textContent = 'Save failed';
+            }
+        });
+
+        // Initial preview
+        renderPreview();
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cochran Films — OBS Technical Assistant (9/15 & 9/16)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="Logo.png" as="image">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --panel: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.08);
+      --stroke: rgba(255,178,0,0.35);
+      --primary: #FFB200;
+      --primary-2: #FF9000;
+      --text: #f6f6f7;
+      --muted: rgba(255,255,255,0.75);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: radial-gradient(1200px 1200px at 15% 10%, rgba(255,178,0,0.08), transparent 40%), radial-gradient(1000px 1000px at 85% 90%, rgba(255,144,0,0.07), transparent 45%), var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* Canvas size for easy screenshot/export (1080x1350 Instagram portrait) */
+    .frame { width: 1080px; height: 1350px; margin: 40px auto; position: relative; display: grid; place-items: center; }
+    @media (max-width: 1120px) { .frame { width: 100%; height: auto; margin: 0; padding: 12px; } }
+
+    .card { position: relative; width: 100%; height: 100%; max-width: 1080px; aspect-ratio: 1080/1350; background: linear-gradient(145deg, var(--glass), rgba(255,255,255,0.03)); border: 2px solid var(--stroke); border-radius: 28px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+    /* Decorative orbs */
+    .orb { position: absolute; border-radius: 50%; filter: blur(20px); opacity: 0.5; pointer-events: none; }
+    .orb.o1 { width: 320px; height: 320px; top: -80px; left: -60px; background: radial-gradient(circle at 30% 30%, rgba(255,178,0,0.45), transparent 60%); }
+    .orb.o2 { width: 300px; height: 300px; bottom: -90px; right: -70px; background: radial-gradient(circle at 70% 70%, rgba(255,144,0,0.35), transparent 60%); }
+
+    header { padding: 48px 56px 12px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 18px; }
+    .brand img { width: 160px; height: auto; filter: drop-shadow(0 8px 24px rgba(255,178,0,0.45)); }
+    .brand h1 { font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.06em; font-size: 28px; color: var(--primary); text-shadow: 0 6px 28px rgba(255,178,0,0.5); }
+
+    .badge { background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #0a0a0a; font-weight: 700; padding: 10px 16px; border-radius: 999px; box-shadow: 0 8px 26px rgba(255,178,0,0.35); text-transform: uppercase; letter-spacing: 0.06em; font-size: 13px; }
+
+    .hero { padding: 12px 56px 24px; }
+    .title { font-family: 'Cinzel', serif; font-size: 64px; line-height: 1.1; letter-spacing: 0.02em; margin: 6px 0 8px; color: var(--primary); }
+    .subtitle { font-size: 22px; color: var(--muted); max-width: 900px; }
+
+    .divider { width: 160px; height: 4px; margin: 28px 56px; background: linear-gradient(90deg, transparent, var(--primary), transparent); border-radius: 2px; box-shadow: 0 0 24px rgba(255,178,0,0.5); }
+
+    .content { padding: 0 56px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .panel { background: var(--panel); border: 1px solid var(--stroke); border-radius: 18px; padding: 20px 22px; }
+    .panel h3 { font-size: 18px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text); opacity: 0.9; margin-bottom: 14px; }
+    .list { display: grid; gap: 10px; }
+    .item { display: grid; grid-template-columns: 28px 1fr; align-items: flex-start; gap: 12px; background: rgba(255,178,0,0.08); border: 1px solid rgba(255,178,0,0.25); border-radius: 12px; padding: 12px 14px; }
+    .item .icon { font-size: 18px; }
+    .item .text { font-size: 16px; color: var(--muted); }
+
+    .when { display: grid; gap: 10px; }
+    .when .date { font-size: 18px; font-weight: 700; color: var(--text); }
+    .when .time { font-size: 16px; color: var(--muted); }
+
+    footer { padding: 0 56px 56px; display: flex; align-items: center; justify-content: center; }
+    .contact { color: var(--muted); font-size: 15px; }
+    .contact a { color: var(--primary); text-decoration: none; }
+
+
+    @media (max-width: 980px) {
+      header, .hero, .content, footer { padding-left: 22px; padding-right: 22px; }
+      .title { font-size: 42px; }
+      .content { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="frame" id="exportArea">
+    <section class="card">
+      <div class="orb o1"></div>
+      <div class="orb o2"></div>
+
+      <header>
+        <div class="brand">
+          <img src="Logo.png" width="180" height="64" alt="Cochran Films logo" loading="eager" decoding="async">
+          <h1>Cochran Films</h1>
+        </div>
+        <span class="badge">Now Hiring</span>
+      </header>
+
+      <div class="hero">
+        <div class="subtitle">On-site streaming support</div>
+        <h2 class="title">OBS Technical Assistant</h2>
+        <div class="subtitle">Ensure OBS connects cleanly to the client source via capture card input and correct resolution.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <section class="content">
+        <div class="panel">
+          <h3>Role Snapshot</h3>
+          <div class="list">
+            <div class="item"><div class="icon">💼</div><div class="text">On-site tech assistance focused on OBS and capture card setup</div></div>
+            <div class="item"><div class="icon">🔌</div><div class="text">Connect client HDMI source → capture card → OBS input</div></div>
+            <div class="item"><div class="icon">🖥️</div><div class="text">Verify resolution/framerate and audio routing match deliverables</div></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Requirements</h3>
+          <div class="list">
+            <div class="item"><div class="icon">🎯</div><div class="text">Hands-on experience with capture cards</div></div>
+            <div class="item"><div class="icon">📺</div><div class="text">Comfortable inside OBS: sources, scenes, audio meters</div></div>
+            <div class="item"><div class="icon">🧩</div><div class="text">Understands resolutions, scaling, and signal flow</div></div>
+            <div class="item"><div class="icon">🔄</div><div class="text">Knows how systems feed each other via HDMI</div></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>When</h3>
+          <div class="when">
+            <div class="date">9/15 & 9/16</div>
+            <div class="time">10:30 – 1:30 (9/15)  •  4:30 – 9:30 (9/16)</div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Location</h3>
+          <div class="list">
+            <div class="item"><div class="icon">📍</div><div class="text">On-site (client venue)</div></div>
+            <div class="item"><div class="icon">☎️</div><div class="text">Contact for exact address upon interest</div></div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="contact">Questions? Email <a href="mailto:info@cochranfilms.com">info@cochranfilms.com</a></div>
+      </footer>
+    </section>
+  </main>
+
+</body>
+</html>
+
+

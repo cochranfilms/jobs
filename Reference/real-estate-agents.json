@@ -1,0 +1,83 @@
+{
+  "approvedFreelancers": {
+    "Jennifer Martinez": {
+      "email": "jennifer.martinez@eliteproperties.com",
+      "password": "RealEstate2025",
+      "approvedDate": "2024-01-20",
+      "contractUrl": "contract.html",
+      "contractStatus": "pending",
+      "contractSignedDate": null,
+      "contractUploadedDate": null,
+      "contractId": null,
+      "jobs": [
+        {
+          "id": "listing-jennifer-001",
+          "role": "Luxury Home Specialist",
+          "location": "Buckhead, Atlanta, GA",
+          "projectStart": "December 15, 2025 at 10:00 AM",
+          "rate": "3% Commission",
+          "status": "upcoming",
+          "projectType": "Luxury Residential",
+          "description": "Show luxury home listing to high-net-worth clients"
+        }
+      ],
+      "primaryJob": "listing-jennifer-001"
+    },
+    "David Thompson": {
+      "email": "david.thompson@eliteproperties.com",
+      "password": "Properties2025",
+      "approvedDate": "2024-02-15",
+      "contractUrl": "contract.html",
+      "contractStatus": "signed",
+      "contractSignedDate": "2024-02-20",
+      "contractUploadedDate": "2024-02-22",
+      "contractId": "CF-REAL-001",
+      "jobs": [
+        {
+          "id": "listing-david-001",
+          "role": "Commercial Property Agent",
+          "location": "Midtown Atlanta, GA",
+          "projectStart": "December 17, 2025 at 2:00 PM",
+          "rate": "4% Commission",
+          "status": "upcoming",
+          "projectType": "Commercial",
+          "description": "Office building lease negotiation and client meeting"
+        },
+        {
+          "id": "listing-david-002",
+          "role": "Investment Property Specialist",
+          "location": "Alpharetta, GA",
+          "projectStart": "December 20, 2025 at 11:00 AM",
+          "rate": "3.5% Commission",
+          "status": "upcoming",
+          "projectType": "Investment",
+          "description": "Multi-family property investment presentation"
+        }
+      ],
+      "primaryJob": "listing-david-001"
+    },
+    "Amanda Wilson": {
+      "email": "amanda.wilson@eliteproperties.com",
+      "password": "Wilson2025",
+      "approvedDate": "2024-03-10",
+      "contractUrl": "contract.html",
+      "contractStatus": "uploaded",
+      "contractSignedDate": "2024-03-15",
+      "contractUploadedDate": "2024-03-18",
+      "contractId": "CF-REAL-002",
+      "jobs": [
+        {
+          "id": "listing-amanda-001",
+          "role": "First-Time Home Buyer Specialist",
+          "location": "Sandy Springs, Atlanta, GA",
+          "projectStart": "December 18, 2025 at 1:00 PM",
+          "rate": "2.5% Commission",
+          "status": "upcoming",
+          "projectType": "Residential",
+          "description": "First-time buyer consultation and property tour"
+        }
+      ],
+      "primaryJob": "listing-amanda-001"
+    }
+  }
+} 
