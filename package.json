@@ -1,0 +1,12 @@
+{
+  "name": "cochranfilms-jobs",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cochran Films job listings static site with serverless functions",
+  "engines": {
+    "node": "18.x"
+  },
+  "license": "MIT"
+}
+
+
