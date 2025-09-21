@@ -3,18 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Listings - Cochran Films</title>
+  <title>Cochran Films Careers — Creative & Sales Jobs in Atlanta</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Explore photography and videography job opportunities with Cochran Films in Atlanta. Now hiring creatives in media production, post-production, and event coverage.">
-  <meta name="keywords" content="Cochran Films jobs, Atlanta media jobs, photography jobs, videography jobs, film production careers, creative jobs Atlanta, media job listings, Cochran Films hiring">
+  <meta name="description" content="Cochran Films is hiring! Browse creative and sales careers in Atlanta: photography, videography, production, branding, web, and account growth. Apply today.">
+  <meta name="keywords" content="Cochran Films jobs, Cochran Films careers, Atlanta creative jobs, Atlanta sales jobs, photography jobs Atlanta, videography jobs Atlanta, film production careers, creative agency jobs, media job listings, Georgia creative jobs">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://apply.cochranfilms.studio/">
 
   <!-- Open Graph / Social Meta Tags -->
-  <meta property="og:title" content="Job Listings – Cochran Films">
-  <meta property="og:description" content="Join our creative team. Now hiring photographers, videographers, editors, and production crew in Atlanta.">
-  <meta property="og:image" content="https://static.wixstatic.com/media/aeef42_175fedd17e5545c996446189fd5a4928~mv2.jpg">
-  <meta property="og:url" content="https://collaborate.cochranfilms.com">
+  <meta property="og:title" content="Cochran Films Careers — Creative & Sales Jobs in Atlanta">
+  <meta property="og:description" content="Join a top-tier creative agency. We’re hiring photographers, videographers, editors, and sales talent. Apply now.">
+  <meta property="og:image" content="https://apply.cochranfilms.studio/1_Shape-Your-Creative-Future.png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta property="og:site_name" content="Cochran Films">
+  <meta property="og:url" content="https://apply.cochranfilms.studio/">
   <meta property="og:type" content="website">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cochran Films Careers — Creative & Sales Jobs in Atlanta">
+  <meta name="twitter:description" content="Creative and sales roles in Atlanta. Photography, videography, production, and growth. Apply today.">
+  <meta name="twitter:image" content="https://apply.cochranfilms.studio/1_Shape-Your-Creative-Future.png">
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Cochran Films",
+    "url": "https://apply.cochranfilms.studio/",
+    "logo": "https://apply.cochranfilms.studio/1_Shape-Your-Creative-Future.png",
+    "sameAs": [
+      "https://cochranfilms.studio/"
+    ]
+  }
+  </script>
+  <!-- Structured Data placeholder for JobPosting list; populated after jobs load -->
+  <script id="jobposting-schema" type="application/ld+json"></script>
 
   <!-- Favicon -->
   <link rel="icon" href="https://static.wixstatic.com/media/aeef42_570164eee75f4394a4fc1cf9c62ceae0~mv2.png" type="image/png">
@@ -1350,6 +1377,23 @@
         else showRefreshNotification(`📝 ${Math.abs(change)} job${Math.abs(change) === 1 ? '' : 's'} updated or removed.`);
       }
       lastJobCount = jobs.length;
+
+      // Update JobPosting schema for SEO
+      try {
+        const postings = jobs.map(j => ({
+          "@context": "https://schema.org",
+          "@type": "JobPosting",
+          "title": j.title || j.Title || "Position",
+          "datePosted": j.date || j.Date || new Date().toISOString().slice(0,10),
+          "employmentType": "CONTRACTOR",
+          "hiringOrganization": { "@type": "Organization", "name": "Cochran Films", "sameAs": "https://cochranfilms.studio/" },
+          "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": (j.location || j.Location || "Atlanta"), "addressRegion": "GA", "addressCountry": "US" } },
+          "description": (j.description || j.Description || '').toString(),
+          "applicantLocationRequirements": { "@type": "Country", "name": "US" }
+        }));
+        const el = document.getElementById('jobposting-schema');
+        if (el) el.textContent = JSON.stringify(postings, null, 2);
+      } catch (_) {}
     }
 
     // ====== UI Interactions ======
