@@ -360,6 +360,10 @@
       background: #FFFFFF;
     }
 
+    /* Mobile hero banner (image-only) hidden by default */
+    .mobile-hero { display: none; }
+    .mobile-hero img { width: 100%; height: auto; display: block; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(99,102,241,0.10) inset; }
+
     .navigation {
       position: absolute;
       bottom: calc(env(safe-area-inset-bottom) + 20px);
@@ -798,6 +802,8 @@
     
     /* Responsive Design */
     @media (max-width: 768px) {
+      /* Show image hero on mobile */
+      .mobile-hero { display: block; margin: 12px auto 10px auto; padding: 0 12px; }
       /* Hide hero slideshow and skip button on mobile only */
       .slideshow-container { display: none !important; }
       .mobile-skip { display: none !important; }
@@ -1043,6 +1049,11 @@
       <span class="nav-dot" onclick="currentSlide(6)"></span>
       <span class="nav-dot" onclick="currentSlide(7)"></span>
     </div>
+  </div>
+
+  <!-- Mobile Hero (image only) -->
+  <div class="mobile-hero">
+    <img src="1_Shape-Your-Creative-Future.png" alt="Shape Your Creative Future at Cochran Films" loading="eager" decoding="async" fetchpriority="high">
   </div>
 
   <!-- Mobile-only skip helper below hero -->
