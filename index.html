@@ -798,6 +798,9 @@
     
     /* Responsive Design */
     @media (max-width: 768px) {
+      /* Hide hero slideshow and skip button on mobile only */
+      .slideshow-container { display: none !important; }
+      .mobile-skip { display: none !important; }
       .hero-title { font-size: 2.5rem; }
       .hero-subtitle { font-size: 1.1rem; }
       .slide { background-attachment: scroll; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); height: 100svh; min-height: 100svh; }
