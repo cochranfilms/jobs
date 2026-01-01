@@ -60,21 +60,18 @@
       --gold: #FFD700;
       --black: #000000;
       --white: #ffffff;
-      --gray-light: #f8f9fa;
-      --gray-medium: #6c757d;
-      --gray-dark: #343a40;
-      --border-radius: 16px;
-      --border-radius-lg: 24px;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
-      --shadow: 0 8px 32px rgba(0,0,0,0.25);
-      --shadow-hover: 0 16px 48px rgba(255,178,0,0.2);
-      --shadow-glow: 0 0 40px rgba(255,178,0,0.15);
-      --glass-bg: rgba(255,255,255,0.05);
-      --glass-border: rgba(255,255,255,0.1);
+      --accent-1: #FFB200;
+      --accent-2: #FFD700;
+      --accent-3: #FF9000;
+      --bg-dark: #050508;
+      --bg-darker: #030305;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.7);
+      --text-muted: rgba(255,255,255,0.5);
       --gradient-primary: linear-gradient(135deg, #FFB200 0%, #FFD700 50%, #FF9000 100%);
       --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFB200 100%);
-      --gradient-dark: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(11,11,16,0.98) 100%);
-      --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
+      --gradient-diagonal: linear-gradient(45deg, #FFB200 0%, transparent 50%, #FFD700 100%);
+      --gradient-radial: radial-gradient(circle at 50% 50%, rgba(255,178,0,0.15) 0%, transparent 70%);
     }
     
     * {
@@ -83,80 +80,81 @@
       box-sizing: border-box;
     }
 
-    /* Advanced Custom Scrollbar - 2026 Design */
+    /* Revolutionary 2026 Scrollbar */
     ::-webkit-scrollbar {
-      width: 14px;
+      width: 8px;
     }
-
     ::-webkit-scrollbar-track {
-      background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
-      border-left: 1px solid rgba(255,178,0,0.1);
+      background: var(--bg-dark);
     }
-
     ::-webkit-scrollbar-thumb {
       background: var(--gradient-primary);
-      border-radius: 8px;
-      border: 2px solid rgba(0,0,0,0.3);
-      box-shadow: inset 0 0 10px rgba(255,178,0,0.3);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 4px;
+      transition: all 0.3s ease;
     }
-
     ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, #FFD700 0%, #FFB200 100%);
-      box-shadow: inset 0 0 15px rgba(255,178,0,0.5), 0 0 20px rgba(255,178,0,0.3);
-      transform: scaleY(1.1);
+      background: var(--gradient-gold);
+      box-shadow: 0 0 20px rgba(255,178,0,0.5);
     }
 
-    /* Fix browser autofill styling */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
     input:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px rgba(11,11,16,0.95) inset !important;
+      -webkit-box-shadow: 0 0 0 30px var(--bg-dark) inset !important;
       -webkit-text-fill-color: #ffffff !important;
       transition: background-color 5000s ease-in-out 0s;
-      border-color: var(--primary) !important;
     }
     
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.7;
-      color: #e5e7eb;
-      background: 
-        radial-gradient(ellipse 1400px 700px at 20% -5%, rgba(255,178,0,.12), transparent 50%),
-        radial-gradient(ellipse 1200px 600px at 85% 10%, rgba(99,102,241,.10), transparent 50%),
-        radial-gradient(ellipse 800px 400px at 50% 90%, rgba(255,178,0,.06), transparent 50%),
-        linear-gradient(180deg, #0a0a0f 0%, #0b0b10 50%, #0a0a0f 100%);
-      background-attachment: fixed;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-dark);
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Animated background particles effect */
+    /* Dynamic grid background */
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background-image: 
-        radial-gradient(2px 2px at 20% 30%, rgba(255,178,0,0.15), transparent),
-        radial-gradient(2px 2px at 60% 70%, rgba(255,178,0,0.1), transparent),
-        radial-gradient(1px 1px at 50% 50%, rgba(255,178,0,0.2), transparent),
-        radial-gradient(1px 1px at 80% 10%, rgba(99,102,241,0.15), transparent);
-      background-size: 200% 200%;
-      background-position: 0% 0%, 100% 100%, 50% 50%, 0% 100%;
-      animation: particleFloat 20s ease-in-out infinite;
+        linear-gradient(rgba(255,178,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,178,0,0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      background-position: 0 0, 0 0;
+      animation: gridMove 20s linear infinite;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.6;
     }
 
-    @keyframes particleFloat {
-      0%, 100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 100%; }
-      50% { background-position: 100% 0%, 0% 100%, 50% 50%, 100% 0%; }
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(80px, 80px); }
+    }
+
+    /* Floating orbs */
+    body::after {
+      content: '';
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,178,0,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -300px;
+      right: -300px;
+      animation: floatOrb 25s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(60px);
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-200px, 200px) scale(1.2); }
     }
     
     /* Header */
@@ -258,237 +256,180 @@
       box-shadow: 0 8px 25px rgba(255,178,0,0.4);
     }
     
-    /* Advanced Slideshow Styles - 2026 Design */
-    .slideshow-container {
+    /* Revolutionary Asymmetric Hero - 2026 */
+    .hero-section {
       position: relative;
-      width: 100%;
-      height: 100dvh;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 0;
       overflow: hidden;
       isolation: isolate;
     }
 
-    .slide {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100dvh;
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      min-height: 100dvh;
-      overflow: hidden;
-      opacity: 0;
-      transform: scale(1.05);
-      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .slide.active {
-      display: block;
-      opacity: 1;
-      transform: scale(1);
-      z-index: 1;
-    }
-
-    .slide-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--gradient-overlay);
-      backdrop-filter: blur(2px) saturate(180%);
-      -webkit-backdrop-filter: blur(2px) saturate(180%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: max(7vh, calc(env(safe-area-inset-top) + 56px)) 2rem max(12vh, calc(env(safe-area-inset-bottom) + 96px)) 2rem;
-      overflow: visible;
-      box-sizing: border-box;
+    .hero-visual {
       position: relative;
+      background: url('https://static.wixstatic.com/media/aeef42_a698893739664da1a4aead3eaf78055d~mv2.gif') center/cover;
+      clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .slide-overlay::before {
+    .hero-visual::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(255,178,0,0.08) 0%, transparent 70%);
-      pointer-events: none;
-      animation: pulseGlow 4s ease-in-out infinite;
+      background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
     }
 
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
+    .hero-content {
+      padding: clamp(3rem, 8vw, 6rem) clamp(2rem, 6vw, 5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
     }
 
-    .slide h1 {
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: rgba(255,178,0,0.15);
+      border: 1px solid rgba(255,178,0,0.3);
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      width: fit-content;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-title-main {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900;
+      line-height: 0.95;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #ffffff 0%, #FFD700 50%, #ffffff 100%);
+      background: var(--gradient-primary);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 40px rgba(255,178,0,0.3);
-      animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1);
-      text-align: center;
-      max-width: 100%;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.5));
-      position: relative;
-      z-index: 2;
+      letter-spacing: -0.03em;
     }
 
-    .slide h2 {
+    .hero-title-main span {
+      display: block;
+      font-size: 0.6em;
+      opacity: 0.9;
+    }
+
+    .hero-description {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin-bottom: 3rem;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .hero-stat {
+      text-align: left;
+    }
+
+    .hero-stat-number {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1.75rem, 4vw, 2.75rem);
-      margin-bottom: 1.5rem;
-      color: rgba(255,255,255,0.95);
-      text-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 30px rgba(255,178,0,0.2);
-      animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
-      text-align: center;
-      max-width: 100%;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      line-height: 1.2;
-      position: relative;
-      z-index: 2;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 0.5rem;
     }
 
-    .slide p {
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      max-width: 900px;
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
-      color: rgba(255,255,255,0.92);
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-      animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
-      text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-      position: relative;
-      z-index: 2;
+    .hero-stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
     }
 
-    /* Advanced CTA Buttons - 2026 Design */
+    .hero-cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Revolutionary CTA Buttons - 2026 */
     .cta-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 18px 48px;
-      background: rgba(0,0,0,0.85);
-      color: var(--primary);
+      padding: 1.25rem 2.5rem;
+      background: var(--gradient-primary);
+      color: var(--black);
       text-decoration: none;
-      border-radius: var(--border-radius-lg);
+      border-radius: 0;
       font-family: 'Cinzel', serif;
-      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-      font-weight: 800;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
+      font-size: 0.95rem;
+      font-weight: 900;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
-      letter-spacing: 2px;
-      border: 2px solid var(--primary);
+      letter-spacing: 3px;
+      border: none;
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 178, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      text-align: center;
-      margin: 0 auto 2rem auto;
-      z-index: 2;
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 20px 100%);
+      box-shadow: 0 10px 40px rgba(255,178,0,0.3);
     }
 
     .cta-button::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--gradient-primary);
-      z-index: -1;
-      transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .cta-button::after {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: var(--border-radius-lg);
-      padding: 2px;
-      background: var(--gradient-primary);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold), var(--primary));
       opacity: 0;
-      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -2;
+      transition: opacity 0.3s ease;
     }
 
     .cta-button:hover::before {
-      left: 0;
-    }
-
-    .cta-button:hover::after {
       opacity: 1;
     }
 
     .cta-button:hover {
-      color: var(--black);
-      border-color: var(--primary);
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 
-        0 16px 48px rgba(255, 178, 0, 0.3),
-        0 0 0 1px rgba(255, 178, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 0 60px rgba(255, 178, 0, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 50px rgba(255,178,0,0.4);
     }
 
-    .cta-button:active {
-      transform: translateY(-2px) scale(1);
-      transition: transform 0.15s;
+    .cta-button span {
+      position: relative;
+      z-index: 1;
     }
 
     .cta-button-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: #FFFFFF;
-      border: 2px solid rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
-    }
-
-    .cta-button-secondary::before {
-      background: rgba(255, 255, 255, 0.15);
+      background: transparent;
+      color: var(--text-primary);
+      border: 2px solid rgba(255,255,255,0.2);
+      clip-path: polygon(20px 0, 100% 0, calc(100% - 20px) 100%, 0 100%);
+      box-shadow: none;
     }
 
     .cta-button-secondary:hover {
-      color: var(--black);
-      background: rgba(255, 255, 255, 0.95);
-      border-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 
-        0 16px 48px rgba(255, 255, 255, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 0 60px rgba(255, 255, 255, 0.15);
-    }
-
-    .cta-button-secondary:hover::before {
-      left: 0;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.4);
+      color: var(--white);
     }
 
     /* Mobile hero banner (image-only) hidden by default - 2026 Design */
@@ -721,118 +662,122 @@
     }
 
     /* Main Content */
-    /* Main Content - 2026 Design */
+    /* Revolutionary Container - 2026 */
     .container {
-      max-width: 1280px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 clamp(1rem, 4vw, 2rem);
+      padding: 0 clamp(2rem, 6vw, 4rem);
       position: relative;
       z-index: 1;
     }
     
     .jobs-section {
-      padding: 5rem 0;
+      padding: 6rem 0;
       position: relative;
+    }
+
+    /* Magnetic cursor effect */
+    .job-card,
+    .cta-button,
+    .btn {
+      cursor: none;
+    }
+
+    .magnetic-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, border-color 0.3s;
+      mix-blend-mode: difference;
+    }
+
+    .magnetic-cursor.active {
+      width: 60px;
+      height: 60px;
+      border-color: var(--gold);
     }
     
     .section-header {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       gap: 2rem;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
       flex-wrap: wrap;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,178,0,0.2);
-      padding: 1.5rem 2rem;
-      border-radius: var(--border-radius-lg);
-      box-shadow: 
-        0 8px 32px rgba(0,0,0,.4),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(255,178,0,0.2);
       position: relative;
-      overflow: hidden;
     }
     
-    .section-header::before {
+    .section-header::after {
       content: '';
       position: absolute;
-      top: 0;
+      bottom: -2px;
       left: 0;
-      right: 0;
+      width: 120px;
       height: 2px;
       background: var(--gradient-primary);
-      opacity: 0.6;
     }
     
     .section-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 0%, #FFD700 100%);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      background: var(--gradient-primary);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 0;
-      text-shadow: 0 4px 20px rgba(255,178,0,0.2);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      line-height: 1;
       position: relative;
-      z-index: 1;
+    }
+    
+    .section-title::before {
+      content: attr(data-text);
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0.3;
+      z-index: -1;
     }
     
     .refresh-btn {
-      background: var(--gradient-primary);
-      color: var(--black);
-      border: none;
-      padding: 0.9rem 1.75rem;
-      border-radius: var(--border-radius-lg);
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid rgba(255,178,0,0.3);
+      padding: 0.75rem 1.5rem;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      box-shadow: 
-        0 8px 24px rgba(255,178,0,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-      position: relative;
-      overflow: hidden;
+      gap: 0.5rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 1;
-    }
-    
-    .refresh-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--gold), var(--primary));
-      opacity: 0;
-      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 2px;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
     }
     
     .refresh-btn:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 
-        0 12px 32px rgba(255,178,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.4),
-        0 0 40px rgba(255,178,0,0.2);
-    }
-    
-    .refresh-btn:hover::before {
-      opacity: 1;
-    }
-    
-    .refresh-btn:active {
-      transform: translateY(-1px) scale(1);
+      background: var(--gradient-primary);
+      color: var(--black);
+      border-color: var(--primary);
+      transform: translateY(-2px);
     }
     
     .refresh-btn.loading {
       cursor: not-allowed;
-      pointer-events: none;
-      opacity: 0.85;
+      opacity: 0.6;
     }
     
     .refresh-btn.loading .refresh-icon {
@@ -840,343 +785,257 @@
     }
     
     .refresh-icon {
-      font-size: 1.1rem;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      z-index: 1;
+      font-size: 1rem;
+      transition: transform 0.3s ease;
     }
     
     .refresh-btn:not(.loading):hover .refresh-icon {
-      transform: rotate(180deg) scale(1.1);
-    }
-    
-    .refresh-text {
-      position: relative;
-      z-index: 1;
+      transform: rotate(180deg);
     }
     
     .section-subtitle {
-      text-align: center;
-      font-size: clamp(1rem, 1.5vw, 1.2rem);
-      color: rgba(255,255,255,0.75);
-      margin-bottom: 3.5rem;
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      color: var(--text-secondary);
+      margin-bottom: 4rem;
       max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.7;
+      line-height: 1.8;
       font-weight: 400;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
+      position: relative;
+      padding-left: 2rem;
     }
     
-    /* Advanced Loading State - 2026 Design */
+    .section-subtitle::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 4px;
+      height: 1.5em;
+      background: var(--gradient-primary);
+    }
+    
+    /* Revolutionary Loading State - 2026 */
     .loading {
       text-align: center;
-      padding: 4rem 0;
-      color: rgba(255,255,255,0.7);
+      padding: 5rem 0;
+      color: var(--text-secondary);
       position: relative;
     }
     
     .loading-speed {
       font-size: 0.85rem;
       opacity: 0.8;
-      margin-top: 0.75rem;
+      margin-top: 1rem;
       color: var(--primary);
       font-weight: 600;
     }
     
     .loading-spinner {
-      width: 56px;
-      height: 56px;
-      border: 4px solid rgba(255,178,0,0.1);
-      border-top: 4px solid transparent;
-      border-right: 4px solid var(--primary);
-      border-bottom: 4px solid var(--gold);
-      border-radius: 50%;
-      animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-      margin: 0 auto 1.5rem;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 2rem;
       position: relative;
-      box-shadow: 0 0 20px rgba(255,178,0,0.2);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      background: var(--gradient-primary);
+      animation: spin 1s linear infinite;
     }
     
     .loading-spinner::before {
       content: '';
       position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 4px solid transparent;
-      border-top-color: var(--primary);
-      animation: spin 0.8s linear infinite reverse;
-      opacity: 0.5;
+      inset: 4px;
+      background: var(--bg-dark);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
     }
     
     @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
-    /* Advanced Job Cards - 2026 Design */
-    .jobs-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-      gap: 2rem; 
-      margin-bottom: 4rem; 
+    /* Revolutionary Floating Job Cards - 2026 */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 5rem;
+      padding: 2rem 0;
     }
-    
+
     .job-card {
-      background: rgba(255,255,255,0.06);
-      border-radius: var(--border-radius-lg);
-      padding: 2.25rem;
-      box-shadow: 
-        0 8px 32px rgba(0,0,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.1),
-        0 0 0 1px rgba(255,178,0,0.15);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(255,178,0,0.2);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,178,0,0.15);
+      padding: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      isolation: isolate;
+      overflow: visible;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
-    
+
     .job-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
+      inset: -2px;
       background: var(--gradient-primary);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .job-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(255,178,0,0.08) 0%, transparent 60%);
       opacity: 0;
-      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-      z-index: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
     }
-    
-    .job-card.inactive { 
-      opacity: 0.65; 
-      background: rgba(255,255,255,0.03);
-      filter: grayscale(0.3);
+
+    .job-card:hover::before {
+      opacity: 0.3;
     }
-    
-    .job-card.inactive .job-title, 
-    .job-card.inactive .job-meta { 
-      opacity: 0.6; 
+
+    .job-card-inner {
+      background: var(--bg-dark);
+      padding: 2rem;
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+      border: 1px solid rgba(255,178,0,0.2);
+      transition: all 0.4s ease;
+      position: relative;
     }
-    
+
+    .job-card:hover {
+      transform: translateY(-12px) rotateX(2deg) rotateY(-2deg);
+    }
+
+    .job-card:hover .job-card-inner {
+      border-color: rgba(255,178,0,0.5);
+      box-shadow: 0 20px 60px rgba(255,178,0,0.2);
+    }
+
+    .job-card.inactive {
+      opacity: 0.5;
+      filter: grayscale(0.5);
+    }
+
     .job-status-overlay {
       position: absolute;
-      top: 24px;
-      right: 24px;
+      top: -10px;
+      right: 20px;
       background: linear-gradient(135deg, #dc3545, #c82333);
       color: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.75rem;
-      box-shadow: 
-        0 4px 16px rgba(220, 53, 69, 0.4),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      backdrop-filter: blur(10px);
-    }
-    
-    .job-status-overlay.filled { 
-      background: linear-gradient(135deg, #fd7e14, #e55a0a);
-      box-shadow: 
-        0 4px 16px rgba(253, 126, 20, 0.4),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-    }
-    
-    .job-card:hover {
-      transform: translateY(-8px) scale(1.01);
-      box-shadow: 
-        0 24px 64px rgba(0,0,0,0.5),
-        inset 0 1px 0 rgba(255,255,255,0.15),
-        0 0 0 1px rgba(255,178,0,0.3),
-        0 0 60px rgba(255,178,0,0.15);
-      border-color: rgba(255,178,0,0.4);
-    }
-    
-    .job-card:hover::before {
-      transform: scaleX(1);
-    }
-    
-    .job-card:hover::after {
-      opacity: 1;
-    }
-    
-    .job-header {
-      margin-bottom: 1.75rem;
-      background: linear-gradient(180deg, rgba(255,178,0,0.12), rgba(0,0,0,0));
-      border: 1px solid rgba(255,178,0,0.2);
-      padding: 1rem 1.25rem;
-      border-radius: var(--border-radius);
-      position: relative;
-      z-index: 1;
-      backdrop-filter: blur(10px);
-    }
-    
-    .job-title {
-      font-size: clamp(1.25rem, 2vw, 1.5rem);
+      padding: 0.5rem 1rem;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
       font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 0.75rem;
-      font-family: 'Cinzel', serif;
-      letter-spacing: -0.01em;
-      text-shadow: 0 2px 12px rgba(0,0,0,.4);
-      line-height: 1.3;
-      min-height: 2.6em;
-      word-break: break-word;
-      position: relative;
-      z-index: 1;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(220,53,69,0.4);
     }
-    
+
+    .job-status-overlay.filled {
+      background: linear-gradient(135deg, #fd7e14, #e55a0a);
+    }
+
+    .job-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      font-weight: 900;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
     .job-meta {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,178,0,0.1);
     }
-    
+
     .job-meta-item {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
       font-size: 0.95rem;
-      color: rgba(255,255,255,0.85);
-      font-weight: 500;
+      color: var(--text-secondary);
     }
-    
+
     .job-meta-icon {
-      font-size: 1.1rem;
-      filter: drop-shadow(0 2px 4px rgba(255,178,0,0.3));
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
     }
-    
+
     .job-pay {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
       background: var(--gradient-primary);
-      color: #0b0b10;
-      padding: 0.5rem 1.1rem;
-      border-radius: 999px;
+      color: var(--black);
       font-weight: 900;
-      font-size: 0.875rem;
-      letter-spacing: 0.5px;
-      box-shadow: 
-        0 4px 12px rgba(255,178,0,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.3);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
       text-transform: uppercase;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      margin-top: 0.5rem;
     }
-    
+
     .job-description {
-      color: rgba(255,255,255,0.88);
-      line-height: 1.75;
-      margin-bottom: 1.75rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
       display: none;
-      position: relative;
-      z-index: 1;
     }
-    
+
     .job-description.expanded {
       display: block;
-      animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideDown 0.3s ease;
     }
-    
+
     @keyframes slideDown {
-      from {
-        opacity: 0;
-        max-height: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        max-height: 500px;
-        transform: translateY(0);
-      }
+      from { opacity: 0; max-height: 0; }
+      to { opacity: 1; max-height: 500px; }
     }
-    
+
     .job-actions {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      z-index: 1;
     }
-    
-    .job-actions .btn {
-      align-self: center;
-    }
-    
+
     .btn {
-      padding: 0.9rem 1.75rem;
-      border-radius: var(--border-radius-lg);
+      padding: 0.85rem 1.5rem;
       text-decoration: none;
       font-weight: 700;
-      font-size: 0.9rem;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       border: none;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.5px;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
     }
-    
+
     .btn-primary {
       background: var(--gradient-primary);
-      color: #0b0b10;
-      border: 1px solid rgba(255,178,0,0.5);
-      box-shadow: 
-        0 8px 24px rgba(255,178,0,0.3),
-        inset 0 1px 0 rgba(255,255,255,0.3);
+      color: var(--black);
     }
-    
+
     .btn-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 
-        0 12px 32px rgba(255,178,0,0.4),
-        inset 0 1px 0 rgba(255,255,255,0.4),
-        0 0 40px rgba(255,178,0,0.2);
-    }
-    
-    .btn-secondary {
-      background: rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.9);
-      border: 1px solid rgba(255,255,255,0.25);
-      backdrop-filter: blur(10px);
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.15);
-      color: #ffffff;
-      border-color: rgba(255,255,255,0.4);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(255,255,255,0.15);
+      box-shadow: 0 8px 25px rgba(255,178,0,0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.4);
     }
 
     /* Global Strategic Action Buttons - Dark Theme */
@@ -1491,105 +1350,90 @@
     .footer-sop .footer-links { justify-content: center; }
     .footer-sop .footer-chip { width: 100%; max-width: 520px; margin: 0 auto; }
     
-    /* Advanced Error State - 2026 Design */
+    /* Revolutionary Error State - 2026 */
     .error-message {
       text-align: center;
-      padding: 4rem 1rem;
-      color: rgba(255,255,255,0.8);
-      background: rgba(0,0,0,0.3);
-      border-radius: var(--border-radius-lg);
+      padding: 4rem 2rem;
+      color: var(--text-secondary);
+      background: rgba(255,255,255,0.02);
       border: 1px solid rgba(255,178,0,0.2);
-      backdrop-filter: blur(20px);
+      clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
       position: relative;
-      overflow: hidden;
+      margin: 2rem 0;
     }
     
     .error-message::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
+      inset: -1px;
       background: var(--gradient-primary);
-      opacity: 0.6;
+      opacity: 0.1;
+      z-index: -1;
+      clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
     }
     
     .error-icon {
       font-size: 4rem;
       margin-bottom: 1.5rem;
-      opacity: 0.7;
-      filter: drop-shadow(0 4px 12px rgba(255,178,0,0.3));
-      animation: pulse 2s ease-in-out infinite;
+      opacity: 0.8;
+      filter: drop-shadow(0 4px 20px rgba(255,178,0,0.4));
     }
     
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.1); opacity: 0.9; }
+    .error-message h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     
-    /* Advanced Promo Banner - 2026 Design */
+    /* Revolutionary Promo Banner - 2026 */
     .promo-wrap {
       position: relative;
-      margin: 2rem auto 3rem auto;
-      border-radius: var(--border-radius-lg);
-      overflow: hidden;
-      box-shadow: 
-        0 16px 48px rgba(0,0,0,0.5),
-        0 0 0 1px rgba(255,178,0,0.15);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 4rem auto;
+      overflow: visible;
+      transform: rotate(-1deg);
+      transition: transform 0.4s ease;
     }
     
     .promo-wrap:hover {
-      transform: translateY(-4px);
-      box-shadow: 
-        0 24px 64px rgba(0,0,0,0.6),
-        0 0 0 1px rgba(255,178,0,0.25),
-        0 0 60px rgba(255,178,0,0.15);
+      transform: rotate(0deg) translateY(-8px);
     }
     
     .promo-banner {
       display: block;
       width: 100%;
       height: auto;
-      border-radius: var(--border-radius-lg);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+      border: 3px solid rgba(255,178,0,0.3);
+      transition: all 0.4s ease;
     }
     
     .promo-wrap:hover .promo-banner {
-      transform: scale(1.02);
+      border-color: rgba(255,178,0,0.6);
+      box-shadow: 0 20px 60px rgba(255,178,0,0.3);
     }
     
     .promo-gradient {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 45%;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.9) 100%);
-      pointer-events: none;
+      display: none;
     }
     
     .promo-cta {
       position: absolute;
-      right: 24px;
-      bottom: 24px;
+      right: 30px;
+      bottom: 30px;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      align-items: center;
-      width: auto;
-      transform: none;
+      gap: 1rem;
       z-index: 10;
     }
     
     .promo-cta .cta-button {
-      min-width: 160px;
-      padding: 14px 28px;
-      font-size: 0.95rem;
-      backdrop-filter: blur(30px) saturate(180%);
-      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      min-width: 140px;
+      padding: 1rem 1.75rem;
+      font-size: 0.9rem;
     }
     @media (max-width: 640px) {
       /* Place promo CTAs below image, side-by-side */
@@ -1609,39 +1453,105 @@
     .refresh-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: rgba(239, 68, 68, 0.9); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center; animation: slideIn 0.3s ease-out; }
     @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* Responsive Design */
+    /* Revolutionary Responsive Design - 2026 */
+    @media (max-width: 1024px) {
+      .hero-section {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      
+      .hero-visual {
+        clip-path: none;
+        min-height: 400px;
+      }
+      
+      .hero-content {
+        padding: 3rem 2rem;
+      }
+      
+      .hero-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+    }
+    
     @media (max-width: 768px) {
-      /* Show image hero on mobile */
-      .mobile-hero { display: block; margin: 12px auto 10px auto; padding: 0 12px; }
-      /* Hide hero slideshow and skip button on mobile only */
-      .slideshow-container { display: none !important; }
-      .mobile-skip { display: none !important; }
-      .hero-title { font-size: 2.5rem; }
-      .hero-subtitle { font-size: 1.1rem; }
-      .slide { background-attachment: scroll; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); height: 100svh; min-height: 100svh; }
-      .slide-overlay { padding: calc(env(safe-area-inset-top) + 88px) 20px calc(env(safe-area-inset-bottom) + 140px); min-height: 100svh; justify-content: flex-start; box-sizing: border-box; overflow-y: visible; -webkit-overflow-scrolling: auto; overscroll-behavior: auto; touch-action: pan-y; gap: 12px; }
-      .slide h1 { font-size: 28px; line-height: 34px; font-weight: 700; margin-bottom: 24px; text-align: center; letter-spacing: -0.5px; max-width: 100%; }
-      .slide h2 { font-size: 22px; line-height: 28px; font-weight: 600; margin-bottom: 16px; text-align: center; letter-spacing: -0.3px; max-width: 100%; }
-      .slide p { font-size: 17px; line-height: 25px; font-weight: 400; margin-bottom: 32px; text-align: center; max-width: 100%; opacity: 0.9; }
-      .stats { display: flex; flex-direction: column; gap: 12px; margin: 32px auto; max-width: 335px; width: 100%; }
-      .stat { padding: 20px 16px; min-width: auto; width: 100%; border-radius: 12px; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 178, 0, 0.2); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
-      .stat-number { font-size: 24px; line-height: 29px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
-      .stat-label { font-size: 13px; line-height: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-      .prev, .next { display: none; }
-      .cta-button { font-size: 16px; line-height: 20px; font-weight: 700; padding: 18px 28px; min-height: 56px; letter-spacing: 1px; border-radius: 8px; text-transform: uppercase; text-align: center; display: flex; align-items: center; justify-content: center; width: 100%; max-width: 280px; margin: 0 auto; }
-      .navigation { position: absolute; bottom: calc(env(safe-area-inset-bottom) + 14px); left: 50%; transform: translateX(-50%); background: rgba(28, 28, 30, 0.8); padding: 8px 16px; border-radius: 20px; backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); z-index: 1001; pointer-events: all; }
-      .nav-dot { width: 6px; height: 6px; margin: 0 4px; padding: 12px; background-clip: content-box; transition: all 0.2s ease; }
-      .nav-dot.active { background: var(--primary); box-shadow: 0 0 6px rgba(255, 178, 0, 0.3); transform: scale(1.2); }
-      .section-header { flex-direction: column; gap: 1rem; }
-      .section-title { font-size: 2rem; text-align: center; }
-      .refresh-btn { font-size: 0.8rem; padding: 0.7rem 1.2rem; }
-      .jobs-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-      .job-card { padding: 1.5rem; }
-      .job-actions { flex-direction: column; }
-      .btn { text-align: center; justify-content: center; }
-      .footer-links { flex-direction: column; gap: 1rem; }
-      /* Show helper below slideshow */
-      .mobile-skip { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; margin: 10px auto 18px auto; padding: 12px 16px; border-radius: 999px; background: rgba(255,255,255,.06); color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.18); box-shadow: 0 4px 12px rgba(0,0,0,.35); }
+      .mobile-hero {
+        display: block;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      
+      .mobile-hero img {
+        width: 100%;
+        clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+        border: 2px solid rgba(255,178,0,0.3);
+      }
+      
+      .hero-section {
+        min-height: auto;
+      }
+      
+      .hero-visual {
+        min-height: 300px;
+      }
+      
+      .hero-content {
+        padding: 2rem 1.5rem;
+      }
+      
+      .hero-title-main {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+      }
+      
+      .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .hero-cta-group {
+        flex-direction: column;
+      }
+      
+      .cta-button {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+      
+      .section-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+      
+      .jobs-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .promo-wrap {
+        transform: rotate(0deg);
+        margin: 2rem auto;
+      }
+      
+      .promo-cta {
+        position: static;
+        margin-top: 1rem;
+        flex-direction: column;
+      }
+      
+      .promo-cta .cta-button {
+        width: 100%;
+      }
+      
+      .trust-card {
+        padding: 2rem;
+        transform: rotate(0deg);
+      }
     }
     
     @media (max-width: 480px) {
@@ -1686,63 +1596,40 @@
     
     /* (Removed AI Gate styles) */
     
-    /* Advanced Trust & Credibility Section - 2026 Design */
+    /* Revolutionary Trust Section - 2026 */
     .trust-section {
-      padding: 4rem 0 3rem 0;
+      padding: 5rem 0;
       position: relative;
-      z-index: 1;
     }
     
     .trust-card {
       position: relative;
-      background: 
-        radial-gradient(ellipse 1000px 400px at 10% -10%, rgba(255,178,0,.12), transparent 55%),
-        radial-gradient(ellipse 1000px 400px at 110% 0%, rgba(99,102,241,.10), transparent 55%),
-        rgba(0,0,0,0.6);
-      border-radius: var(--border-radius-lg);
-      padding: 2.5rem;
-      box-shadow: 
-        0 20px 64px rgba(0,0,0,0.6),
-        inset 0 1px 0 rgba(255,255,255,0.1),
-        0 0 0 1px rgba(255,178,0,0.15);
-      overflow: hidden;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(255,255,255,0.02);
       border: 1px solid rgba(255,178,0,0.2);
+      padding: 3rem;
+      clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px));
+      transform: rotate(0.5deg);
+      transition: transform 0.4s ease;
+    }
+    
+    .trust-card:hover {
+      transform: rotate(0deg);
+      border-color: rgba(255,178,0,0.4);
     }
     
     .trust-card::before {
-      content: "";
+      content: '';
       position: absolute;
-      inset: -2px;
-      border-radius: calc(var(--border-radius-lg) + 2px);
-      padding: 2px;
+      inset: -1px;
       background: var(--gradient-primary);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0.6;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+      clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 40px 100%, 0 calc(100% - 40px));
     }
     
-    .trust-card::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -20%;
-      width: 60%;
-      height: 200%;
-      background: radial-gradient(closest-side, rgba(255,178,0,.15), transparent 70%);
-      transform: rotate(15deg);
-      filter: blur(40px);
-      opacity: .7;
-      pointer-events: none;
-      animation: trustGlow 8s ease-in-out infinite;
-    }
-    
-    @keyframes trustGlow {
-      0%, 100% { opacity: 0.5; transform: rotate(15deg) scale(1); }
-      50% { opacity: 0.8; transform: rotate(20deg) scale(1.1); }
+    .trust-card:hover::before {
+      opacity: 0.2;
     }
     .trust-header { text-align: center; margin-bottom: 1.25rem; }
     .trust-title { font-family: 'Cinzel', serif; font-size: 2.35rem; font-weight: 800; color: #fff; letter-spacing: .02em; text-shadow: 0 4px 20px rgba(0,0,0,.45); }
@@ -1767,180 +1654,40 @@
   </style>
 </head>
 <body>
-  <!-- Pitch Slideshow -->
-  <div class="slideshow-container">
-    <!-- Slide 1: Creator-Focused Hero (Header merged) -->
-    <div class="slide active" style="background-image: url('https://static.wixstatic.com/media/aeef42_a698893739664da1a4aead3eaf78055d~mv2.gif');">
-      <div class="slide-overlay">
-        <img src="https://static.wixstatic.com/media/aeef42_d31420a75a164d2cb4508bdd7d99ca88~mv2.png" alt="Cochran Films" class="logo" width="200" height="200" decoding="async" fetchpriority="high">
-        <h1>Work with Cochran Films</h1>
-        <h2>Join Atlanta's Premier Creative Team</h2>
-        <p>We're building the future of media production through bold visuals and strategic storytelling. Join our dynamic crew of photographers, videographers, editors, designers, and producers—where every project pushes boundaries and every collaboration creates something unforgettable.</p>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">Paid</div>
-            <div class="stat-label">Gigs Weekly</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">Collaborative</div>
-            <div class="stat-label">Creative Community</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">24–48hr</div>
-            <div class="stat-label">Fast Payouts</div>
-          </div>
+  <!-- Revolutionary Asymmetric Hero -->
+  <section class="hero-section">
+    <div class="hero-visual">
+      <img src="https://static.wixstatic.com/media/aeef42_d31420a75a164d2cb4508bdd7d99ca88~mv2.png" alt="Cochran Films" style="width: 200px; height: auto; position: relative; z-index: 2; filter: drop-shadow(0 10px 30px rgba(255,178,0,0.4));">
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">NOW HIRING</div>
+      <h1 class="hero-title-main">
+        Work with<br><span>Cochran Films</span>
+      </h1>
+      <p class="hero-description">
+        We're building the future of media production through bold visuals and strategic storytelling. Join our dynamic crew of photographers, videographers, editors, designers, and producers—where every project pushes boundaries.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-number">Paid</div>
+          <div class="hero-stat-label">Gigs Weekly</div>
         </div>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="#jobs" class="cta-button">JOIN THE ROSTER</a>
-          <a href="https://cochranfilms.studio/careers" target="_blank" rel="noopener" class="cta-button cta-button-secondary">Platform Showcase</a>
+        <div class="hero-stat">
+          <div class="hero-stat-number">24–48hr</div>
+          <div class="hero-stat-label">Fast Payouts</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">Global</div>
+          <div class="hero-stat-label">Projects</div>
         </div>
       </div>
-    </div>
-
-    <!-- Slide 2: Videography (Join the Crew) -->
-    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_2a9593aa004b41e2a74fe9997109ed1c~mv2.gif');">
-      <div class="slide-overlay">
-        <h2>Shoot Cinematic Stories With Us</h2>
-        <p>From branded docs to music videos and live events—work alongside experienced DPs, ACs, and producers. Grow your craft, expand your reel, and be part of a crew that executes at a high level.</p>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">On-Set</div>
-            <div class="stat-label">Roles & Mentorship</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">4K+</div>
-            <div class="stat-label">Pro Workflow</div>
-          </div>
-        </div>
-        <a href="#jobs" class="cta-button">SEE OPEN ROLES</a>
+      <div class="hero-cta-group">
+        <a href="#jobs" class="cta-button"><span>JOIN THE ROSTER</span></a>
+        <a href="https://cochranfilms.studio/careers" target="_blank" rel="noopener" class="cta-button cta-button-secondary"><span>PLATFORM</span></a>
       </div>
     </div>
+  </section>
 
-    <!-- Slide 3: Photography (Join the Crew) -->
-    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_044340eb55d04cef8365fe61283a7190~mv2.gif');">
-      <div class="slide-overlay">
-        <h2>Photograph Moments That Matter</h2>
-        <p>Join our photo team for events, portraits, products, and campaigns. You'll collaborate with producers and editors to deliver consistent, high-impact images—fast.</p>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">Portfolio</div>
-            <div class="stat-label">Growth & Credits</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">Live</div>
-            <div class="stat-label">Event Coverage</div>
-          </div>
-        </div>
-        <a href="#jobs" class="cta-button">APPLY FOR PHOTO CREW</a>
-      </div>
-    </div>
-
-    <!-- Slide 4: Brand + Design (Join the Team) -->
-    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_2901ed7f2a5f47ccb35dfaa7596c356e~mv2.gif');">
-      <div class="slide-overlay">
-        <h2>Build Brands With a Full-Stack Team</h2>
-        <p>Designers, editors, and strategists—plug into a system that ships. Contribute to identity, motion, and content systems that power real campaigns.</p>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">360°</div>
-            <div class="stat-label">Creative Pipeline</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">Ship</div>
-            <div class="stat-label">Fast, Iterate Often</div>
-          </div>
-        </div>
-        <a href="#jobs" class="cta-button">BRAND + DESIGN ROLES</a>
-      </div>
-    </div>
-
-    <!-- Slide 5: Live Event Printing (Join the Crew) -->
-    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_eaac011492e74638a95678d16007288c~mv2.gif');">
-      <div class="slide-overlay">
-        <h2>Be On the Front Line at Live Events</h2>
-        <p>Help run our instant print system for proms, conferences, and brand activations. Fast-paced, people-first, and creatively rewarding.</p>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">Instant</div>
-            <div class="stat-label">On-Site Output</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">Team</div>
-            <div class="stat-label">Ops & Client-Facing</div>
-          </div>
-        </div>
-        <a href="#jobs" class="cta-button">EVENT CREW SIGNUP</a>
-      </div>
-    </div>
-
-    <!-- Slide 6: Content + Web (Join the Team) -->
-    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_65eade98029d4248b661727919ba6df6~mv2.gif');">
-      <div class="slide-overlay">
-        <h2>Ship Content That Moves Culture</h2>
-        <p>Editors, motion designers, and web builders—collaborate in a production system that values creative clarity, speed, and measurable outcomes.</p>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">2 Days</div>
-            <div class="stat-label">Site Launches</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">24/7</div>
-            <div class="stat-label">Supportive Team</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">100%</div>
-            <div class="stat-label">Mobile First</div>
-          </div>
-        </div>
-        <a href="#jobs" class="cta-button">CONTENT + WEB ROLES</a>
-      </div>
-    </div>
-
-    <!-- Slide 7: Join CTA -->
-    <div class="slide" style="background-image: url('https://static.wixstatic.com/media/aeef42_0463c027038e4b488d3311f7342fa7c7~mv2.gif');">
-      <div class="slide-overlay">
-        <h1>Ready to Create With Us?</h1>
-        <p>Join a roster of driven creatives—photographers, videographers, editors, designers, and on-site event crew—building work that travels.</p>
-        
-        <div class="stats" style="margin-bottom: 3rem;">
-          <div class="stat">
-            <div class="stat-number">Fast</div>
-            <div class="stat-label">Communication</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">Global</div>
-            <div class="stat-label">Project Reach</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">Atlanta</div>
-            <div class="stat-label">Based</div>
-          </div>
-        </div>
-        
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
-          <a href="#jobs" class="cta-button">APPLY NOW</a>
-        </div>
-        
-        <p style="font-size: 1rem; opacity: 0.8; text-align: center; margin: 0;">Creators welcome worldwide • Atlanta based • Remote friendly</p>
-      </div>
-    </div>
-    <!-- Navigation -->
-    <button class="prev" onclick="changeSlide(-1)">❮</button>
-    <button class="next" onclick="changeSlide(1)">❯</button>
-
-    <div class="navigation">
-      <span class="nav-dot active" onclick="currentSlide(1)"></span>
-      <span class="nav-dot" onclick="currentSlide(2)"></span>
-      <span class="nav-dot" onclick="currentSlide(3)"></span>
-      <span class="nav-dot" onclick="currentSlide(4)"></span>
-      <span class="nav-dot" onclick="currentSlide(5)"></span>
-      <span class="nav-dot" onclick="currentSlide(6)"></span>
-      <span class="nav-dot" onclick="currentSlide(7)"></span>
-    </div>
-  </div>
-
-  <!-- Mobile-only skip helper below hero -->
-  <a class="mobile-skip" href="#jobs" aria-label="Skip to job listings">⬇️  Continue to Current Opportunities</a>
 
   <!-- Main Content -->
   <main class="container">
@@ -2011,10 +1758,10 @@
     </section>
     <section id="jobs" class="jobs-section">
       <div class="section-header">
-        <h2 class="section-title">Current Opportunities</h2>
+        <h2 class="section-title" data-text="Current Opportunities">Current Opportunities</h2>
         <button id="refresh-jobs-btn" class="refresh-btn" onclick="refreshJobs()">
           <span class="refresh-icon">🔄</span>
-          <span class="refresh-text">Refresh Jobs</span>
+          <span class="refresh-text">Refresh</span>
         </button>
       </div>
       <p class="section-subtitle">
@@ -2328,18 +2075,18 @@
       return `
         <div class="job-card ${!isActive ? 'inactive' : ''}" data-job-title="${jobTitle}" data-event-date="${eventDate}" data-location="${jobLocation}" data-pay="${jobPay}">
           ${statusOverlay}
-          <div class="job-header">
+          <div class="job-card-inner">
             <h3 class="job-title">${jobTitle}</h3>
             <div class="job-meta">
               <div class="job-meta-item"><span class="job-meta-icon">📅</span><span>${formatDateDisplay(eventDate)}</span></div>
               <div class="job-meta-item"><span class="job-meta-icon">📍</span><span>${jobLocation}</span></div>
               <div class="job-pay">${formatPay(jobPay)}</div>
             </div>
-          </div>
-          <div class="job-description" id="desc-${cardId}"><p>${jobDescription}</p></div>
-          <div class="job-actions">
-            ${detailsUrl ? `<a class=\"btn btn-secondary\" href=\"${detailsUrl}\" target=\"_blank\" rel=\"noopener\"><span>📋</span> More Details</a>` : `<button class=\"btn btn-secondary details-btn\" onclick=\"toggleDescription('desc-${cardId}', this)\"><span>📋</span> More Details</button>`}
-            ${applyButton}
+            <div class="job-description" id="desc-${cardId}"><p>${jobDescription}</p></div>
+            <div class="job-actions">
+              ${detailsUrl ? `<a class=\"btn btn-secondary\" href=\"${detailsUrl}\" target=\"_blank\" rel=\"noopener\">More Details</a>` : `<button class=\"btn btn-secondary details-btn\" onclick=\"toggleDescription('desc-${cardId}', this)\">More Details</button>`}
+              ${applyButton}
+            </div>
           </div>
         </div>
       `;
@@ -2427,26 +2174,36 @@
     }
 
     // ====== Slideshow ======
-    let slideIndex = 1; let slideInterval;
-    function showSlide(n) {
-      const slides = document.getElementsByClassName('slide');
-      const dots = document.getElementsByClassName('nav-dot');
-      if (n > slides.length) slideIndex = 1;
-      if (n < 1) slideIndex = slides.length;
-      for (let i = 0; i < slides.length; i++) slides[i].classList.remove('active');
-      for (let i = 0; i < dots.length; i++) dots[i].classList.remove('active');
-      slides[slideIndex - 1].classList.add('active');
-      dots[slideIndex - 1].classList.add('active');
+    // Magnetic Cursor Effect - 2026
+    if (window.innerWidth > 768) {
+      const cursor = document.createElement('div');
+      cursor.className = 'magnetic-cursor';
+      document.body.appendChild(cursor);
+      
+      let mouseX = 0, mouseY = 0;
+      let cursorX = 0, cursorY = 0;
+      
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+      
+      const magneticElements = document.querySelectorAll('.job-card, .cta-button, .btn');
+      magneticElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+      });
+      
+      function animateCursor() {
+        cursorX += (mouseX - cursorX) * 0.1;
+        cursorY += (mouseY - cursorY) * 0.1;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        requestAnimationFrame(animateCursor);
+      }
+      
+      animateCursor();
     }
-    function changeSlide(n) { slideIndex += n; showSlide(slideIndex); resetAutoSlide(); }
-    function currentSlide(n) { slideIndex = n; showSlide(slideIndex); resetAutoSlide(); }
-    function autoSlide() { const slides = document.getElementsByClassName('slide'); if (slideIndex >= slides.length) { clearInterval(slideInterval); return; } slideIndex++; showSlide(slideIndex); if (slideIndex >= slides.length) clearInterval(slideInterval); }
-    function resetAutoSlide() { clearInterval(slideInterval); const slides = document.getElementsByClassName('slide'); if (slideIndex < slides.length) slideInterval = setInterval(autoSlide, 14000); }
-    let touchStartX = 0, touchEndX = 0;
-    document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
-    document.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
-    function handleSwipe() { if (touchEndX < touchStartX - 50) changeSlide(1); if (touchEndX > touchStartX + 50) changeSlide(-1); }
-    document.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') changeSlide(-1); if (e.key === 'ArrowRight') changeSlide(1); });
 
     // ====== Help Modal ======
     function showHelpModal() {
